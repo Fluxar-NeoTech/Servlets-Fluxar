@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    top: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    width: 100%;
+}
+
+body {
+    width: 100%;
+    background-repeat: no-repeat;
+    background: linear-gradient(to right, #46005A, #650082);
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    background-color: white;
+    height: 90px;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.fundo-invertido {
+    background: linear-gradient(to right, #650082, #46005A);
+}
+
+@media(min-width:450px) {
+    .celular {
+        display: none;
+    }
+
+    header {
+        padding: 30px;
+    }
+
+    header>div,
+    header>div>img {
+        width: 23vw;
+        max-width: 250px;
+    }
+
+    nav{
+        width: 65vw;
+        min-width: 600px;
+    }
+
+    ul {
+        display: flex;
+        list-style-type: none;
+        flex-direction: row;
+        width: 65vw;
+        min-width: 600px;
+        justify-content: space-between;
+    }
+
+    a {
+        text-decoration: none;
+        color: #46005A;
+        font-family: 'Montserrat';
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+    .ativo {
+        display: flex;
+        min-width: 148px;
+        width: 15vw;
+        justify-content: center;
+        height: 6vh;
+        align-items: center;
+        border-radius: 10px;
+        cursor: default;
+    }
+
+    .ativo>a {
+        border-bottom: 3px solid #46005A;
+        cursor: default;
+    }
+
+    .botaoTerciario {
+        display: flex;
+        min-width: 148px;
+        width: 15vw;
+        justify-content: center;
+        height: 6vh;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .botaoTerciario:hover {
+        color: #834096;
+    }
+
+    .botaoSecundario {
+        display: flex;
+        min-width: 148px;
+        width: 15vw;
+        border: 0.5vh solid #46005A;
+        justify-content: center;
+        height: 6vh;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .botaoSecundario:hover {
+        background-color: #2d2d2d09;
+    }
+
+    .botaoPrimario {
+        display: flex;
+        min-width: 148px;
+        width: 15vw;
+        background-color: #46005A;
+        color: white;
+        justify-content: center;
+        height: 6vh;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .botaoPrimario:hover {
+        background-color: #834096;
+    }
+
+    .botaoPrimariob {
+        display: flex;
+        min-width: 148px;
+        width: 15vw;
+        background-color: white;
+        color: #46005A;
+        justify-content: center;
+        height: 6vh;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .botaoPrimariob:hover {
+        background-color: #cfcfcf;
+    }
+
+    main {
+        width: 100%;
+        margin: 80px auto 0 auto;
+    }
+
+    main>section {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 85vh;
+    }
+
+    .img-propaganda {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-big{
+        height: 60vh;
+    }
+
+    .img-propaganda>.homem {
+        height: 60vh;
+        transform: scaleX(-1);
+    }
+
+    .texto-propaganda {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .texto-propaganda>article {
+        height: 55vh;
+        width: 30vw;
+        min-width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+    }
+
+    .texto-propaganda>article>h2 {
+        font-family: 'Montserrat';
+        font-weight: 500;
+        font-size: 2em;
+    }
+
+    .texto-propaganda>article>p {
+        font-family: 'Roboto';
+        font-weight: normal;
+        font-size: 1.2em;
+    }
+
+    .texto-propaganda>article>img {
+        width: 15vw;
+    }
+
+    .maior {
+        width: 13em;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    #iframe {
+        display: block;
+        width: 100%;
+    }
+
+    #sobre-nos {
+        height: 50vh;
+    }
+}
+
+@media(max-width: 450px) {
+    .pc {
+        display: none;
+    }
+
+    header{
+        padding: 8vmin;
+    }
+
+    .logo {
+        height: 10vh;
+    }
+
+    .menu-dropdown {
+        width:10vmax;
+        display: flex;
+        flex-direction: column;
+        height: 8vmax;
+        justify-content: space-between;
+    }
+
+    .menu-dropdown>div{
+        width: 100%;
+        background-color: #46005A;
+        height: 1vmax;
+        border-radius: 5px;
+    }
+
+    .menu-dropdown:hover .submenu{
+        display: flex;
+        flex-direction: column;
+        gap: -3;
+    }
+    
+    .submenu{
+        background-color: white;
+        width: 260px;
+        position: absolute;
+        top: 15vh;
+        right: 10vw;
+        display: none;
+        border-radius: 15px;
+    }
+
+    .submenu>li, .submenu>li>a{
+        text-decoration: none;
+        list-style-type: none;
+        color: #46005A;
+        font-family: 'Montserrat';
+        font-size: 1em;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 260px;
+        margin: 0 auto;
+        height: 60px;
+    }
+
+    .submenu>li{
+        border: 3px solid #46005A;
+    }
+
+    .submenu>li:first-child{
+        border-radius: 15px 15px 0 0;
+    }
+
+    .nav>ul {
+        text-decoration: none;
+    }
+}
