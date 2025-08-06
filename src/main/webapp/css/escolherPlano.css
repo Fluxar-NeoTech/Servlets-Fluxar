@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    top: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background: linear-gradient(to right, #46005A, #650082);
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    background-color: white;
+    height: 90px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-header {
+    width: 300px;
+}
+
+a {
+    text-decoration: none;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    color: white;
+}
+
+.icon-back {
+    width: 30px;
+    height: 30px;
+    border-left: 5px solid #46005A;
+    border-bottom: 5px solid #46005A;
+    transform: rotate(45deg);
+    margin: 10px;
+    cursor: pointer;
+}
+
+.icon-back:hover {
+    border-left: 5px solid #834096;
+    border-bottom: 5px solid #834096;
+}
+
+main>article>h2{
+    font-family: "Montserrat";
+    font-size: 19px;
+    color: white;
+    font-weight: normal;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.plano{
+    border: 3px white solid;
+    border-radius: 10px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.plano>.nome{
+    border-radius: 5px 5px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 20px;
+    font-weight:500;
+    font-size: 20px;
+    color: #46005A;
+}
+
+.informacoes{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-family: "Roboto";
+    font-weight: normal;
+}
+
+.informacoes>.funcoes{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 80px;
+}
+
+.informacoes>.valores{
+    display: flex;
+    justify-content: space-around;
+    padding: 0 0 15px 0;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+.plano:hover {
+    border-color: #d2d2d2;
+}
+
+.plano:hover>.nome{
+    background-color: #d2d2d2;
+}
+
+.plano:hover>.informacoes{
+    color: #d2d2d2;
+}
+
+@media(min-width:450px) {
+    .celular {
+        display: none;
+    }
+
+    header {
+        padding: 30px;
+    }
+
+    header>h1 {
+        font-family: 'Montserrat';
+        text-align: center;
+        position: absolute;
+        top: 23px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #46005A
+    }
+
+    main{
+        width: 90%;
+        margin: 30px auto;
+        padding: 30px;
+    }
+
+    main>article{
+        text-align: center;
+        width: 400px;
+        margin: 0 auto;
+    }
+}

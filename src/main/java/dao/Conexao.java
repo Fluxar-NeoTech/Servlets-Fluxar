@@ -6,10 +6,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
+    private static final Dotenv dotenv = Dotenv.load();
     public static Connection conectar(){
-        String url = System.getenv("DATABASE_URL");
-        String usuario = System.getenv("DATABASE_USER");
-        String senha = System.getenv("DATABASE_PASSWORD");
+        String url = dotenv.get("DATABASE_URL");
+        String usuario = dotenv.get("DATABASE_USER");
+        String senha = dotenv.get("DATABASE_PASSWORD");
         Connection conn = null;
         try{
             Class.forName("org.postgresql.Driver");
