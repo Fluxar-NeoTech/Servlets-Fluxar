@@ -1,19 +1,14 @@
 package servlet;
 
 import dao.AdministradorDAO;
-import dao.Conexao;
 import dao.UsuarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Administrador;
 import model.Usuario;
 import util.EmailService;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
 @WebServlet(name = "EnviarCodigoServlet", value = "/EnviarCodigoServlet")
@@ -44,12 +39,12 @@ public class EnviarCodigoServlet extends HttpServlet {
             session.setAttribute("emailAlterarSenha",emailInput);
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
             try {
-                EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo);
+                EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo+"\nNão responda a esse email");
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("erroEmail", "Erro ao enviar e-mail");
+                request.setAttribute("erroEmail", e);
                 dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp");
                 dispatcher.forward(request, response);
             }

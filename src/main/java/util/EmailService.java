@@ -2,20 +2,22 @@ package util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.*;
+import jakarta.mail.*;
 import jakarta.mail.internet.*;
-
 import java.util.Properties;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class EmailService {
     private static final Dotenv dotenv = Dotenv.load();
+
     public static void enviarEmail(String destinatario, String assunto, String mensagemHtml) throws Exception {
-        final String remetente = dotenv.get("EMAIL");
-        final String senha = dotenv.get("SENHA_EMAIL");
+        final String remetente = dotenv.get("EMAIL"); // Ex: caio@outlook.com
+        final String senha = dotenv.get("SENHA_EMAIL"); // SENHA DE APP gerada
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", "smtp.office365.com");
         props.put("mail.smtp.port", "587");
 
         Session session = Session.getInstance(props, new Authenticator() {

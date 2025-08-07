@@ -10,16 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/Representação companhia .png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Administrador.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +162,9 @@
       <workItem from="1753548567120" duration="46389000" />
       <workItem from="1753921228942" duration="13311000" />
       <workItem from="1753968589316" duration="23342000" />
-      <workItem from="1754299786254" duration="12679000" />
+      <workItem from="1754299786254" duration="22007000" />
+      <workItem from="1754521374736" duration="977000" />
+      <workItem from="1754564036454" duration="1600000" />
     </task>
     <servers />
   </component>

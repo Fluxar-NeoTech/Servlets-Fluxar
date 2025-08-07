@@ -11,7 +11,7 @@
 
 <body>
 <header>
-    <a href="../../paginaLogin/login.jsp" class="icon-back">
+    <a href="<%= request.getContextPath() %>paginaLogin/login.jsp" class="icon-back">
     </a>
     <h1>Recuperação de senha</h1>
 </header>

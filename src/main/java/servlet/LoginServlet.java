@@ -5,13 +5,9 @@ import dao.UsuarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Administrador;
 import model.Usuario;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")

@@ -3,19 +3,13 @@ package model;
 import java.sql.Timestamp;
 
 public class Avaliacao {
-    private int id;
-    private int codEmpresa;
-    private int codUsuario;
     private int nota;
     private String comentario;
     private Timestamp dataAvaliacao;
 
     public Avaliacao() {}
 
-    public Avaliacao(int id, int codEmpresa, int codUsuario, int nota, String comentario, Timestamp dataAvaliacao) {
-        this.id = id;
-        this.codEmpresa = codEmpresa;
-        this.codUsuario = codUsuario;
+    public Avaliacao(int nota, String comentario, Timestamp dataAvaliacao) {
         this.nota = nota;
         this.comentario = comentario;
         this.dataAvaliacao = dataAvaliacao;

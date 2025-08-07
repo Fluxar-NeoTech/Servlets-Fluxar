@@ -5,7 +5,6 @@ import dao.EmpresaDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Administrador;
 import model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 

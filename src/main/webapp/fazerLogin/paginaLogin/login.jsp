@@ -5,13 +5,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
+        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/login.css">
         <title>Login</title>
     </head>
 
     <body>
         <header>
-            <a href="${pageContext.request.contextPath}/index.html" class="icon-back">
+            <a href="<%= request.getContextPath() %>/index.html" class="icon-back">
             </a>
             <h1>Acesso ao fluxar</h1>
             <nav class="nav-header">

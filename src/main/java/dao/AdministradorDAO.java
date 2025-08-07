@@ -1,6 +1,5 @@
 package dao;
 
-import model.Administrador;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
