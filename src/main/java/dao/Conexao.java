@@ -1,9 +1,13 @@
 package dao;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import model.Plano;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Conexao {
     private static final Dotenv dotenv = Dotenv.load();
@@ -20,6 +24,16 @@ public class Conexao {
             throw new RuntimeException("Erro ao conectar com o banco de dados");
         }catch (Exception e ){
             throw new RuntimeException("Driver do banco de dados não foi encontrado");
+        }
+    }
+
+    public static void desconectar(Connection conn){
+        try{
+            if(conn!=null&&!conn.isClosed()){
+                conn.close();
+            }
+        }catch (SQLException sqle){
+            throw new RuntimeException("Erro ao fechar conecção");
         }
     }
 }

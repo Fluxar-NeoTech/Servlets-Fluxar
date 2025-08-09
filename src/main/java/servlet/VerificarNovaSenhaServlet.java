@@ -1,11 +1,12 @@
 package servlet;
 
-import dao.AdministradorDAO;
-import dao.UsuarioDAO;
+import dao.EmpresaDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Usuario;
+import model.Administrador;
+import model.Empresa;
+import model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
@@ -23,10 +24,11 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         // Declaração de variáveis:
-        Administrador admin;
-        Usuario user;
+        Empresa empresa;
+        Administrador administrador;
+        Funcionario funcionario;
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("emailAlterarSenha");
+        String email = (String) session.getAttribute("registroAlterar");
         String novaSenha = request.getParameter("novaSenha").trim();
         String senhaConfirmada = request.getParameter("senhaConfirmada").trim();
         String senhaCriptografada;
@@ -38,8 +40,7 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         // Verificando se senha está nos padrões:
         if (novaSenha.length() < 8) {
             request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
-            dispatcher = request.getRequestDispatcher(
-                    request.getContextPath() + "/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
+            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
             dispatcher.forward(request, response);
             return;
         } else {
@@ -77,37 +78,13 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         // Criptografando a senha:
         senhaCriptografada = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
 
-        // Verificando se o usuário é gestor/analista ou administrador ou se é ambos:
-        if (!UsuarioDAO.buscarUsuarioPeloEmail(email).isEmpty() && AdministradorDAO.existeEmail(email)) {
-            if (AdministradorDAO.alterarSenha(email, senhaCriptografada)) {
-                if (UsuarioDAO.alterarSenha(email, senhaCriptografada)) {
-                    response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
-                } else {
-                    request.setAttribute("erroSenha", "Erro ao alterar a senha");
-                    dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-                    dispatcher.forward(request, response);
-                }
-            } else {
-                request.setAttribute("erroSenha", "Erro ao alterar a senha");
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-                dispatcher.forward(request, response);
-            }
-        } else if (!UsuarioDAO.buscarUsuarioPeloEmail(email).isEmpty()) {
-            if (UsuarioDAO.alterarSenha(email, senhaCriptografada)) {
-                response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
-            } else {
-                request.setAttribute("erroSenha", "Erro ao alterar a senha");
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-                dispatcher.forward(request, response);
-            }
-        } else if(AdministradorDAO.existeEmail(email)){
-            if (AdministradorDAO.alterarSenha(email, senhaCriptografada)) {
-                response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
-            } else {
-                request.setAttribute("erroSenha", "Erro ao alterar a senha");
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-                dispatcher.forward(request, response);
-            }
+//        Atualizando banco de dados:
+        if(EmpresaDAO.alterarSenha(email,senhaCriptografada)){
+            response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
+        }else{
+            request.setAttribute("erroSenha","Não foi possível alterar a senha");
+            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
+            dispatcher.forward(request,response);
         }
     }
 }

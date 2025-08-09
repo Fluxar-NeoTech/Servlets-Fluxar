@@ -2,74 +2,69 @@ package dao;
 
 import model.Plano;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlanoDAO {
-    private Connection conn = Conexao.conectar();
-    private String sql;
-    private PreparedStatement pstm;
-    private ResultSet rs;
+//    Criando método para listar os planos:
+    public static List<Plano> listar(){
+//        Declarando variáveis:
+        String sql = "SELECT * FROM plano";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Plano plano;
+        List<Plano> planos = new ArrayList<Plano>();
 
-    public List<Plano> listar(){
-        List<Plano> planos = new ArrayList<>();
+//        Conectando ao banco de dados e enviando sql:
         try{
-//            Preparando e executando código sql:
-            sql = "SELECT * FROM planos";
-            pstm = conn.prepareStatement(sql);
-            rs = pstm.executeQuery();
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
 
-//            Pegando dados do rs e adicionando a ArrayList:
+//            Criando objetos e adicionando a lista planos:
             while (rs.next()){
-                Plano plano = new Plano(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getBoolean("alertas"),
-                        rs.getBoolean("saida_entradas"),
-                        rs.getInt("qtd_redirecionar"),
-                        rs.getBoolean("relatorio_pdf"),
-                        rs.getBoolean("relatorio_excel"),
-                        rs.getInt("tempo_suporte_h"),
-                        rs.getBigDecimal("valor_mensal"),
-                        rs.getBigDecimal("valor_anual"),
-                        rs.getInt("qtd_usuarios")
-                );
+                plano = new Plano(rs.getInt("id"), rs.getString("nome"), rs.getDouble("preco"),rs.getInt("duracao"));
                 planos.add(plano);
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
+
+        }catch (Exception e){
+            throw new RuntimeException("Erro ao conectar ao banco de dados");
         }
+
+//        Retornando planos cadastrados:
         return planos;
     }
 
-    public Plano verPlano(String nomePlano){
-        Plano plano = null;
-        try{
-//            Preparando e executando código sql:
-            sql = "SELECT * FROM planos WHERE nome='"+nomePlano+"'";
-            pstm = conn.prepareStatement(sql);
-            rs = pstm.executeQuery();
+    public static Plano buscarPlanoPeloId(int id){
+//        Declarando variáveis:
+        String sql = "SELECT * FROM plano WHERE id = ?";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Plano plano;
+        List<Plano> planos = new ArrayList<Plano>();
 
-//            Pegando dados do rs e adicionando a ArrayList:
-            if (rs.next()){
-                plano = new Plano(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getBoolean("alertas"),
-                        rs.getBoolean("saida_entradas"),
-                        rs.getInt("qtd_redirecionar"),
-                        rs.getBoolean("relatorio_pdf"),
-                        rs.getBoolean("relatorio_excel"),
-                        rs.getInt("tempo_suporte_h"),
-                        rs.getBigDecimal("valor_mensal"),
-                        rs.getBigDecimal("valor_anual"),
-                        rs.getInt("qtd_usuarios")
-                );
+//        Conectando ao banco de dados e enviando sql:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,id);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um plano com esse id:
+            if(rs.next()){
+
+//                Retornando plano encontrado:
+                return new Plano(rs.getInt("id"), rs.getString("nome"), rs.getDouble("preco"),rs.getInt("duracao"));
             }
-        }catch (SQLException e) {
-            e.printStackTrace();
+
+        }catch (Exception e){
+            throw new RuntimeException("Erro ao conectar ao banco de dados");
         }
-        return plano;
+        return null;
     }
 }

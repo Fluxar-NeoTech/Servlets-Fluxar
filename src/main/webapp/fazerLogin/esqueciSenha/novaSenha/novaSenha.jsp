@@ -24,7 +24,7 @@
             <div class="floating-label-erro">
                 <input type="password" class="inputs-erro" name="novaSenha"
                        placeholder=" " required>
-                <label for="novaSenha">Digite sua nova senha aqui</label>
+                <label>Digite sua nova senha aqui</label>
                 <p class="erro">
                     <%= request.getAttribute("erroSenha") %>
                 </p>
@@ -33,14 +33,14 @@
             <div class="floating-label">
                 <input type="password" class="inputs" name="novaSenha"
                        placeholder=" " required>
-                <label for="novaSenha">Digite sua nova senha aqui</label>
+                <label>Digite sua nova senha aqui</label>
             </div>
             <% } %>
             <% if (request.getAttribute("erroConfSenha") !=null) { %>
             <div class="floating-label-erro">
                 <input type="password" class="inputs-erro" name="senhaConfirmada"
                        placeholder=" " required>
-                <label for="senhaConfirmada">Confirme sua nova senha</label>
+                <label>Confirme sua nova senha</label>
                 <p class="erro">
                     <%= request.getAttribute("erroConfSenha") %>
                 </p>
@@ -49,7 +49,7 @@
             <div class="floating-label">
                 <input type="password" class="inputs-erro" name="senhaConfirmada"
                        placeholder=" " required>
-                <label for="senhaConfirmada">Confirme sua nova senha</label>
+                <label>Confirme sua nova senha</label>
             </div>
             <% } %>
 

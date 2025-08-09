@@ -26,22 +26,13 @@ public class TabelaAdminServlet extends HttpServlet {
         if(acao.equals("ver")){
             switch (tabela) {
                 case "empresa":
-                    session.setAttribute("dados", EmpresaDAO.buscarTodas());
+                    session.setAttribute("dados", EmpresaDAO.listar());
                     break;
                 case "administradores":
-                    session.setAttribute("dados", AdministradorDAO.listarTodos());
+                    session.setAttribute("dados", AdministradorDAO.listarAdministradores());
                     break;
                 case "unidade":
-                    session.setAttribute("dados", UnidadeDAO.listarTodas());
-                    break;
-                case "usuario":
-                    session.setAttribute("dados", UsuarioDAO.listarTodos());
-                    break;
-                case "setor":
-                    session.setAttribute("dados", SetorDAO.listarTodos());
-                    break;
-                case "insumos":
-                    session.setAttribute("dados", InsumosDAO.listarTodos());
+                    session.setAttribute("dados", UnidadeDAO.listar());
                     break;
             }
             response.sendRedirect(request.getContextPath() + "/telasAdmin/mostrarDados/mostrarDados.jsp");

@@ -10,32 +10,75 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Administrador.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/InsumosDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PlanoDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SetorDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UnidadeDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UsuarioDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Empresa.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Insumo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Notificacao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Plano.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Plano.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Setor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/SetorInsumo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Unidade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/ConfirmarPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/ConfirmarPlanoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/DuracaoPlanoServlet.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TabelaAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/TabelaAdminServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TriagemCadastroServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/TriagemCadastroServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/util/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/confirmarDados/confirmacao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/confirmarDados/confirmacao.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/duracao/duracao.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/pagamentoAprovado/confirmouPag.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEnterprise.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEnterprise.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEssential.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEssential.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarProfissional.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarProfissional.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/confirmarPlano.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/confirmarPlano.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/duracao.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/homeFluxar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/homeFluxar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/PIAnalista/PIanalista.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/PIGestor/PIgestor.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaAdminAnalista/adminAnalista.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaAdminGestor/adminGestor.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaGestorAnalista/gestorAnalistaPI.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaTodos/todosPI.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/páginas sem precisar de login/Fluxar/homeFluxar/homeFluxar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/páginas sem precisar de login/Fluxar/homeFluxar/homeFluxar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -68,25 +111,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.116959035",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propCompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
@@ -94,6 +138,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Tomcat 10.1.42" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.42" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
       <deployment>
         <artifact name="NeoTechSite:war exploded">
           <settings>
@@ -112,7 +157,37 @@
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="50872" />
       </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -164,7 +239,7 @@
       <workItem from="1753968589316" duration="23342000" />
       <workItem from="1754299786254" duration="22007000" />
       <workItem from="1754521374736" duration="977000" />
-      <workItem from="1754564036454" duration="1600000" />
+      <workItem from="1754564036454" duration="39808000" />
     </task>
     <servers />
   </component>

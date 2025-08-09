@@ -1,5 +1,6 @@
 package dao;
 
+import model.Funcionario;
 import model.Unidade;
 
 import java.sql.Connection;
@@ -10,36 +11,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnidadeDAO {
-    public static List<Unidade> listarTodas() {
-        List<Unidade> unidades = new ArrayList<>();
+    public static List<Unidade> listar(){
+//        Declarando variáveis:
         String sql = "SELECT * FROM unidade";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Unidade unidade;
+        List<Unidade> unidades = new ArrayList<Unidade>();
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+//        Conectando ao banco de dados e enviando sql:
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
 
+//            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.add(construirUnidade(rs));
+                unidade = new Unidade(rs.getInt("id"), rs.getString("nome"),rs.getInt("numero"),rs.getString("cep"),rs.getString("referencia"),rs.getString("descricao"),rs.getInt("id_empresa"));
+                unidades.add(unidade);
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao conectar ao banco de dados");
+        }
+
+//        Retornando as unidades cadastradas:
+        return unidades;
+    }
+
+    public static List<Unidade> listarPorEmpresa(int codigo){
+//        Declarando variáveis:
+        String sql = "SELECT * FROM unidade WHERE id_empresa = ?";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Unidade unidade;
+        List<Unidade> unidades = new ArrayList<Unidade>();
+
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,codigo);
+            rs = pstmt.executeQuery();
+
+//            Coletando dados:
+            while (rs.next()) {
+                unidade = new Unidade(rs.getInt("id"), rs.getString("nome"),rs.getInt("numero"),rs.getString("cep"),rs.getString("referencia"),rs.getString("descricao"),rs.getInt("id_empresa"));
+                unidades.add(unidade);
+            }
+
+        }catch (SQLException sqle){
+            throw new RuntimeException("Erro ao conectar no banco de dados");
         }
 
         return unidades;
     }
-
-    public static Unidade construirUnidade(ResultSet rs) throws SQLException {
-        Unidade unidade = new Unidade();
-        unidade.setCodigo(rs.getInt("codigo"));
-        unidade.setPais(rs.getString("pais"));
-        unidade.setEstado(rs.getString("estado"));
-        unidade.setMunicipio(rs.getString("municipio"));
-        unidade.setRua(rs.getString("rua"));
-        unidade.setNumero(rs.getString("numero")); // ou rs.getInt("numero") se for numérico
-        unidade.setComentarios(rs.getString("comentarios"));
-        unidade.setCodEmpresa(rs.getInt("cod_empresa"));
-        return unidade;
-    }
-
 }

@@ -24,6 +24,7 @@ public class TriagemCadastroServlet extends HttpServlet {
         RequestDispatcher dispatcher;
         Pattern pattern;
         Matcher matcher;
+        boolean existeCNPJ;
 
 //        Pegando Input do usuário:
         nomeInput = request.getParameter("nome").trim();
@@ -50,9 +51,9 @@ public class TriagemCadastroServlet extends HttpServlet {
         }
 
 //        Verificando se o nome da empresa já existe no banco de dados:
-        if (EmpresaDAO.buscarPorNome(nomeInput) == null) {
+        if (!EmpresaDAO.verificarCampo("nome",nomeInput)) {
 //            Verificando se o CNPJ já está cadastrado e se ele existe:
-            empresa = EmpresaDAO.buscarPorCNPJ(CNPJ);
+            empresa = EmpresaDAO.buscarEmpresa("cnpj",CNPJ);
             if (empresa == null) {
                 session.setAttribute("nomeEmpresa", nomeInput);
                 session.setAttribute("cnpjEmpresa", CNPJ);

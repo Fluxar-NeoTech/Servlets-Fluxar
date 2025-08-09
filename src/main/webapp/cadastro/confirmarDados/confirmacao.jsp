@@ -12,27 +12,30 @@
     
     Boolean statusObj=(Boolean) session.getAttribute("status"); 
     boolean status=(statusObj !=null) ? statusObj : false; 
-    int plano=(int) session.getAttribute("plano"); 
-    int duracao=(int) session.getAttribute("duracao"); 
-    String planoString="" ; 
-    String duracaoString=(duracao==1) ? "Mensal" : "Anual"; 
-    if (duracaoString.equals("Anual")){ 
-        if (plano==1) { 
-            planoString="Essential - R$6.899,99" ; 
-        } else if(plano==2) { 
-            planoString="Profissional - R$10.299,99" ; 
-        } else {
-            planoString = "Enterprise - R$17.999,99";
-        }
-    }else{ 
-        if (plano==1) { 
-            planoString="Essential - R$599,99" ; 
-        } else if (plano==2) {
-            planoString="Profissional - R$899,99" ; 
-        } else { 
-            planoString="Enterprise - R$1.599,99" ; 
-        } 
-    } %>
+    int plano= (int) session.getAttribute("plano");
+    String planoString="" ;
+    String duracaoString="";
+
+    if(plano % 2 == 0){
+        duracaoString = "Anual";
+    }else{
+        duracaoString = "Mensal";
+    }
+
+    if(plano == 1){
+        planoString = "Essential - R$599,99";
+    } else if (plano == 2) {
+        planoString = "Essential - R$6.899,99";
+    } else if (plano == 3) {
+        planoString = "Profissional - R$899,99";
+    } else if (plano == 4) {
+        planoString = "Profissional - R$10.299,99";
+    } else if (plano == 5) {
+        planoString = "Enterprise - R$1.599,99";
+    } else if (plano == 6) {
+        planoString = "Enterprise - R$17.999,99";
+    }
+    %>
         <!DOCTYPE html>
         <html lang="pt-br">
 
@@ -45,8 +48,15 @@
 
         <body>
             <header>
-                <a href="../duracao/duracao.jsp" class="icon-back">
-                </a>
+                <%if(plano==1 || plano==2){%>
+                    <a href="../plano/confirmar/confirmarEssential.html" class="icon-back"></a>
+                <%} else if (plano==3 || plano==4) {%>
+                    <a href="../plano/confirmar/confirmarProfissional.html" class="icon-back"></a>
+                <%} else if (plano==5 || plano==6){%>
+                    <a href="../plano/confirmar/confirmarEnterprise.html" class="icon-back"></a>
+                <%} else {%>
+                    <a href="../plano/contato/escolherPlano.html" class="icon-back"></a>
+                <%}%>
                 <h1>Confirmar informações</h1>
             </header>
             <main>
@@ -77,7 +87,7 @@
                     <ul>
                         <li class="botaoSecundariob"><a class="botaoSecundariob" href="../cnpjNomeEmpresa/cadastro.jsp">ALTERAR DADOS</a>
                         </li>
-                        <li class="botaoPrimariob"><a class="botaoPrimariob" href="../pagamento/formaPagamento/pagamento.html">CONFIRMAR</a></li>
+                        <li class="botaoPrimariob"><a class="botaoPrimariob" href="../Admin/escolherAdmin.jsp">CONFIRMAR</a></li>
                     </ul>
                 </aside>
             </main>

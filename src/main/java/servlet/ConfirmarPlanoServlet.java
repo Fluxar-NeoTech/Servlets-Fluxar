@@ -13,24 +13,30 @@ public class ConfirmarPlanoServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String planoEscolhido;
-        int plano;
+        int plano=0;
         HttpSession session = request.getSession();
 
 //        Pegando dado do plano da página web:
         planoEscolhido = request.getParameter("plano");
 
-//        Verificando qual plano é? (1, 2 ou 3)
-        if (planoEscolhido.equals("Essential")){
+//        Verificando valor do plano e alterando para o plano correspondende no banco de dados:
+        if("essentialMensal".equals(planoEscolhido)){
             plano=1;
-        }else if(planoEscolhido.equals("Profissional")){
+        } else if ("essentialAnual".equals(planoEscolhido)) {
             plano=2;
-        }else{
+        }else if ("profissionalMensal".equals(planoEscolhido)) {
             plano=3;
+        }else if ("profissionalAnual".equals(planoEscolhido)) {
+            plano=4;
+        }else if ("enterpriseMensal".equals(planoEscolhido)) {
+            plano=5;
+        }else if ("enterpriseAnual".equals(planoEscolhido)) {
+            plano=6;
         }
 
 //        Salvando o dado do plano temporariamente:
         session.setAttribute("plano",plano);
-        response.sendRedirect(request.getContextPath() + "/cadastro/duracao/duracao.jsp");
+        response.sendRedirect(request.getContextPath() + "/cadastro/confirmarDados/confirmacao.jsp");
     }
 
     @Override

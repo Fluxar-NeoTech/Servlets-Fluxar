@@ -1,11 +1,14 @@
 package servlet;
 
 import dao.AdministradorDAO;
-import dao.UsuarioDAO;
+import dao.EmpresaDAO;
+import dao.FuncionarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Usuario;
+import model.Administrador;
+import model.Empresa;
+import model.Funcionario;
 import util.EmailService;
 
 import java.io.IOException;
@@ -24,19 +27,20 @@ public class EnviarCodigoServlet extends HttpServlet {
 //        Declaração de variáveis:
         String emailInput;
         RequestDispatcher dispatcher = null;
-        List<Usuario> usuarios;
-        Usuario usuario;
-        Administrador admin;
+        Funcionario funcionario;
+        Empresa empresa;
+        Administrador administrador;
         String codigo;
         HttpSession session = request.getSession();
 
 //        Recebendo o input do usuário:
-        emailInput = request.getParameter("emailUsuario");
+        emailInput = request.getParameter("emailUsuario").trim();
 
 //        Verificando se o email é válido:
-        usuarios = UsuarioDAO.buscarUsuarioPeloEmail(emailInput);
-        if (!usuarios.isEmpty() || AdministradorDAO.existeEmail(emailInput)){
-            session.setAttribute("emailAlterarSenha",emailInput);
+        empresa = EmpresaDAO.buscarEmpresa("email",emailInput);
+        administrador = AdministradorDAO.buscarAdministrador("email",emailInput);
+        if (empresa.getEmail()!=null || administrador.getEmail()!=null){
+            session.setAttribute("registroAlterar",emailInput);
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
             try {
                 EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo+"\nNão responda a esse email");

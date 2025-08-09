@@ -1,6 +1,6 @@
 package dao;
 
-import model.Administrador;
+import model.Empresa;
 import model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -11,15 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdministradorDAO {
-    public static List<Administrador> listarAdministradores() {
+public class FuncionarioDAO {
+    public static List<Funcionario> listarFuncionarios() {
 //        Declarando variáveis:
-        String sql = "SELECT * FROM administrador";
+        String sql = "SELECT * FROM funcionario";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
-        Administrador administrador;
-        List<Administrador> administradores = new ArrayList<Administrador>();
+        Funcionario funcionario;
+        List<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -29,8 +29,8 @@ public class AdministradorDAO {
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                administrador = new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("email"),rs.getString("senha"));
-                administradores.add(administrador);
+                funcionario = new Funcionario(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"), rs.getString("data_nasc"), rs.getString("telefone"),rs.getString("senha"),rs.getString("email"),rs.getString("cargo"),rs.getInt("id_setor"));
+                funcionarios.add(funcionario);
             }
 
         } catch (Exception e) {
@@ -40,12 +40,44 @@ public class AdministradorDAO {
         Conexao.desconectar(conn);
 
 //        Retornando os funcionários cadastrados:
-        return administradores;
+        return funcionarios;
+    }
+
+    public static List<Funcionario> listarFuncionarioPorEmpresa(int codigo) {
+//        Declarando variáveis:
+        String sql = "SELECT * FROM funcionario f JOIN setor s ON s.id=f.id_setor JOIN unidade u ON u.id=s.id_unidade JOIN empresa e ON e.id=u.id_empresa WHERE e.id = ? ";
+        Connection conn;
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Funcionario funcionario;
+        List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+
+//        Conectando ao banco de dados e enviando sql:
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,codigo);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos funcionários:
+            while (rs.next()) {
+                funcionario = new Funcionario(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"), rs.getString("data_nasc"), rs.getString("telefone"),rs.getString("senha"),rs.getString("email"),rs.getString("cargo"),rs.getInt("id_setor"));
+                funcionarios.add(funcionario);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao conectar ao banco de dados");
+        }
+
+        Conexao.desconectar(conn);
+
+//        Retornando os funcionários cadastrados:
+        return funcionarios;
     }
 
     public static boolean verificarCampo(String campo, String valor){
 //        Declaração de variáveis:
-        String sql = "SELECT * FROM administrador WHERE ? = ?";
+        String sql = "SELECT * FROM funcionario WHERE "+campo+" = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
@@ -54,8 +86,7 @@ public class AdministradorDAO {
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,campo);
-            pstmt.setString(2,valor);
+            pstmt.setString(1,valor);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
@@ -71,9 +102,9 @@ public class AdministradorDAO {
         return false;
     }
 
-    public static Administrador buscarAdministrador(String campo, String valor){
+    public static Funcionario buscarFuncionario(String campo, String valor){
 //        Declaração de variáveis:
-        String sql = "SELECT * FROM funcionario WHERE ? = ?";
+        String sql = "SELECT * FROM funcionario WHERE "+campo+" = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
@@ -82,13 +113,12 @@ public class AdministradorDAO {
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,campo);
-            pstmt.setString(2,valor);
+            pstmt.setString(1,valor);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("email"),rs.getString("senha"));
+                return new Funcionario(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"), rs.getString("data_nasc"), rs.getString("telefone"),rs.getString("senha"),rs.getString("email"),rs.getString("cargo"),rs.getInt("id_unidade"));
             }
 
         }catch (SQLException sqle){
@@ -100,7 +130,7 @@ public class AdministradorDAO {
 
     public static boolean autenticar(String email, String senha){
 //        Declaração de variáveis:
-        String sql = "SELECT * FROM administrador WHERE email = ?";
+        String sql = "SELECT * FROM funcionario WHERE email = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;

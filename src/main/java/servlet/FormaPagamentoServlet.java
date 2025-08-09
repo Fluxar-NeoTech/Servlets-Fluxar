@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import model.Empresa;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -19,38 +20,34 @@ public class FormaPagamentoServlet extends HttpServlet {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         String formaPag = request.getParameter("formaPagamento");
-        int codigo;
+        String emailAdmin;
+        String senha;
+        String senhaCriptografada;
+        RequestDispatcher dispatcher = null;
+        Empresa empresaJaCadastrada;
+        Empresa empresa;
         LocalDate hoje = LocalDate.now();
         Date datasql = Date.valueOf(hoje);
         String nomeEmpresa = (String) session.getAttribute("nomeEmpresa");
         String CNPJ = (String) session.getAttribute("cnpjEmpresa");
-        String status = (String) session.getAttribute("status");
         Integer plano = (Integer) session.getAttribute("plano");
-        Integer duracao = (Integer) session.getAttribute("duracao");
-        String emailAdmin = (String) session.getAttribute("emailAdmin");
-        String senhaAdmin = (String) session.getAttribute("senhaAdmin");
-        Empresa emp = new Empresa();
-        List<Empresa> empresas = EmpresaDAO.buscarTodas();
 
-        //        Cadastrando empresa
-        emp.setNome(nomeEmpresa);
-        emp.setCnpj(CNPJ);
-        emp.setStatus("A");
-        emp.setIdPlano(plano);
-        emp.setDtInicio(datasql);
-        emp.setDuracao(duracao);
-        emp.setFormaPag(formaPag);
-        EmpresaDAO.cadastrarEmpresa(emp);
-
-        emp = EmpresaDAO.buscarPorCNPJ(CNPJ);
-        codigo = emp.getCodigo();
-
-//        Salvando forma de pagamento e código da empresa:
+//        Salvando forma de pagamento:
         session.setAttribute("formaPagamento", formaPag);
-        session.setAttribute("codigoEmpresa",codigo);
 
+//        Pegando input do usuário:
+        emailAdmin = (String) session.getAttribute("emailAdmin");
+        senha = (String) session.getAttribute("senhaAdmin");
+
+//        Adicionando os dados da empresa e do seu admin em um objeto da classe Empresa:
+        empresa = new Empresa(datasql,CNPJ,senha,nomeEmpresa,emailAdmin,plano);
+
+        if (EmpresaDAO.cadastrarEmpresa(empresa)){
 //        Enviando usuário para próxima página:
-        response.sendRedirect(request.getContextPath() +"/cadastro/pagamento/pagamentoAprovado/confirmouPag.html");
+            response.sendRedirect(request.getContextPath() +"/cadastro/fimCadastro/agradecimentos.html");
+        }else{
+            response.sendRedirect(request.getContextPath() +"/cadastro/cnpjNomeEmpresa/cadastro.jsp");
+        }
     }
 
     @Override

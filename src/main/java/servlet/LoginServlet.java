@@ -1,13 +1,19 @@
 package servlet;
 
 import dao.AdministradorDAO;
-import dao.UsuarioDAO;
+import dao.EmpresaDAO;
+import dao.FuncionarioDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import model.Usuario;
+import model.Administrador;
+import model.Empresa;
+import model.Funcionario;
+import org.mindrot.jbcrypt.BCrypt;
 
+import javax.lang.model.util.ElementScanner7;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
@@ -28,68 +34,42 @@ public class LoginServlet extends HttpServlet {
         String tipo;
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        Usuario usuario;
-        List<Usuario> usuarios;
-        Administrador admin;
+        Empresa empresa;
+        Funcionario funcionario;
+        Administrador administrador;
 
 //        Coletando o input do usuário:
         emailInput = request.getParameter("emailUsuario").trim();
         senhaInput = request.getParameter("senhaUsuario").trim();
 
-//        Verificando se email é válido:
-        if (!UsuarioDAO.buscarUsuarioPeloEmail(emailInput).isEmpty() || AdministradorDAO.existeEmail(emailInput)) {
-            if (!UsuarioDAO.buscarUsuarioPeloEmail(emailInput).isEmpty() && AdministradorDAO.existeEmail(emailInput)) {
-                if (UsuarioDAO.autenticar(emailInput, senhaInput)) {
-                    usuarios = UsuarioDAO.buscarUsuarioPeloEmail(emailInput);
-                    if (usuarios.size() == 1) {
-                        usuario = usuarios.get(0);
-                        if (usuario.getTipo().toLowerCase().equals("gestor")) {
-                            admin = AdministradorDAO.buscarPorEmail(emailInput);
-                            session.setAttribute("admin", admin);
-                            response.sendRedirect(request.getContextPath() + "/paginasIniciais/escolhaAdminGestor/adminGestor.html");
-                        } else {
-                            admin = AdministradorDAO.buscarPorEmail(emailInput);
-                            session.setAttribute("admin", admin);
-                            response.sendRedirect(request.getContextPath() + "/paginasIniciais/escolhaAdminAnalista/adminAnalista.html");
-                        }
+//        Verificando se email está cadastrado:
+        if (FuncionarioDAO.verificarCampo("email", emailInput) || EmpresaDAO.verificarCampo("email", emailInput) || AdministradorDAO.verificarCampo("email", emailInput)) {
+            if (EmpresaDAO.verificarCampo("email", emailInput)) {
+                empresa = EmpresaDAO.buscarEmpresa("email",emailInput);
+                if ("A".equals(empresa.getStatus())) {
+                    if (EmpresaDAO.autenticar(emailInput, senhaInput)) {
+                        response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp");
                     } else {
-                        admin = AdministradorDAO.buscarPorEmail(emailInput);
-                        session.setAttribute("admin", admin);
-                        response.sendRedirect(request.getContextPath() + "/paginasIniciais/escolhaTodos/todosPI.html");
+                        request.setAttribute("erroSenha", "Senha incorreta");
+                        dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
+                        dispatcher.forward(request, response);
                     }
                 } else {
-                    request.setAttribute("erroSenha", "Senha incorreta");
+                    request.setAttribute("erroEmail", "Email inválido");
                     dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
                     dispatcher.forward(request, response);
                 }
-            } else if (!UsuarioDAO.buscarUsuarioPeloEmail(emailInput).isEmpty()) {
-                if (UsuarioDAO.autenticar(emailInput, senhaInput)) {
-                    usuarios = UsuarioDAO.buscarUsuarioPeloEmail(emailInput);
-                    if (usuarios.size() == 1) {
-                        usuario = usuarios.get(0);
-                        if (usuario.getTipo().toLowerCase().equals("gestor")) {
-                            response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIGestor/PIgestor.jsp");
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAnalista/PIanalista.jsp");
-                        }
-                    } else {
-                        response.sendRedirect(request.getContextPath() + "/paginasIniciais/escolhaGestorAnalista/gestorAnalistaPI.html");
-                    }
-                } else {
-                    request.setAttribute("erroSenha", "Senha incorreta");
-                    dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                    dispatcher.forward(request, response);
-                }
-            } else {
+            } else if (AdministradorDAO.verificarCampo("email", emailInput)) {
+                administrador = AdministradorDAO.buscarAdministrador("email", emailInput);
                 if (AdministradorDAO.autenticar(emailInput, senhaInput)) {
-                    admin = AdministradorDAO.buscarPorEmail(emailInput);
-                    session.setAttribute("admin", admin);
                     response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdmin/PIadmin.jsp");
                 } else {
-                    request.setAttribute("erroSenha", "Senha incorreta");
-                    dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                    dispatcher.forward(request, response);
+
                 }
+            } else {
+                request.setAttribute("erroEmail", "Acesso no mobile");
+                dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
+                dispatcher.forward(request, response);
             }
         } else {
             request.setAttribute("erroEmail", "Email não cadastrado");

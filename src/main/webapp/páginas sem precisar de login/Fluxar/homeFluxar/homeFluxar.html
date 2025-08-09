@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home - NeoTech</title>
-  <link rel="stylesheet" href="homeFluxar.css" />
+  <link rel="stylesheet" href="../../../css/homeFluxar.css" />
 </head>
 
 <body>
@@ -14,29 +14,36 @@
       <img src="../../../img/Logo.png" alt="Logo Fluxar" class="logo">
     </div>
 
-    <nav class="celular">
-      <ul>
-        <li class="menu-dropdown">
-          <div></div>
-          <div></div>
-          <div></div>
-          <ul class="submenu">
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">NOSSA EQUIPE</a></li>
-            <li><a href="#">FLUXAR</a></li>
-            <li><a href="../../../fazerLogin/paginaLogin/login.jsp">ENTRAR</a></li>
+    <nav class="celular-tablet">
+      <!-- input checkbox escondido -->
+      <input type="checkbox" id="menuToggle" />
+
+      <!-- label associado ao checkbox e com suas classes e estrutura -->
+      <label for="menuToggle" class="menu-dropdown">
+        <div class="icone">
+          <div class="x1"></div>
+          <div class="nada"></div>
+          <div class="x2"></div>
+        </div>
+        <div class="submenu">
+          <ul class="links">
+            <li class="ativo"><a href="#">HOME</a></li>
+            <li><a class="botaoTerciario" href="nossaEquipe.html">FUNÇÕES</a></li>
+            <li><a class="botaoTerciario" href="">PLANOS</a></li>
+            <li><a class="botaoSecundario" href="../../../index.html">NEOTECH</a></li>
+            <li><a class="botaoPrimario" href="../../../fazerLogin/paginaLogin/login.jsp">ENTRAR</a></li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </label>
     </nav>
 
     <nav class="pc">
       <ul class="menu">
-        <li class="ativo"><a href="index.html">HOME</a></li>
-        <li class="botaoTerciario"><a href="nossaEquipe.html" class="botaoTerciario">FUNÇÕES</a></li>
-        <li class="botaoTerciario"><a href="" class="botaoTerciario">PLANOS</a></li>
-        <li class="botaoSecundario"><a class="botaoSecundario" href="index.html">NEOTECH</a></li>
-        <li class="botaoPrimario"><a class="botaoPrimario" href="../../../fazerLogin/paginaLogin/login.jsp">ENTRAR</a></li>
+        <li class="ativo"><a href="#">HOME</a></li>
+        <li><a href="nossaEquipe.html" class="botaoTerciario">FUNÇÕES</a></li>
+        <li><a href="" class="botaoTerciario">PLANOS</a></li>
+        <li><a class="botaoSecundario" href="../../../index.html">NEOTECH</a></li>
+        <li><a class="botaoPrimario" href="../../../fazerLogin/paginaLogin/login.jsp">ENTRAR</a></li>
       </ul>
     </nav>
   </header>

@@ -1,30 +1,39 @@
 package model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Avaliacao {
+    private int id;
+    private String comentarios;
     private int nota;
-    private String comentario;
-    private Timestamp dataAvaliacao;
+    private String email;
+    private Date data;
 
-    public Avaliacao() {}
-
-    public Avaliacao(int nota, String comentario, Timestamp dataAvaliacao) {
+    public Avaliacao(int id, String comentarios, int nota, String email, Date data) {
+        this.id = id;
+        this.comentarios = comentarios;
         this.nota = nota;
-        this.comentario = comentario;
-        this.dataAvaliacao = dataAvaliacao;
+        this.email = email;
+        this.data = data;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public int getCodEmpresa() { return codEmpresa; }
-    public void setCodEmpresa(int codEmpresa) { this.codEmpresa = codEmpresa; }
-    public int getCodUsuario() { return codUsuario; }
-    public void setCodUsuario(int codUsuario) { this.codUsuario = codUsuario; }
-    public int getNota() { return nota; }
-    public void setNota(int nota) { this.nota = nota; }
-    public String getComentario() { return comentario; }
-    public void setComentario(String comentario) { this.comentario = comentario; }
-    public Timestamp getDataAvaliacao() { return dataAvaliacao; }
-    public void setDataAvaliacao(Timestamp dataAvaliacao) { this.dataAvaliacao = dataAvaliacao; }
+    public int getId() {
+        return id;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Date getData() {
+        return data;
+    }
 }
