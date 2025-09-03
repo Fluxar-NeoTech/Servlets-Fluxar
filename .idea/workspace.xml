@@ -10,59 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/InsumosDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PlanoDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/SetorDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UnidadeDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UsuarioDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Empresa.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Insumo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Notificacao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Plano.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Plano.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Setor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/SetorInsumo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Unidade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Usuario.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/ConfirmarPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/ConfirmarPlanoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/DuracaoPlanoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TabelaAdminServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/TabelaAdminServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TriagemCadastroServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/TriagemCadastroServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/confirmarDados/confirmacao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/confirmarDados/confirmacao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/duracao/duracao.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/pagamentoAprovado/confirmouPag.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEnterprise.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEnterprise.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEssential.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarEssential.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarProfissional.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/plano/confirmar/confirmarProfissional.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/confirmarPlano.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/confirmarPlano.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/duracao.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/homeFluxar.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/homeFluxar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/PIAnalista/PIanalista.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/PIGestor/PIgestor.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaAdminAnalista/adminAnalista.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaAdminGestor/adminGestor.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaGestorAnalista/gestorAnalistaPI.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/paginasIniciais/escolhaTodos/todosPI.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/páginas sem precisar de login/Fluxar/homeFluxar/homeFluxar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/páginas sem precisar de login/Fluxar/homeFluxar/homeFluxar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +71,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/caiomaciel-ieg/OneDrive - Instituto J&F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -239,7 +193,24 @@
       <workItem from="1753968589316" duration="23342000" />
       <workItem from="1754299786254" duration="22007000" />
       <workItem from="1754521374736" duration="977000" />
-      <workItem from="1754564036454" duration="39808000" />
+      <workItem from="1754564036454" duration="42611000" />
+      <workItem from="1754904780033" duration="991000" />
+      <workItem from="1754913164413" duration="221000" />
+      <workItem from="1754921752692" duration="2129000" />
+      <workItem from="1754930097952" duration="19000" />
+      <workItem from="1754931062834" duration="370000" />
+      <workItem from="1755085523503" duration="32000" />
+      <workItem from="1755102587213" duration="72000" />
+      <workItem from="1755180549847" duration="5334000" />
+      <workItem from="1755250966682" duration="642000" />
+      <workItem from="1755702361490" duration="462000" />
+      <workItem from="1755788148295" duration="33000" />
+      <workItem from="1755819780833" duration="641000" />
+      <workItem from="1755890113133" duration="3993000" />
+      <workItem from="1756116409559" duration="37000" />
+      <workItem from="1756478682890" duration="311000" />
+      <workItem from="1756825772342" duration="954000" />
+      <workItem from="1756898796920" duration="521000" />
     </task>
     <servers />
   </component>

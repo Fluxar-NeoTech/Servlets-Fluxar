@@ -46,7 +46,7 @@ header {
 }
 
 .botaoPrimario:hover {
-    background-color: #834096;
+    background-color: #25072e;
 }
 
 .botaoPrimariob:hover {
@@ -152,7 +152,7 @@ a {
     }
 }
 
-@media (min-width:450px) and (max-width: 1000px) {
+@media (min-width:0px) and (max-width: 1000px) {
     .pc {
         display: none;
     }
@@ -163,7 +163,12 @@ a {
 
     .logo {
         width: 20vw;
-        min-width: 130px;
+        min-width: 100px;
+        z-index: 1;
+    }
+
+    .icone{
+        z-index: 1;
     }
 
     input {
@@ -235,9 +240,38 @@ a {
         display: block;
     }
 
+    .submenu {
+        background-color: rgba(255, 255, 255, 0.467);
+        width: 105%;
+        position: fixed;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 30px;
+        height: 465px;
+        z-index: 0;
+    }
+
+
+    .links {
+        list-style-type: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        text-align: center;
+    }
+
     .ativo {
         display: flex;
-        min-width: 300px;
+        min-width: 200px;
         width: 70vw;
         justify-content: center;
         height: 50px;
@@ -253,7 +287,7 @@ a {
 
     .botaoTerciario {
         display: flex;
-        min-width: 300px;
+        min-width: 200px;
         width: 70vw;
         justify-content: center;
         height: 50px;
@@ -263,7 +297,7 @@ a {
 
     .botaoSecundario {
         display: flex;
-        min-width: 300px;
+        min-width: 200px;
         width: 70vw;
         border: 3px solid #46005A;
         justify-content: center;
@@ -274,7 +308,7 @@ a {
 
     .botaoPrimario {
         display: flex;
-        min-width: 300px;
+        min-width: 200px;
         width: 70vw;
         background-color: #46005A;
         color: white;
@@ -286,7 +320,7 @@ a {
 
     .botaoPrimariob {
         display: flex;
-        min-width: 300px;
+        min-width: 200px;
         width: 70vw;
         background-color: white;
         color: #46005A;
@@ -296,54 +330,71 @@ a {
         border-radius: 10px;
     }
 
-
-    .submenu {
-        background-color: rgba(255, 255, 255, 0.467);
-        width: 95vw;
-        position: absolute;
-        top: -25px;
-        left: -30%;
-        transform: translateX(-86%);
+    .submenu .links li {
         opacity: 0;
-        visibility: hidden;
-        border-radius: 15px;
-        z-index: 0;
-        height: 75vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        padding: 30px;
+        transform: translateY(15px);
+        animation: subirSuave 0.4s ease forwards;
     }
 
-    .links {
-        list-style-type: none;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-        text-align: center;
+    /* Estado inicial das opções (ocultas e deslocadas) */
+    .submenu .links li {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    /* Quando o menu abre, anima cada item da esquerda para a direita */
+    #menuToggle:checked+label.menu-dropdown .submenu .links li {
+        animation: entrarEsquerda 0.4s ease forwards;
+    }
+
+    /* Animação */
+    @keyframes entrarEsquerda {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Efeito cascata com delays progressivos */
+    #menuToggle:checked+label.menu-dropdown .submenu .links li:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    #menuToggle:checked+label.menu-dropdown .submenu .links li:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    #menuToggle:checked+label.menu-dropdown .submenu .links li:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    #menuToggle:checked+label.menu-dropdown .submenu .links li:nth-child(4) {
+        animation-delay: 0.8s;
+    }
+
+    #menuToggle:checked+label.menu-dropdown .submenu .links li:nth-child(5) {
+        animation-delay: 1s;
     }
 }
 
 @keyframes aumentarY {
     0% {
-        height: 0;
+        height: 60px;
     }
 
     100% {
-        height: 80vh;
+        height: 465px;
     }
 }
 
 @keyframes diminuirY {
     0% {
-        height: 80vh;
+        height: 465px;
         visibility: collapse;
     }
 
     100% {
-        height: 0;
+        height: 60px;
         opacity: 0;
     }
 }

@@ -42,6 +42,13 @@ public class LoginServlet extends HttpServlet {
         emailInput = request.getParameter("emailUsuario").trim();
         senhaInput = request.getParameter("senhaUsuario").trim();
 
+        if (senhaInput.length() < 8) {
+            request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
+            dispatcher = request.getRequestDispatcher( "/fazerLogin/paginaLogin/login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+
 //        Verificando se email está cadastrado:
         if (FuncionarioDAO.verificarCampo("email", emailInput) || EmpresaDAO.verificarCampo("email", emailInput) || AdministradorDAO.verificarCampo("email", emailInput)) {
             if (EmpresaDAO.verificarCampo("email", emailInput)) {

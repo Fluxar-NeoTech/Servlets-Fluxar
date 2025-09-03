@@ -11,8 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Lista a fazer para bloquear SQLInjection;
+// Não permitir ;
+//
 public class EmpresaDAO {
-    public static List<Empresa> listar(){
+    public static List<Empresa> listar() {
         //        Declarando variáveis:
         String sql = "SELECT * FROM empresa";
         Connection conn;
@@ -22,18 +25,18 @@ public class EmpresaDAO {
         List<Empresa> empresas = new ArrayList<Empresa>();
 
 //        Conectando ao banco de dados e enviando sql:
-        try{
+        try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista das empresas:
-            while (rs.next()){
-                empresa = new Empresa(rs.getInt("id"),rs.getString("status"),rs.getDate("dt_inicio"),rs.getString("cnpj"),rs.getString("senha"),rs.getString("nome"),rs.getString("email"),rs.getInt("id_plano"));
+            while (rs.next()) {
+                empresa = new Empresa(rs.getInt("id"), rs.getString("status"), rs.getDate("dt_inicio"), rs.getString("cnpj"), rs.getString("senha"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_plano"));
                 empresas.add(empresa);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao conectar ao banco de dados");
         }
 
@@ -41,85 +44,85 @@ public class EmpresaDAO {
         return empresas;
     }
 
-    public static boolean verificarCampo(String campo, String valor){
+    public static boolean verificarCampo(String campo, String valor) {
 //        Declaração de variáveis:
-        String sql = "SELECT * FROM empresa WHERE "+campo+" = ?";
+        String sql = "SELECT * FROM empresa WHERE " + campo + " = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
 
 //        Conectando ao banco de dados:
-        try{
+        try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,valor);
+            pstmt.setString(1, valor);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
 
-        }catch (SQLException sqle){
+        } catch (SQLException sqle) {
             throw new RuntimeException("Ocorreu um erro ao acessar o banco de dados.");
         }
         return false;
     }
 
-    public static Empresa buscarEmpresa(String campo, String valor){
+    public static Empresa buscarEmpresa(String campo, String valor) {
 //        Declaração de variáveis:
-        String sql = "SELECT * FROM empresa WHERE "+campo+" = ?";
+        String sql = "SELECT * FROM empresa WHERE " + campo + " = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
 
 //        Conectando ao banco de dados:
-        try{
+        try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,valor);
+            pstmt.setString(1, valor);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
-            if(rs.next()){
-                return new Empresa(rs.getInt("id"),rs.getString("status"),rs.getDate("dt_inicio"),rs.getString("cnpj"),rs.getString("senha"),rs.getString("nome"),rs.getString("email"),rs.getInt("id_plano"));
+            if (rs.next()) {
+                return new Empresa(rs.getInt("id"), rs.getString("status"), rs.getDate("dt_inicio"), rs.getString("cnpj"), rs.getString("senha"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_plano"));
             }
 
-        }catch (SQLException sqle){
+        } catch (SQLException sqle) {
             throw new RuntimeException("Ocorreu um erro ao acessar o banco de dados.");
         }
         return null;
     }
 
-    public static boolean autenticar(String email, String senha){
+    public static boolean autenticar(String email, String senha) {
 //        Declaração de variáveis:
         String sql = "SELECT * FROM empresa WHERE email = ?";
-        Connection conn;
+        Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
 
 //        Conectando ao banco de dados:
-        try{
+        try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,email);
+            pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
-            if(rs.next()){
-                if(BCrypt.checkpw(senha,rs.getString("senha"))){
+            if (rs.next()) {
+                if (BCrypt.checkpw(senha, rs.getString("senha"))) {
                     Conexao.desconectar(conn);
                     return true;
                 }
-            }else{
-                Conexao.desconectar(conn);
+            } else {
                 return false;
             }
 
-        }catch (SQLException sqle){
-            throw new RuntimeException("Ocorreu um erro ao acessar o banco de dados.");
+        } catch (SQLException sqle) {
+            return false;
+        } finally {
+            Conexao.desconectar(conn);
         }
-
         return false;
     }
 
@@ -158,7 +161,7 @@ public class EmpresaDAO {
         int linhas;
 
         // Comando SQL para atualizar a senha do admin da empresa
-        sql = "UPDATE empresa SET senha = '"+novaSenha+"' WHERE email = '"+email+"'";
+        sql = "UPDATE empresa SET senha = ? WHERE email = ?";
 
         try {
             // Obtenção da conexão com o banco de dados
@@ -166,6 +169,8 @@ public class EmpresaDAO {
 
             // Preparação do comando SQL
             pstm = conn.prepareStatement(sql);
+            pstm.setString(1,novaSenha);
+            pstm.setString(2,email);
 
             // Execução da atualização
             linhas = pstm.executeUpdate();
@@ -173,7 +178,6 @@ public class EmpresaDAO {
             return linhas>0;
 
         } catch (SQLException e) {
-            System.err.println("Erro ao alterar a senha do usuário: " + e.getMessage());
             return false;
         }
     }
