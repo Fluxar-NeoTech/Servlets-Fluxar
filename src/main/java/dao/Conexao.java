@@ -21,9 +21,9 @@ public class Conexao {
             conn = DriverManager.getConnection(url,usuario,senha);
             return conn;
         }catch (SQLException sqle){
-            throw new RuntimeException("Erro ao conectar com o banco de dados");
+            throw new RuntimeException(sqle);
         }catch (Exception e ){
-            throw new RuntimeException("Driver do banco de dados não foi encontrado");
+            throw new RuntimeException(e);
         }
     }
 
