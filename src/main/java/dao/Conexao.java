@@ -21,9 +21,9 @@ public class Conexao {
             conn = DriverManager.getConnection(url,usuario,senha);
             return conn;
         }catch (SQLException sqle){
-            throw new RuntimeException(sqle);
+            return conn;
         }catch (Exception e ){
-            throw new RuntimeException(e);
+            return conn;
         }
     }
 
