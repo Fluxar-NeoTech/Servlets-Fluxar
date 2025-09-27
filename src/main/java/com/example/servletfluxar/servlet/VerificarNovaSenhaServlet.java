@@ -1,5 +1,6 @@
 package com.example.servletfluxar.servlet;
 
+import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
@@ -79,7 +80,7 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         senhaCriptografada = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
 
 //        Atualizando banco de dados:
-        if(EmpresaDAO.alterarSenha(email,senhaCriptografada)){
+        if(EmpresaDAO.alterarSenha(email,senhaCriptografada) || AdministradorDAO.alterarSenha(email, senhaCriptografada) || AdministradorDAO.alterarSenha(email, senhaCriptografada)){
             response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
         }else{
             request.setAttribute("erroSenha","Não foi possível alterar a senha");

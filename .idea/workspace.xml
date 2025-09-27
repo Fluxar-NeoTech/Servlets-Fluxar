@@ -10,39 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/postgresql-42.7.7.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AdministradorDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/AvaliacaoDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/Conexao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/EmpresaDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/FuncionarioDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PlanoDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UnidadeDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Administrador.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Avaliacao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Empresa.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Funcionario.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Plano.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Setor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Unidade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/AcaoAdminServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/ConfirmarPlanoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/CriarAdminServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoAdminServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EnviarCodigoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoAdminServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/EscreverCodigoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/FormaPagamentoServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/LoginServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TabelaAdminServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/TriagemCadastroServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/servlet/VerificarNovaSenhaServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/EmailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/EncodingFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/EnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/EsqueciSenhaEnviarCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/EscreverCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/EsqueciSenhaEscreverCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/VerificarNovaSenhaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/VerificarNovaSenhaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/codigo/codigo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/codigo/codigo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +35,8 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -91,41 +69,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/caiomaciel-ieg/OneDrive - Instituto J&amp;F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/postgresql-42.7.8.jar&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.116959035&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/guilhermefmf-ieg/OneDrive - Instituto J&F/Área de Trabalho/inter/Servlets-Fluxar/src/main/resources/postgresql-42.7.7.jar",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.116959035",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propCompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.example.servletfluxar.dao" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar\src\main\resources" />
+      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\java\com\example\servletfluxar\dao" />
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\resources" />
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite" />
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Tomcat 11.0.11" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
+    <configuration name="Tomcat 10.1.42" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
       <deployment>
         <artifact name="NeoTechSite:war exploded">
@@ -244,61 +219,16 @@
       <workItem from="1756116409559" duration="37000" />
       <workItem from="1756478682890" duration="311000" />
       <workItem from="1756825772342" duration="954000" />
-      <workItem from="1756898796920" duration="1717000" />
-      <workItem from="1757070536567" duration="2139000" />
-      <workItem from="1757191631242" duration="1225000" />
-      <workItem from="1757515553843" duration="599000" />
-      <workItem from="1757591676296" duration="1404000" />
-      <workItem from="1757598608949" duration="5000" />
-      <workItem from="1757932842323" duration="1192000" />
-      <workItem from="1757976955315" duration="6000" />
-      <workItem from="1758016024494" duration="3000" />
-      <workItem from="1758016053244" duration="585000" />
-      <workItem from="1758028367248" duration="5103000" />
-      <workItem from="1758103891780" duration="89000" />
-      <workItem from="1758124991395" duration="1229000" />
-      <workItem from="1758135272357" duration="347000" />
-      <workItem from="1758152530420" duration="4000" />
-      <workItem from="1758211634688" duration="1073000" />
-      <workItem from="1758324853114" duration="7503000" />
-      <workItem from="1758366285126" duration="163000" />
-      <workItem from="1758366458831" duration="7808000" />
-      <workItem from="1758457632888" duration="393000" />
-      <workItem from="1758535809257" duration="3610000" />
-      <workItem from="1758570995232" duration="1000" />
-      <workItem from="1758582149323" duration="40000" />
-      <workItem from="1758635007998" duration="1358000" />
-      <workItem from="1758726730838" duration="1076000" />
-      <workItem from="1758808798681" duration="1705000" />
-      <workItem from="1758812680494" duration="1550000" />
-      <workItem from="1758827146880" duration="496000" />
-      <workItem from="1758928786706" duration="12877000" />
+      <workItem from="1756898796920" duration="521000" />
+      <workItem from="1758029563245" duration="2282000" />
+      <workItem from="1758034074413" duration="1000" />
+      <workItem from="1758120532521" duration="1139000" />
+      <workItem from="1758634037991" duration="2166000" />
+      <workItem from="1758735088955" duration="1629000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/model/Setor.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

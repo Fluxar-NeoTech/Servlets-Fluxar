@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "TriagemCadastroServlet", value = "/TriagemCadastroServlet")
-public class TriagemCadastroServlet extends HttpServlet {
+@WebServlet(name = "BasicoCadastroEmpresaServlet", value = "/BasicoCadastroEmpresaServlet")
+public class BasicoCadastroEmpresaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");

@@ -18,10 +18,11 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
+            <version>42.7.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>

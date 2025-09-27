@@ -12,7 +12,6 @@ import java.util.List;
 public class UnidadeDAO {
     public static List<Unidade> listarUnidades(){
 //        Declarando variáveis:
-        String sql = "SELECT * FROM unidade";
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
@@ -21,7 +20,7 @@ public class UnidadeDAO {
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id");
             rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista das unidades:
@@ -39,9 +38,8 @@ public class UnidadeDAO {
         }
     }
 
-    public static List<Unidade> listarPorEmpresa(int codigo){
+    public static List<Unidade> listarPorEmpresa(int idEmpresa){
 //        Declarando variáveis:
-        String sql = "SELECT * FROM unidade WHERE id_empresa = ?";
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
@@ -50,8 +48,8 @@ public class UnidadeDAO {
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,codigo);
+            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE id_empresa = ?");
+            pstmt.setInt(1,idEmpresa);
             rs = pstmt.executeQuery();
 
 //            Coletando dados:

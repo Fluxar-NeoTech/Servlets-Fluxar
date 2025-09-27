@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "EscreverCodigoAdminServlet", value = "/EscreverCodigoAdminServlet")
-public class EscreverCodigoAdminServlet extends HttpServlet {
+@WebServlet(name = "EsqueciSenhaEscreverCodigoServlet", value = "/EsqueciSenhaEscreverCodigoServlet")
+public class EsqueciSenhaEscreverCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -27,22 +27,22 @@ public class EscreverCodigoAdminServlet extends HttpServlet {
         codigoInput = request.getParameter("codigo").trim();
 
 //        Recebendo código salvo:
-        codigoGerado = (String) session.getAttribute("codigoVerificacaoAdmin");
+        codigoGerado = (String) session.getAttribute("codigoVerificacao");
 
         if (session != null) {
             if (codigoGerado != null && codigoGerado.equals(codigoInput)) {
                 // Código correto
-                response.sendRedirect(request.getContextPath() +"/cadastro/Admin/escolhaSenha.jsp");
+                response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
             } else {
                 // Código incorreto
                 request.setAttribute("erroCodigo", "Código inválido");
-                dispatcher = request.getRequestDispatcher("/cadastro/Admin/inputCodigo.jsp");
+                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp");
                 dispatcher.forward(request,response);
             }
         } else {
             // Sessão expirada ou inexistente
             request.setAttribute("erroCodigo", "Tempo de uso expirado, volte à página anterior");
-            dispatcher = request.getRequestDispatcher("/cadastro/Admin/inputCodigo.jsp");
+            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp");
             dispatcher.forward(request,response);
         }
     }

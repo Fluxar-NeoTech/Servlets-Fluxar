@@ -94,21 +94,21 @@ public class PlanoDAO {
     public static boolean alterar(Plano plano){
 //      Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstm;
+        PreparedStatement pstmt;
 
         try {
             // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();
 
             // Preparando comando SQL para atualizar a senha do admin da empresa:
-            pstm = conn.prepareStatement("UPDATE plano SET nome = ?, preco = ?, tempo = ? WHERE id = ?");
-            pstm.setString(1,plano.getNome());
-            pstm.setDouble(2,plano.getPreco());
-            pstm.setInt(3, plano.getTempo());
-            pstm.setInt(4, plano.getId());
+            pstmt = conn.prepareStatement("UPDATE plano SET nome = ?, preco = ?, tempo = ? WHERE id = ?");
+            pstmt.setString(1,plano.getNome());
+            pstmt.setDouble(2,plano.getPreco());
+            pstmt.setInt(3, plano.getTempo());
+            pstmt.setInt(4, plano.getId());
 
             // Execução da atualização
-            return pstm.executeUpdate()>0;
+            return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -132,6 +132,8 @@ public class PlanoDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 }

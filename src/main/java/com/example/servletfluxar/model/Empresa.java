@@ -20,29 +20,7 @@ public class Empresa {
         this.senha = senha;
         this.telefone = telefone;
     }
-
-    public Empresa() {
-    }
-
-    public Empresa(String nome, String cnpj, String email, String senha, String telefone) {
-        this.nome = nome;
-        this.cnpj = cnpj;
-        this.email = email;
-        this.senha = senha;
-        this.telefone = telefone;
-    }
-
-    public Empresa(String nome, String cnpj, String email, String telefone) {
-        this.nome = nome;
-        this.cnpj = cnpj;
-        this.email = email;
-        this.telefone = telefone;
-    }
-    public Empresa(String nome, String cnpj, String email) {
-        this.nome = nome;
-        this.cnpj = cnpj;
-        this.email = email;
-    }
+    public Empresa() {}
 
     //        Getters e setters:
 

@@ -39,7 +39,7 @@ public class FormaPagamentoServlet extends HttpServlet {
         senha = (String) session.getAttribute("senhaAdmin");
 
 //        Adicionando os dados da empresa e do seu admin em um objeto da classe Empresa:
-        empresa = new Empresa(nomeEmpresa, CNPJ, emailAdmin);
+        empresa = new Empresa();
 
         if (EmpresaDAO.cadastrar(empresa)){
 //        Enviando usuário para próxima página:

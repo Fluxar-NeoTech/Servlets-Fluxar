@@ -11,8 +11,8 @@ import jakarta.servlet.annotation.*;
 import util.EmailService;
 import java.io.IOException;
 
-@WebServlet(name = "EnviarCodigoServlet", value = "/EnviarCodigoServlet")
-public class EnviarCodigoServlet extends HttpServlet {
+@WebServlet(name = "EsqueciSenhaEnviarCodigoServlet", value = "/EsqueciSenhaEnviarCodigoServlet")
+public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -36,13 +36,17 @@ public class EnviarCodigoServlet extends HttpServlet {
 //        Verificando se o email é válido:
         empresa = EmpresaDAO.buscarPorEmail(emailInput);
         administrador = AdministradorDAO.buscarPorEmail(emailInput);
-        if (empresa.getEmail()!=null || administrador.getEmail()!=null){
+
+        if ((empresa != null && empresa.getEmail()!=null) || (administrador!= null && administrador.getEmail()!=null)){
             session.setAttribute("registroAlterar",emailInput);
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
+
             try {
                 EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo+"\nNão responda a esse email");
+
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");
+
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("erroEmail", e);

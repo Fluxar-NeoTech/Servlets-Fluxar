@@ -7,9 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// Lista a fazer para bloquear SQLInjection;
-// Não permitir ;
-//
 public class EmpresaDAO {
     public static List<Empresa> listarEmpresas() {
 //        Declarando variáveis:
@@ -17,6 +14,7 @@ public class EmpresaDAO {
         Statement stmt;
         ResultSet rs;
         List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -26,7 +24,13 @@ public class EmpresaDAO {
 
 //            Criando objetos e adicionando a lista das empresas:
             while (rs.next()) {
-                empresas.add(new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone")));
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setTelefone(rs.getString("telefone"));
+                empresas.add(empresa);
             }
 
 //            Retornando a lista de empresas cadastradas:
@@ -57,8 +61,8 @@ public class EmpresaDAO {
             if (rs.next()) {
                 return new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone"));
             }
-
             return null;
+
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             return null;
@@ -215,6 +219,8 @@ public class EmpresaDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 

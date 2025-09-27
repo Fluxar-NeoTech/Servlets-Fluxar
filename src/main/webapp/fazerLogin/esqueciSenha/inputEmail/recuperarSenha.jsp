@@ -19,7 +19,7 @@
     <article>
         <h2>Recuperar senha:</h2>
         <p>Digite seu email para enviarmos um código para ele para a recuperação da sua senha</p>
-        <form action="<%= request.getContextPath() %>/EnviarCodigoServlet" method="post">
+        <form action="<%= request.getContextPath() %>/EsqueciSenhaEnviarCodigoServlet" method="post">
             <% if (request.getAttribute("erroEmail") !=null) { %>
             <div class="floating-label-erro">
                 <input type="email" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"

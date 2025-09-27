@@ -13,8 +13,6 @@ import jakarta.servlet.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -56,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 //        Verificando se email está cadastrado:
         if (funcionario != null || empresa != null || administrador != null) {
             if (empresa != null) {
-                if ("A".equals(AssinaturaDAO.buscarPorIdEmpresa(empresa.getId()).getStatus())) {
+                if (AssinaturaDAO.buscarPorIdEmpresa(empresa.getId()).stream().filter(assinatura -> assinatura.getStatus() == 'A') != null) {
                     if (BCrypt.checkpw(senhaInput, empresa.getSenha())) {
                         response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp");
                     } else {

@@ -212,6 +212,8 @@ public class FuncionarioDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 }
