@@ -18,7 +18,7 @@
         <main>
             <article>
                 <h2>Cadastrar empresa:</h2>
-                <form action="${pageContext.request.contextPath}/TriagemCadastroServlet" method="get">
+                <form action="${pageContext.request.contextPath}/BasicoCadastroEmpresaServlet" method="get">
                     <% if (request.getAttribute("erroNome") !=null) { %>
                         <div class="floating-label-erro">
                             <input type="text" class="inputs-erro nome" id="nome" name="nome" placeholder=" " required>

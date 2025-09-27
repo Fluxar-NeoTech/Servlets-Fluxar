@@ -19,7 +19,9 @@
     <article>
         <h2>Código:</h2>
         <p>Digite seu email para enviarmos um código para ele para a recuperação da sua senha</p>
-        <form action="<%= request.getContextPath() %>/EscreverCodigoServlet" method="post">
+
+        <form action="<%= request.getContextPath() %>/EsqueciSenhaEscreverCodigoServlet" method="post">
+
             <% if (request.getAttribute("erroCodigo") !=null) { %>
             <div class="floating-label-erro">
                 <input type="text" class="inputs-erro codigo" id="codigo1" name="codigo"
@@ -29,6 +31,7 @@
                     <%= request.getAttribute("erroCodigo") %>
                 </p>
             </div>
+
             <% } else { %>
             <div class="floating-label">
                 <input type="text" class="inputs codigo" id="codigo2" name="codigo"
@@ -38,6 +41,7 @@
             <% } %>
 
             <button type="submit" class="botaoPrimario">CONTINUAR</button>
+
         </form>
     </article>
 </main>
