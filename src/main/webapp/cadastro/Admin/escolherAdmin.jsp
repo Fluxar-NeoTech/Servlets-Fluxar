@@ -22,7 +22,7 @@
         <p>É necessário ter uma conta de administrador para gerir as informações da empresa, digite o email
             do administrador da empresa <%= nomeEmpresa %>, iremos enviar um email para ele com um código
         </p>
-        <form action="<%= request.getContextPath() %>/EnviarCodigoEmpresaServlet" method="post">
+        <form action="<%= request.getContextPath() %>/CadastroEnviarCodigoServlet" method="post">
             <% if (request.getAttribute("erroEmail") != null) { %>
             <div class="floating-label-erro">
                 <input type="email" class="inputs-erro adminEmail" name="emailAdmin" id="adminEmail"

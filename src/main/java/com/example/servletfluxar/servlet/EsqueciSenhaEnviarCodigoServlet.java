@@ -37,12 +37,12 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
         empresa = EmpresaDAO.buscarPorEmail(emailInput);
         administrador = AdministradorDAO.buscarPorEmail(emailInput);
 
-        if ((empresa != null && empresa.getEmail()!=null) || (administrador!= null && administrador.getEmail()!=null)){
+        if (empresa != null || administrador != null){
             session.setAttribute("registroAlterar",emailInput);
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
 
             try {
-                EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo+"\nNão responda a esse email");
+                EmailService.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");

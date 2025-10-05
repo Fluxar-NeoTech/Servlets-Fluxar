@@ -9,16 +9,16 @@ public class Empresa {
     private String cnpj;
     private String email;
     private String senha;
-    private String telefone;
+    private Date dataCadastro;
 
 //    Métodos construtores:
-    public Empresa(int id, String nome, String cnpj, String email, String senha, String telefone) {
+    public Empresa(int id, String nome, String cnpj, String email, String senha, Date dataCadastro) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
         this.email = email;
         this.senha = senha;
-        this.telefone = telefone;
+        this.dataCadastro = dataCadastro;
     }
     public Empresa() {}
 
@@ -44,8 +44,8 @@ public class Empresa {
         return senha;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
     public void setId(int id) {
@@ -68,7 +68,7 @@ public class Empresa {
         this.senha = senha;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }

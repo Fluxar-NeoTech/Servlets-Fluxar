@@ -19,7 +19,7 @@
   <article>
     <h2>Nova senha:</h2>
     <p>Escolha sua nova senha para acessar nosso site</p>
-    <form action="<%= request.getContextPath() %>/CriarAdminServlet" method="post">
+    <form action="<%= request.getContextPath() %>/CadastroCriarAdminEmpresaServlet" method="post">
       <% if (request.getAttribute("erroSenha") !=null) { %>
       <div class="floating-label-erro">
         <input type="password" class="inputs-erro" name="senha"

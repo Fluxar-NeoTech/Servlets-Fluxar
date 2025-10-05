@@ -5,12 +5,9 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
 
-@WebServlet(name = "CriarAdminServlet", value = "/CriarAdminServlet")
-public class CriarAdminServlet extends HttpServlet {
+@WebServlet(name = "CadastroCriarAdminEmpresaServlet", value = "/CadastroCriarAdminEmpresaServlet")
+public class CadastroCriarAdminEmpresaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

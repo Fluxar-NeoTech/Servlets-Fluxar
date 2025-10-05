@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
-    private HttpServletResponse response;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 //        Verificando se email está cadastrado:
         if (funcionario != null || empresa != null || administrador != null) {
             if (empresa != null) {
-                if (AssinaturaDAO.buscarPorIdEmpresa(empresa.getId()).stream().filter(assinatura -> assinatura.getStatus() == 'A') != null) {
+                if (AssinaturaDAO.buscarPorIdEmpresa(empresa.getId()).getStatus() == 'A') {
                     if (BCrypt.checkpw(senhaInput, empresa.getSenha())) {
                         response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp");
                     } else {
@@ -63,7 +62,7 @@ public class LoginServlet extends HttpServlet {
                         dispatcher.forward(request, response);
                     }
                 } else {
-                    request.setAttribute("erroEmail", "Email inválido");
+                    request.setAttribute("erroEmail", "Empresa inativa");
                     dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
                     dispatcher.forward(request, response);
                 }

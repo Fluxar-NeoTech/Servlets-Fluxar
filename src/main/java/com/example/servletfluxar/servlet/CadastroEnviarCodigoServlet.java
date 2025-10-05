@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 import util.EmailService;
 import java.io.IOException;
 
-@WebServlet(name = "EnviarCodigoEmpresaServlet", value = "/EnviarCodigoEmpresaServlet")
-public class EnviarCodigoEmpresaServlet extends HttpServlet {
+@WebServlet(name = "CadastroEnviarCodigoServlet", value = "/CadastroEnviarCodigoServlet")
+public class CadastroEnviarCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

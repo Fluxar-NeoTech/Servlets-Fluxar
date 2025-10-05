@@ -16,6 +16,7 @@ public class SetorDAO {
         Statement stmt;
         ResultSet rs;
         List<Setor> setores= new ArrayList<>();
+        Setor setor;
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -25,7 +26,12 @@ public class SetorDAO {
 
 //            Criando objetos e adicionando a lista dos setores:
             while (rs.next()) {
-                setores.add(new Setor(rs.getInt("id"),rs.getString("nome"), rs.getInt("id_unidade")));
+                setor = new Setor();
+                setor.setId(rs.getInt("id"));
+                setor.setNome(rs.getString("nome"));
+                setor.setDescricao(rs.getString("descricao"));
+                setor.setIdUnidade(rs.getInt("id_unidade"));
+                setores.add(setor);
             }
 
 //            Retornando a lista de setores cadastrados:
@@ -38,14 +44,13 @@ public class SetorDAO {
         }
     }
 
-    public static Plano buscarPeloId(int id){
+    public static Setor buscarPeloId(int id){
 //        Declarando variáveis:
-        String sql = "SELECT * FROM plano WHERE id = ?";
+        String sql = "SELECT * FROM setor WHERE id = ?";
         Connection conn;
         PreparedStatement pstmt;
         ResultSet rs;
-        Plano plano;
-        List<Plano> planos = new ArrayList<>();
+        Setor setor;
 
 //        Conectando ao banco de dados e enviando sql:
         try{
@@ -57,7 +62,7 @@ public class SetorDAO {
 //            Verificando se há um plano com esse id:
             if(rs.next()){
 //                Retornando plano encontrado:
-                return new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco"));
+                return new Setor(rs.getInt("id"), rs.getString("nome"), rs.getString("descricao"), rs.getInt("id_unidade"));
             }
 
         }catch (SQLException sqle){
@@ -67,7 +72,7 @@ public class SetorDAO {
         return null;
     }
 
-    public static boolean cadastrar(Plano plano){
+    public static boolean cadastrar(Setor setor){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;
@@ -75,10 +80,10 @@ public class SetorDAO {
 //        Conectando ao banco de dados e dando o insert:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO plano (nome, preco, tempo) VALUES (?, ?, ?)");
-            pstmt.setString(1, plano.getNome());
-            pstmt.setDouble(2, plano.getPreco());
-            pstmt.setInt(3, plano.getTempo());
+            pstmt = conn.prepareStatement("INSERT INTO setor (nome, descricao, id_unidade) VALUES (?, ?, ?)");
+            pstmt.setString(1, setor.getNome());
+            pstmt.setString(2, setor.getDescricao());
+            pstmt.setInt(3, setor.getIdUnidade());
 
             return pstmt.executeUpdate()>0;
 
@@ -122,7 +127,7 @@ public class SetorDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM setor WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM setor WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 

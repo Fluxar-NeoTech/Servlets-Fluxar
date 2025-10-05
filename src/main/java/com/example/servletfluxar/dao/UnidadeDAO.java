@@ -25,7 +25,7 @@ public class UnidadeDAO {
 
 //            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas:
@@ -54,7 +54,7 @@ public class UnidadeDAO {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:

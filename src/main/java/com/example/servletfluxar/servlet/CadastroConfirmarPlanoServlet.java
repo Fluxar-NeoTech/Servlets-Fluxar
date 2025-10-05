@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "ConfirmarPlanoServlet", value = "/ConfirmarPlanoServlet")
-public class ConfirmarPlanoServlet extends HttpServlet {
+@WebServlet(name = "CadastroConfirmarPlanoServlet", value = "/CadastroConfirmarPlanoServlet")
+public class CadastroConfirmarPlanoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
