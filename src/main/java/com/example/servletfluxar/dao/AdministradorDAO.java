@@ -15,6 +15,7 @@ public class AdministradorDAO {
         Connection conn = null;
         Statement stmt;
         ResultSet rs;
+        Administrador administrador;
         List<Administrador> administradores = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
@@ -25,7 +26,12 @@ public class AdministradorDAO {
 
 //            Criando objetos e adicionando a lista dos administradores:
             while (rs.next()) {
-                administradores.add(new Administrador(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha")));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setNome(rs.getString("sobrenome"));
+                administrador.setNome(rs.getString("email"));
+                administradores.add(administrador);
             }
 
 //            Returnando a lista de administrador
@@ -44,6 +50,7 @@ public class AdministradorDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Administrador administrador;
 
 //        Conectando ao banco de dados:
         try{
@@ -54,7 +61,12 @@ public class AdministradorDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setNome(rs.getString("sobrenome"));
+                administrador.setNome(rs.getString("email"));
+                return administrador;
             }
             return null;
 
@@ -71,6 +83,7 @@ public class AdministradorDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Administrador administrador;
 
 //        Conectando ao banco de dados:
         try{
@@ -81,7 +94,13 @@ public class AdministradorDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+                administrador.setSenha(rs.getString("senha"));
+                return administrador;
             }
             return null;
 
@@ -98,6 +117,7 @@ public class AdministradorDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Administrador administrador;
 
 //        Conectando ao banco de dados:
         try{
@@ -109,7 +129,12 @@ public class AdministradorDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setNome(rs.getString("sobrenome"));
+                administrador.setNome(rs.getString("email"));
+                return administrador;
             }
             return null;
 
@@ -177,7 +202,7 @@ public class AdministradorDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM administrador WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM administrador WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 

@@ -6,18 +6,18 @@ public class Funcionario {
     private int id;
     private String nome;
     private String sobrenome;
-    private String senha;
     private String email;
+    private String senha;
     private String cargo;
     private int idSetor;
 
 //    Métodos contrutores:
-    public Funcionario(int id, String nome, String sobrenome, String senha, String email, String cargo, int idSetor) {
+    public Funcionario(int id, String nome, String sobrenome, String email, String senha, String cargo, int idSetor) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.senha = senha;
         this.email = email;
+        this.senha = senha;
         this.cargo = cargo;
         this.idSetor = idSetor;
     }
@@ -38,12 +38,12 @@ public class Funcionario {
         return sobrenome;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public String getSenha() {
+        return senha;
     }
 
     public String getCargo() {
@@ -66,12 +66,12 @@ public class Funcionario {
         this.sobrenome = sobrenome;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public void setCargo(String cargo) {

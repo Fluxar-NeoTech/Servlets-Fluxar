@@ -6,7 +6,7 @@ public class Endereco {
     private int id;
     private String cep;
     private int numero;
-    private  String complemento;
+    private String complemento;
 
 //    Métodos construtores:
 

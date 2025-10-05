@@ -5,14 +5,16 @@ public class Unidade {
     //    Declaração dos atributos:
     private int id;
     private String nome;
+    private String email;
     private int idEndereco;
     private int idEmpresa;
 
 //    Métodos construtores:
 
-    public Unidade(int id, String nome, int idEndereco, int idEmpresa) {
+    public Unidade(int id, String nome, String email, int idEndereco, int idEmpresa) {
         this.id = id;
         this.nome = nome;
+        this.email=email;
         this.idEndereco = idEndereco;
         this.idEmpresa = idEmpresa;
     }
@@ -30,6 +32,10 @@ public class Unidade {
         return nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public int getIdEndereco() {
         return idEndereco;
     }
@@ -44,6 +50,10 @@ public class Unidade {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setIdEndereco(int idEndereco) {

@@ -62,7 +62,7 @@ public class EnderecoDAO {
         }
     }
 
-    public static boolean adicionar(Endereco endereco){
+    public static boolean cadastrar(Endereco endereco){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;

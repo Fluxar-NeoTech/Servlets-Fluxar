@@ -5,6 +5,7 @@ import com.example.servletfluxar.model.Empresa;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EmpresaDAO {
@@ -29,7 +30,7 @@ public class EmpresaDAO {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setTelefone(rs.getString("telefone"));
+                empresa.setDataCadastro(rs.getDate("data_cadastro"));
                 empresas.add(empresa);
             }
 
@@ -49,6 +50,7 @@ public class EmpresaDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Empresa empresa;
 
 //        Conectando ao banco de dados:
         try {
@@ -59,7 +61,13 @@ public class EmpresaDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if (rs.next()) {
-                return new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone"));
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                return empresa;
             }
             return null;
 
@@ -76,6 +84,7 @@ public class EmpresaDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Empresa empresa;
 
 //        Conectando ao banco de dados:
         try {
@@ -86,7 +95,13 @@ public class EmpresaDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if (rs.next()) {
-                return new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone"));
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                return empresa;
             }
             return null;
 
@@ -103,6 +118,7 @@ public class EmpresaDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Empresa empresa;
 
 //        Conectando ao banco de dados:
         try {
@@ -113,10 +129,16 @@ public class EmpresaDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if (rs.next()) {
-                return new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone"));
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                return empresa;
             }
-
             return null;
+
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             return null;
@@ -130,6 +152,7 @@ public class EmpresaDAO {
         Connection conn = null;
         PreparedStatement pstmt;
         ResultSet rs;
+        Empresa empresa;
 
 //        Conectando ao banco de dados:
         try {
@@ -140,7 +163,13 @@ public class EmpresaDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if (rs.next()) {
-                return new Empresa(rs.getInt("id"),rs.getString("nome"),rs.getString("cnpj"), rs.getString("email"), rs.getString("senha"), rs.getString("telefone"));
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                return empresa;
             }
 
             return null;
@@ -160,12 +189,11 @@ public class EmpresaDAO {
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO empresa (cnpj, nome,email, senha, telefone) VALUES (?, ?, ?, ?, ?)");
-            pstmt.setString(1,empresa.getCnpj());
-            pstmt.setString(2,empresa.getNome());
-            pstmt.setString(3,empresa.getEmail());
-            pstmt.setString(4,empresa.getSenha());
-            pstmt.setString(5,empresa.getTelefone());
+            pstmt = conn.prepareStatement("INSERT INTO empresa (cnpj, nome,email, senha) VALUES (?, ?, ?, ?)");
+            pstmt.setString(1, empresa.getCnpj());
+            pstmt.setString(2, empresa.getNome());
+            pstmt.setString(3, empresa.getEmail());
+            pstmt.setString(4, empresa.getSenha());
 
             return pstmt.executeUpdate()>0;
 
@@ -212,7 +240,7 @@ public class EmpresaDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM empresa WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM empresa WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 
@@ -231,7 +259,7 @@ public class EmpresaDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM empresa WHERE nome = ?");
+            pstmt = conn.prepareStatement("DELETE FROM empresa WHERE nome = ?");
             pstmt.setString(1, nome);
             return pstmt.executeUpdate()>0;
 
@@ -248,7 +276,7 @@ public class EmpresaDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM empresa WHERE cnpj= ?");
+            pstmt = conn.prepareStatement("DELETE FROM empresa WHERE cnpj= ?");
             pstmt.setString(1, cnpj);
             return pstmt.executeUpdate()>0;
 

@@ -125,7 +125,7 @@ public class PlanoDAO {
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM plano WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM plano WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 
