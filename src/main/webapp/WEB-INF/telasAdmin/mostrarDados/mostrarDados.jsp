@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        <a href="${pageContext.request.contextPath}/telasAdmin/escolhaTabela/escolhaTabela.jsp" class="icon-back"></a>
+        <a href="${pageContext.request.contextPath}/WEB-INF/telasAdmin/escolhaTabela/escolhaTabela.jsp" class="icon-back"></a>
         <h1>Dados - <%= tabela %></h1>
     </header>
 

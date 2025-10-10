@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
@@ -9,12 +9,10 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-@WebServlet(name = "CadastroFormaPagamentoServlet", value = "/CadastroFormaPagamentoServlet")
-public class CadastroFormaPagamentoServlet extends HttpServlet {
+@WebServlet(name = "FormaPagamentoServlet", value = "/FormaPagamentoServlet")
+public class FormaPagamentoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -24,7 +22,9 @@ public class CadastroFormaPagamentoServlet extends HttpServlet {
         String emailAdmin;
         String senha;
         LocalDate hoje = LocalDate.now();
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresa = new Empresa();
+        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
         Assinatura assinatura = new Assinatura();
         String nome = (String) session.getAttribute("nomeEmpresa");
         String CNPJ = (String) session.getAttribute("cnpjEmpresa");
@@ -49,10 +49,12 @@ public class CadastroFormaPagamentoServlet extends HttpServlet {
         assinatura.setIdPlano(plano);
         assinatura.setFormaPagamento(formaPag);
 
-        if (EmpresaDAO.cadastrar(empresa)) {
-            assinatura.setIdEmpresa(EmpresaDAO.buscarPorCNPJ(CNPJ).getId());
-            if (AssinaturaDAO.cadastrar(assinatura)){
+        if (empresaDAO.inserir(empresa)) {
+            assinatura.setIdEmpresa(empresaDAO.buscarPorCNPJ(CNPJ).getId());
+
+
 //        Enviando usuário para próxima página:
+            if (assinaturaDAO.inserir(assinatura)){
                 response.sendRedirect(request.getContextPath() + "/cadastro/fimCadastro/agradecimentos.html");
             }else{
                 response.sendRedirect(request.getContextPath() +"/cadastro/cnpjNomeEmpresa/cadastro.jsp");

@@ -4,13 +4,13 @@ public class Telefone {
 //    Declaração de atributos:
     private int id;
     private String numero;
-    private int IdEmpresa;
+    private int idEmpresa;
 
 //    Métodos construtores:
     public Telefone(int id, String numero, int idEmpresa) {
         this.id = id;
         this.numero = numero;
-        IdEmpresa = idEmpresa;
+        idEmpresa = idEmpresa;
     }
 
     public Telefone() {
@@ -27,7 +27,7 @@ public class Telefone {
     }
 
     public int getIdEmpresa() {
-        return IdEmpresa;
+        return idEmpresa;
     }
 
     public void setId(int id) {
@@ -39,6 +39,6 @@ public class Telefone {
     }
 
     public void setIdEmpresa(int idEmpresa) {
-        IdEmpresa = idEmpresa;
+        idEmpresa = idEmpresa;
     }
 }

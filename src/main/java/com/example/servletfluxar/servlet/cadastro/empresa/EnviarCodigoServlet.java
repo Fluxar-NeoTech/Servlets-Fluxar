@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 import util.EmailService;
 import java.io.IOException;
 
-@WebServlet(name = "CadastroEnviarCodigoServlet", value = "/CadastroEnviarCodigoServlet")
-public class CadastroEnviarCodigoServlet extends HttpServlet {
+@WebServlet(name = "EnviarCodigoServlet", value = "/EnviarCodigoServlet")
+public class EnviarCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

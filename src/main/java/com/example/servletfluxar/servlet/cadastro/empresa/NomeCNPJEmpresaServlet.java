@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "CadastroNomeCNPJEmpresaServlet", value = "/CadastroNomeCNPJEmpresaServlet")
-public class CadastroNomeCNPJEmpresaServlet extends HttpServlet {
+@WebServlet(name = "NomeCNPJEmpresaServlet", value = "/NomeCNPJEmpresaServlet")
+public class NomeCNPJEmpresaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -21,8 +21,10 @@ public class CadastroNomeCNPJEmpresaServlet extends HttpServlet {
         String nomeInput;
         String CNPJInput;
         String CNPJ = null;
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresaNome;
         Empresa empresaCNPJ;
+        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
         Assinatura assinatura;
         HttpSession session = request.getSession();
 
@@ -42,8 +44,8 @@ public class CadastroNomeCNPJEmpresaServlet extends HttpServlet {
         }
 
 //        Verificando se o nome da empresa já existe no banco de dados:
-        empresaNome = EmpresaDAO.buscarPorNome(nomeInput);
-        empresaCNPJ = EmpresaDAO.buscarPorCNPJ(CNPJ);
+        empresaNome = empresaDAO.buscarPorNome(nomeInput);
+        empresaCNPJ = empresaDAO.buscarPorCNPJ(CNPJ);
 
 //        Verificando se a empresa já está cadastrada:
         if (empresaNome != null && empresaCNPJ != null) {

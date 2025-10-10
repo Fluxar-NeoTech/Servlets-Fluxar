@@ -18,7 +18,7 @@ public class Conexao {
             return conn;
         }catch (SQLException sqle){
             return conn;
-        }catch (Exception e ){
+        }catch (Exception e){
             return conn;
         }
     }
@@ -29,7 +29,7 @@ public class Conexao {
                 conn.close();
             }
         }catch (SQLException sqle){
-            throw new RuntimeException("Erro ao fechar conecção");
+            throw new RuntimeException("Erro ao fechar conexão");
         }
     }
 }
