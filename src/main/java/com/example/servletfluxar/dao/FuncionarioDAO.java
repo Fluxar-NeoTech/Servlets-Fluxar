@@ -1,8 +1,7 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.connection.Conexao;
 import com.example.servletfluxar.model.Funcionario;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.connection.Conexao;
 import com.example.servletfluxar.model.Assinatura;
 import java.sql.*;
 import java.util.ArrayList;

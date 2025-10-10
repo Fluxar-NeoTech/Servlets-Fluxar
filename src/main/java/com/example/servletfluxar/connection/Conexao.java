@@ -1,4 +1,4 @@
-package com.example.servletfluxar;
+package com.example.servletfluxar.connection;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;

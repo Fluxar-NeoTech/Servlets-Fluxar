@@ -1,11 +1,10 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.connection.Conexao;
 import com.example.servletfluxar.model.Empresa;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class EmpresaDAO {

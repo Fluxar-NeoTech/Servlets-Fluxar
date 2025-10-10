@@ -1,6 +1,6 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.connection.Conexao;
 import com.example.servletfluxar.model.Plano;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
