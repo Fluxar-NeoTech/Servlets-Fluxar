@@ -1,21 +1,27 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Unidade;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class UnidadeDAO {
-    public static List<Unidade> listarUnidades(){
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class UnidadeDAO implements GenericoDAO<Unidade> {
+//    Declaração de atributos:
+    private Connection conn = null;
+    private PreparedStatement pstmt;
+    private Statement stmt;
+    private ResultSet rs;
+
+    @Override
+    public Map<Integer, Unidade> listar(){
 //        Declarando variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
-        List<Unidade> unidades = new ArrayList<>();
+        Map<Integer, Unidade> unidades = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -25,7 +31,7 @@ public class UnidadeDAO {
 
 //            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.put(rs.getInt("id"), new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas:
@@ -38,11 +44,8 @@ public class UnidadeDAO {
         }
     }
 
-    public static List<Unidade> listarPorEmpresa(int idEmpresa){
-//        Declarando variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+    public List<Unidade> listarPorEmpresa(int idEmpresa){
+//        Declaração de variáveis:
         List<Unidade> unidades = new ArrayList<>();
 
 //        Conectando ao banco de dados:
@@ -54,7 +57,7 @@ public class UnidadeDAO {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:
@@ -63,6 +66,85 @@ public class UnidadeDAO {
         }catch (SQLException sqle){
             return unidades;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public Unidade buscarPorId(int id){
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE id = ?");
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um retorno com um registro do banco de dados:
+            if(rs.next()){
+                return new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa"));
+            }
+            return null;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean inserir (Unidade unidade){
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("INSERT INTO unidade (cnpj, nome, email, id_endereco, id_empresa)" +
+                    "VALUES (?, ?, ?, ?, ?)");
+            pstmt.setString(1, unidade.getCnpj());
+            pstmt.setString(2, unidade.getNome());
+            pstmt.setString(3, unidade.getEmail());
+            pstmt.setInt(4, unidade.getIdEndereco());
+            pstmt.setInt(5, unidade.getIdEmpresa());
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean alterar (Unidade unidade){
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("UPDATE unidade SET nome = ?, email = ?, id_endereco = ? WHERE id = ?");
+            pstmt.setString(1, unidade.getNome());
+            pstmt.setString(2, unidade.getEmail());
+            pstmt.setInt(3, unidade.getIdEndereco());
+            pstmt.setInt(4, unidade.getId());
+
+            return pstmt.executeUpdate()>0;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean deletarPorId (int id){
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("DELETE FROM unidade WHERE id = ?");
+            pstmt.setInt(1, id);
+
+            return pstmt.executeUpdate()>0;
+        } catch (SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

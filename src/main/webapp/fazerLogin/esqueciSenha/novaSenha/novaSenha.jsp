@@ -19,7 +19,7 @@
     <article>
         <h2>Nova senha:</h2>
         <p>Escolha sua nova senha para acessar nosso site</p>
-        <form action="<%= request.getContextPath() %>/VerificarNovaSenhaServlet" method="post">
+        <form action="<%= request.getContextPath() %>/VerificarSenhaServlet" method="post">
             <% if (request.getAttribute("erroSenha") !=null) { %>
             <div class="floating-label-erro">
                 <input type="password" class="inputs-erro" name="novaSenha"

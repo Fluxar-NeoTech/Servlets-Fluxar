@@ -1,20 +1,30 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.dao.interfaces.ComLoginDAO;
+import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.nio.channels.ByteChannel;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class FuncionarioDAO {
-    public static List<Funcionario> listar() {
+public class FuncionarioDAO implements GenericoDAO<Funcionario>, ComLoginDAO<Funcionario> {
+//    Declaração de atributos:
+    private Connection conn = null;
+    private PreparedStatement pstmt;
+    private Statement stmt;
+    private ResultSet rs;
+    @Override
+    public Map<Integer, Funcionario> listar() {
 //        Declarando variáveis:
-        Connection conn = null;
-        Statement stmt;
-        ResultSet rs;
-        List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+        Map<Integer, Funcionario> funcionarios = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -24,7 +34,7 @@ public class FuncionarioDAO {
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:
@@ -32,15 +42,14 @@ public class FuncionarioDAO {
 
         } catch (Exception e) {
             return funcionarios;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 
-    public static List<Funcionario> listarPorEmpresa(int codigoEmpresa) {
+    public Map<Integer, Funcionario> listarPorEmpresa(int codigoEmpresa) {
 //        Declarando variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
-        List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+        Map<Integer, Funcionario> funcionarios = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -51,7 +60,7 @@ public class FuncionarioDAO {
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:
@@ -65,11 +74,10 @@ public class FuncionarioDAO {
         }
     }
 
-    public static Funcionario buscarPorId(int id){
+    @Override
+    public Funcionario buscarPorId(int id){
 //        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Funcionario funcionario;
 
 //        Conectando ao banco de dados:
         try{
@@ -80,7 +88,15 @@ public class FuncionarioDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor"));
+                funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setCargo(rs.getString("cargo"));
+                funcionario.setEmail(rs.getString("email"));
+                funcionario.setIdSetor(rs.getInt("id_setor"));
+
+                return funcionario;
             }
             return null;
 
@@ -92,11 +108,10 @@ public class FuncionarioDAO {
         }
     }
 
-    public static Funcionario buscarPorEmail(String email){
+    @Override
+    public Funcionario buscarPorEmail(String email){
 //        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Funcionario funcionario;
 
 //        Conectando ao banco de dados:
         try{
@@ -107,7 +122,15 @@ public class FuncionarioDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor"));
+                funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setCargo(rs.getString("cargo"));
+                funcionario.setEmail(rs.getString("email"));
+                funcionario.setIdSetor(rs.getInt("id_setor"));
+
+                return funcionario;
             }
             return null;
 
@@ -119,23 +142,29 @@ public class FuncionarioDAO {
         }
     }
 
-    public static Funcionario buscarPorNomeSobrenome(String nome, String sobrenome){
+    @Override
+    public Funcionario buscarPorNome(String nome){
 //        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Funcionario funcionario;
 
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE nome = ? AND sobrenome = ?");
+            pstmt = conn.prepareStatement("SELECT id, nome+\' \'+sobrenome \"nome_completo\", cargo, email, id_setor FROM funcionario WHERE nome_completo LIKE ?");
             pstmt.setString(1,nome);
-            pstmt.setString(2, sobrenome);
             rs = pstmt.executeQuery();
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor"));
+                funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setCargo(rs.getString("cargo"));
+                funcionario.setEmail(rs.getString("email"));
+                funcionario.setIdSetor(rs.getInt("id_setor"));
+
+                return funcionario;
             }
             return null;
 
@@ -147,7 +176,42 @@ public class FuncionarioDAO {
         }
     }
 
-    public static boolean cadastrar(Funcionario funcionario){
+    @Override
+    public Funcionario autenticar(String email, String senha){
+//        Declaração de variáveis:
+        Funcionario funcionario;
+
+//        Tentando conectar ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email = ?");
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setSobrenome(rs.getString("sobrenome"));
+                funcionario.setCargo(rs.getString("cargo"));
+                funcionario.setEmail(rs.getString("email"));
+                funcionario.setIdSetor(rs.getInt("id_setor"));
+
+                if(BCrypt.checkpw(senha, rs.getString("senha"))){
+                    return funcionario;
+                }
+            }
+            return null;
+
+        } catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+          Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean inserir(Funcionario funcionario){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;
@@ -173,22 +237,19 @@ public class FuncionarioDAO {
         }
     }
 
-    public static boolean alterarSenha(String email, String novaSenha) {
-//      Declaração de variáveis
-        Connection conn = null;
-        PreparedStatement pstm;
-
+    @Override
+    public  boolean alterarSenha(String email, String novaSenha) {
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
 
             // Preparação do comando SQL para atualizar a senha do admin da empresa
-            pstm = conn.prepareStatement("UPDATE funcionario SET senha = ? WHERE email = ?");
-            pstm.setString(1,novaSenha);
-            pstm.setString(2,email);
+            pstmt = conn.prepareStatement("UPDATE funcionario SET senha = ? WHERE email LIKE ?");
+            pstmt.setString(1,novaSenha);
+            pstmt.setString(2,email);
 
             // Execução da atualização
-            return pstm.executeUpdate()>0;
+            return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -198,7 +259,33 @@ public class FuncionarioDAO {
         }
     }
 
-    public boolean removerPorId(int id){
+    @Override
+    public  boolean alterar(Funcionario funcionario) {
+        try {
+            // Obtenção da conexão com o banco de dados
+            conn = Conexao.conectar();
+
+            // Preparação do comando SQL para atualizar a senha do admin da empresa
+            pstmt = conn.prepareStatement("UPDATE funcionario SET nome = ?, sobrenome = ?, cargo = ?, email = ?, id_setor = ? WHERE id = ?");
+            pstmt.setString(1, funcionario.getNome());
+            pstmt.setString(2, funcionario.getSobrenome());
+            pstmt.setString(3, funcionario.getCargo());
+            pstmt.setString(4, funcionario.getEmail());
+            pstmt.setInt(5, funcionario.getIdSetor());
+
+            // Execução da atualização
+            return pstmt.executeUpdate()>0;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean deletarPorId(int id){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;

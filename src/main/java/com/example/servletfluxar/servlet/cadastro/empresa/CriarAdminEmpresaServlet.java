@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
 
-@WebServlet(name = "CadastroCriarAdminEmpresaServlet", value = "/CadastroCriarAdminEmpresaServlet")
-public class CadastroCriarAdminEmpresaServlet extends HttpServlet {
+@WebServlet(name = "CriarAdminEmpresaServlet", value = "/CriarAdminEmpresaServlet")
+public class CriarAdminEmpresaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

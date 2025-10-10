@@ -3,6 +3,7 @@ package com.example.servletfluxar.servlet;
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
+import com.example.servletfluxar.model.Unidade;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,6 +18,9 @@ public class TabelaAdminServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String tabela;
         String acao = (String) session.getAttribute("acaoAdmin");
+        EmpresaDAO empresaDAO = new EmpresaDAO();
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+        UnidadeDAO unidadeDAO = new UnidadeDAO();
 
 //        Coletando dados do .jsp:
         tabela = request.getParameter("tabela");
@@ -27,16 +31,16 @@ public class TabelaAdminServlet extends HttpServlet {
         if(acao.equals("ver")){
             switch (tabela) {
                 case "empresa":
-                    session.setAttribute("dados", EmpresaDAO.listarEmpresas());
+                    session.setAttribute("dados", empresaDAO.listar());
                     break;
                 case "administradores":
-                    session.setAttribute("dados", AdministradorDAO.listar());
+                    session.setAttribute("dados", administradorDAO.listar());
                     break;
                 case "unidade":
-                    session.setAttribute("dados", UnidadeDAO.listarUnidades());
+                    session.setAttribute("dados", unidadeDAO.listar());
                     break;
             }
-            response.sendRedirect(request.getContextPath() + "/telasAdmin/mostrarDados/mostrarDados.jsp");
+            response.sendRedirect(request.getContextPath() + "/WEB-INF/telasAdmin/mostrarDados/mostrarDados.jsp");
         }
     }
 

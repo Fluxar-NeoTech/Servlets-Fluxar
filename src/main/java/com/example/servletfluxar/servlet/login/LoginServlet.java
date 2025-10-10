@@ -1,10 +1,11 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.login;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Assinatura;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
 import jakarta.servlet.*;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -28,11 +30,14 @@ public class LoginServlet extends HttpServlet {
 //        Declarando variáveis:
         String emailInput;
         String senhaInput;
-        String tipo;
         HttpSession session = request.getSession();
-        RequestDispatcher dispatcher = null;
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresa;
+        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
+        Assinatura assinatura;
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario funcionario;
+        AdministradorDAO administradorDAO = new AdministradorDAO();
         Administrador administrador;
 
 //        Coletando o input do usuário:
@@ -41,48 +46,52 @@ public class LoginServlet extends HttpServlet {
 
         if (senhaInput.length() < 8) {
             request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
-            dispatcher = request.getRequestDispatcher( "/fazerLogin/paginaLogin/login.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher( "/fazerLogin/paginaLogin/login.jsp")
+                    .forward(request, response);
             return;
         }
 
-        empresa = EmpresaDAO.buscarPorEmail(emailInput);
-        funcionario = FuncionarioDAO.buscarPorEmail(emailInput);
-        administrador = AdministradorDAO.buscarPorEmail(emailInput);
+        empresa = empresaDAO.buscarPorEmail(emailInput);
+        funcionario = funcionarioDAO.buscarPorEmail(emailInput);
+        administrador = administradorDAO.buscarPorEmail(emailInput);
 
 //        Verificando se email está cadastrado:
         if (funcionario != null || empresa != null || administrador != null) {
             if (empresa != null) {
-                if (AssinaturaDAO.buscarPorIdEmpresa(empresa.getId()).getStatus() == 'A') {
-                    if (BCrypt.checkpw(senhaInput, empresa.getSenha())) {
-                        response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp");
+                assinatura = assinaturaDAO.buscarPorIdEmpresa(empresa.getId());
+                if (assinatura.getStatus() == 'A') {
+                    if (assinatura.getDtFim().isAfter(LocalDate.now())) {
+                        if (empresaDAO.autenticar(emailInput, senhaInput) != null) {
+                            request.getRequestDispatcher("/WEB-INF/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp").forward(request, response);
+                        } else {
+                            request.setAttribute("erroSenha", "Senha incorreta");
+                            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                                    .forward(request, response);
+                        }
                     } else {
-                        request.setAttribute("erroSenha", "Senha incorreta");
-                        dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                        dispatcher.forward(request, response);
                     }
                 } else {
                     request.setAttribute("erroEmail", "Empresa inativa");
-                    dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                    dispatcher.forward(request, response);
+                    request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                            .forward(request, response);
                 }
             } else if (administrador != null) {
-                if (BCrypt.checkpw(senhaInput, administrador.getSenha())) {
-                    response.sendRedirect(request.getContextPath() + "/paginasIniciais/PIAdmin/PIadmin.jsp");
+                if (administradorDAO.autenticar(emailInput, senhaInput) != null) {
+                    request.getRequestDispatcher("/WEB-INF/telasAdmin/escolhaTabela/escolhaTabela.jsp").forward(request, response);
                 } else {
                     request.setAttribute("erroSenha", "Senha incorreta");
-                    dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                    dispatcher.forward(request, response);
+                    request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                            .forward(request, response);
                 }
             } else {
                 request.setAttribute("erroEmail", "Acesso no mobile");
-                dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                        .forward(request, response);
             }
         } else {
             request.setAttribute("erroEmail", "Email não cadastrado");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                    .forward(request, response);
         }
     }
 }

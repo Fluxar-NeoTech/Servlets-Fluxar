@@ -22,7 +22,7 @@ public class AcaoAdminServlet extends HttpServlet {
         session.setAttribute("acaoAdmin",acao);
 
 //        Redirecionando o admin
-        response.sendRedirect(request.getContextPath() + "/telasAdmin/escolhaTabela/escolhaTabela.jsp");
+        response.sendRedirect(request.getContextPath() + "/WEB-INF/telasAdmin/escolhaTabela/escolhaTabela.jsp");
     }
 
     @Override

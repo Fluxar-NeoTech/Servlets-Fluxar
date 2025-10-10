@@ -1,8 +1,14 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.esqueciSenha;
 
+import com.example.servletfluxar.dao.AdministradorDAO;
+import com.example.servletfluxar.dao.EmpresaDAO;
+import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.model.Funcionario;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -17,7 +23,6 @@ public class EsqueciSenhaEscreverCodigoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 //        Declaração de variáveis:
-        RequestDispatcher dispatcher = null;
         String codigoInput;
         String codigo;
         HttpSession session = request.getSession();
@@ -36,14 +41,14 @@ public class EsqueciSenhaEscreverCodigoServlet extends HttpServlet {
             } else {
                 // Código incorreto
                 request.setAttribute("erroCodigo", "Código inválido");
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp");
-                dispatcher.forward(request,response);
+                request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp")
+                        .forward(request,response);
             }
         } else {
             // Sessão expirada ou inexistente
             request.setAttribute("erroCodigo", "Tempo de uso expirado, volte à página anterior");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp");
-            dispatcher.forward(request,response);
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/codigo/codigo.jsp")
+                    .forward(request,response);
         }
     }
 }
