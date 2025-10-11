@@ -11,19 +11,21 @@ public class SetorDAO implements GenericoDAO<Setor> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Setor> listar() {
+    public Map<Integer, Setor> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Setor> setores= new HashMap<>();
         Setor setor;
 
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM setor ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM setor ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista dos setores:
             while (rs.next()) {

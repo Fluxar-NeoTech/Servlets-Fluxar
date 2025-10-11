@@ -19,18 +19,20 @@ public class FuncionarioDAO implements GenericoDAO<Funcionario>, ComLoginDAO<Fun
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Funcionario> listar() {
+    public Map<Integer, Funcionario> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Funcionario> funcionarios = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM funcionario ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM funcionario ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {

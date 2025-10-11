@@ -15,20 +15,22 @@ import java.util.Map;
 
 public class EmpresaDAO implements GenericoDAO<Empresa>, ComLoginDAO<Empresa> {
     private Connection conn = null;
-    private Statement stmt;
     private PreparedStatement pstmt;
     private ResultSet rs;
     @Override
-    public Map<Integer,Empresa> listar() {
+    public Map<Integer,Empresa> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Empresa> empresas = new HashMap<>();
         Empresa empresa;
 
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM empresa ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista das empresas:
             while (rs.next()) {

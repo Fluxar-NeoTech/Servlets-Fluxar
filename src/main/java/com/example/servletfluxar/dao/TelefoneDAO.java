@@ -14,18 +14,20 @@ public class TelefoneDAO implements GenericoDAO<Telefone> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Telefone> listar() {
+    public Map<Integer, Telefone> listar(int pagina, int limite) {
 //        Declaração de variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Telefone> telefones = new HashMap<>();
 
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM telefone ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM telefone ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 telefones.put(rs.getInt("id"), new Telefone(rs.getInt("id"), rs.getString("numero"), rs.getInt("id_empresa")));
