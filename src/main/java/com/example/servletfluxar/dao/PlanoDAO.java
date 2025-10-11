@@ -11,18 +11,20 @@ public class PlanoDAO implements GenericoDAO<Plano> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Plano> listar(){
+    public Map<Integer, Plano> listar(int pagina, int limite){
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Plano> planos = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try{
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM plano ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM plano ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Adicionando registros do banco de dados a lista de planos:
             while (rs.next()){

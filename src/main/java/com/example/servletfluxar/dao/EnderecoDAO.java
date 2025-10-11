@@ -14,19 +14,21 @@ import java.util.Map;
 public class EnderecoDAO implements GenericoDAO<Endereco> {
 //    Declarando atributos:
     private Connection conn = null;
-    private Statement stmt;
     private PreparedStatement pstmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Endereco> listar() {
+    public Map<Integer, Endereco> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Endereco> enderecos = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM endereco ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM endereco ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista dos endereços:
             while (rs.next()) {

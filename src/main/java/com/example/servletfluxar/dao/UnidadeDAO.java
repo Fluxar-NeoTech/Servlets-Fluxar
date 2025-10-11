@@ -15,18 +15,20 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Unidade> listar(){
+    public Map<Integer, Unidade> listar(int pagina, int limite){
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Unidade> unidades = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista das unidades:
@@ -44,15 +46,18 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
         }
     }
 
-    public List<Unidade> listarPorEmpresa(int idEmpresa){
+    public List<Unidade> listarPorEmpresa(int idEmpresa, int pagina, int limite){
 //        Declaração de variáveis:
+        int offset = (pagina - 1) * limite;
         List<Unidade> unidades = new ArrayList<>();
 
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE id_empresa = ?");
-            pstmt.setInt(1,idEmpresa);
+            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE id_empresa = ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, idEmpresa);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
             rs = pstmt.executeQuery();
 
 //            Coletando dados:

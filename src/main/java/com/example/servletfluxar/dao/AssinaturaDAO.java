@@ -15,19 +15,21 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
-    private Statement stmt;
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Assinatura> listar() {
+    public Map<Integer, Assinatura> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
         Map<Integer, Assinatura> assinaturas = new HashMap();
 
 //        Tentando conectar ao banco de dados e enviar o select do SQL:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM assinatura ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM assinatura ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Pegando as assinaturas do banco e adicionando a lista de assinaturas:
             while (rs.next()) {

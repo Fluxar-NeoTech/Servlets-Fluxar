@@ -1,4 +1,4 @@
-package util;
+package com.example.servletfluxar.util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.*;

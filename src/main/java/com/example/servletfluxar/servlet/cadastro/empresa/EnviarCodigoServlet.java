@@ -3,7 +3,7 @@ package com.example.servletfluxar.servlet.cadastro.empresa;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import util.EmailService;
+import com.example.servletfluxar.util.EmailService;
 import java.io.IOException;
 
 @WebServlet(name = "EnviarCodigoServlet", value = "/EnviarCodigoServlet")
