@@ -11,7 +11,7 @@
 
 <body>
 <header>
-    <a href="<%= request.getContextPath() %>paginaLogin/login.jsp" class="icon-back">
+    <a href="<%= request.getContextPath() %>/paginaLogin/login.jsp" class="icon-back">
     </a>
     <h1>Recuperação de senha</h1>
 </header>
@@ -22,7 +22,7 @@
         <form action="<%= request.getContextPath() %>/EsqueciSenhaEnviarCodigoServlet" method="post">
             <% if (request.getAttribute("erroEmail") !=null) { %>
             <div class="floating-label-erro">
-                <input type="email" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"
+                <input type="text" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"
                        placeholder=" " required>
                 <label id="label1" for="userEmail">Digite seu email aqui</label>
                 <p class="erro">

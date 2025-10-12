@@ -6,6 +6,7 @@ import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -36,7 +37,15 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
 //        Recebendo o input do usuário:
         emailInput = request.getParameter("emailUsuario").trim();
 
-//        Verificando se o email é válido:
+//        Verificando se o email possui formato válido:
+        if (!ValidacaoInput.validarEmail(emailInput)){
+            request.setAttribute("erroEmail", "Formato de email inválido");
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+                    .forward(request, response);
+            return;
+        }
+
+//        Verificando se o email está cadastrado:
         empresa = empresaDAO.buscarPorEmail(emailInput);
         administrador = administradorDAO.buscarPorEmail(emailInput);
 
@@ -45,6 +54,7 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
 
             try {
+//                Enviando um email com o código de verificação para ele
                 EmailService.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);

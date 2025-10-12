@@ -8,6 +8,7 @@ import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Assinatura;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -43,6 +44,14 @@ public class LoginServlet extends HttpServlet {
 //        Coletando o input do usuário:
         emailInput = request.getParameter("emailUsuario").trim();
         senhaInput = request.getParameter("senhaUsuario").trim();
+
+//        Verificando se o formato do email é válido:
+        if (!ValidacaoInput.validarEmail(emailInput)){
+            request.setAttribute("erroEmail", "Formato de email inválido");
+            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                    .forward(request, response);
+            return;
+        }
 
         if (senhaInput.length() < 8) {
             request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
