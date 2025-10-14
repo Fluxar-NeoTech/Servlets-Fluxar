@@ -1,8 +1,6 @@
 package com.example.servletfluxar.dao.interfaces;
 
-import java.util.Map;
-
-public interface ComLoginDAO<T> {
+public interface LoginDAO<T> {
     T buscarPorNome (String nome);
     T buscarPorEmail (String email);
     boolean alterarSenha (String email, String senha);

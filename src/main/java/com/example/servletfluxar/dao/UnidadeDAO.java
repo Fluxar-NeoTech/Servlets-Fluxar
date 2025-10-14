@@ -1,20 +1,19 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
-import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.dao.interfaces.DAO;
+import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Unidade;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class UnidadeDAO implements GenericoDAO<Unidade> {
+public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
 
     @Override
@@ -46,10 +45,11 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
         }
     }
 
-    public List<Unidade> listarPorEmpresa(int idEmpresa, int pagina, int limite){
+    @Override
+    public Map<Integer, Unidade> listarPorIdEmpresa(int pagina, int limite, int idEmpresa){
 //        Declaração de variáveis:
         int offset = (pagina - 1) * limite;
-        List<Unidade> unidades = new ArrayList<>();
+        Map<Integer, Unidade> unidades = new HashMap<>();
 
 //        Conectando ao banco de dados:
         try{
@@ -62,7 +62,7 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.put(rs.getInt("id"), new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:
@@ -71,6 +71,65 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
         }catch (SQLException sqle){
             return unidades;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM unidade");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contarPorIdEmpresa(int idEmpresa){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
+                    "ON u.id_empresa = e.id WHERE e.id = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+    public int contarPorEmpresaStatus(char status){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
+                    "ON u.id_empresa = e.id JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

@@ -1,22 +1,20 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.ComLoginDAO;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.dao.interfaces.LoginDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Administrador;
-import com.example.servletfluxar.model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class AdministradorDAO implements GenericoDAO<Administrador>, ComLoginDAO<Administrador> {
+public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administrador> {
 //    Declaração de atributos:
     private Connection conn;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
 
     @Override
@@ -53,6 +51,25 @@ public class AdministradorDAO implements GenericoDAO<Administrador>, ComLoginDAO
             sqle.printStackTrace();
             return administradores;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

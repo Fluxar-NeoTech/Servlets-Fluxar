@@ -1,21 +1,19 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.ComLoginDAO;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.dao.interfaces.LoginDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Empresa;
-import com.example.servletfluxar.model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class EmpresaDAO implements GenericoDAO<Empresa>, ComLoginDAO<Empresa> {
+public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
     @Override
     public Map<Integer,Empresa> listar(int pagina, int limite) {
@@ -51,6 +49,45 @@ public class EmpresaDAO implements GenericoDAO<Empresa>, ComLoginDAO<Empresa> {
             e.printStackTrace();
             return empresas;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM empresa");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contar(char status){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(e.*)\"contador\" FROM empresa e JOIN assinatura a " +
+                    "ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

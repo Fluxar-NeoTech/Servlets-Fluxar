@@ -1,24 +1,21 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.ComLoginDAO;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
-import com.example.servletfluxar.model.Administrador;
-import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
+import com.example.servletfluxar.dao.interfaces.LoginDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.nio.channels.ByteChannel;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class FuncionarioDAO implements GenericoDAO<Funcionario>, ComLoginDAO<Funcionario> {
+public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, DependeEmpresa<Funcionario> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
     @Override
     public Map<Integer, Funcionario> listar(int pagina, int limite) {
@@ -45,6 +42,100 @@ public class FuncionarioDAO implements GenericoDAO<Funcionario>, ComLoginDAO<Fun
         } catch (Exception e) {
             return funcionarios;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public Map<Integer, Funcionario> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
+//        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
+        Map<Integer, Funcionario> funcionarios = new HashMap<>();
+
+//        Conectando ao banco de dados e enviando sql:
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(f.*) \"contador\" FROM funcionario f JOIN setor s " +
+                    "ON f.id_setor = s.id JOIN unidade u ON s.id_unidade = u.id JOIN empresa e " +
+                    "ON u.id_empresa = e.id WHERE e.id = ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, idEmpresa);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos funcionários:
+            while (rs.next()) {
+                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+            }
+
+//        Retornando os funcionários cadastrados:
+            return funcionarios;
+
+        } catch (Exception e) {
+            return funcionarios;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM funcionario");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contarPorIdEmpresa(int idEmpresa){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(f.*) \"contador\" FROM funcionario f JOIN setor s " +
+                    "ON f.id_setor = s.id JOIN unidade u ON s.id_unidade = u.id JOIN empresa e " +
+                    "ON u.id_empresa = e.id WHERE e.id = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM funcionario");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorEmpresaStatus(char status){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario f JOIN setor s ON f.id_setor = s.id" +
+                    "JOIN unidade u ON s.id_unidade = u.id JOIN empresa e ON u.id_empresa = e.id " +
+                    "JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

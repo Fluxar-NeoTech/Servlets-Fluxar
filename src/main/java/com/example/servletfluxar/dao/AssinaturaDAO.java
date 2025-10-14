@@ -1,20 +1,18 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
-import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Assinatura;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class AssinaturaDAO implements GenericoDAO<Assinatura> {
+public class AssinaturaDAO implements DAO<Assinatura>{
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
 
     @Override
@@ -42,6 +40,44 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
         } catch (Exception e) {
             e.printStackTrace();
             return assinaturas;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM assinatura");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorStatus(char status){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM assinatura WHERE status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
         } finally {
             Conexao.desconectar(conn);
         }
