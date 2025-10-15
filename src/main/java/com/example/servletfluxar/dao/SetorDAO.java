@@ -1,16 +1,18 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
+import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Setor;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetorDAO implements GenericoDAO<Setor> {
+public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
     @Override
     public Map<Integer, Setor> listar(int pagina, int limite) {
@@ -44,6 +46,104 @@ public class SetorDAO implements GenericoDAO<Setor> {
         } catch (Exception e) {
             return setores;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public Map<Integer, Setor> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
+//        Declarando variáveis:
+        int offset = (pagina - 1) * limite;
+        Map<Integer, Setor> setores= new HashMap<>();
+        Setor setor;
+
+//        Conectando ao banco de dados e enviando sql:
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT s.* FROM setor s JOIN unidade u ON s.id_unidade = u.id JOIN empresa e" +
+                    "ON u.id_empresa = e.id WHERE id_empresa = ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, idEmpresa);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos setores:
+            while (rs.next()) {
+                setor = new Setor();
+                setor.setId(rs.getInt("id"));
+                setor.setNome(rs.getString("nome"));
+                setor.setDescricao(rs.getString("descricao"));
+                setor.setIdUnidade(rs.getInt("id_unidade"));
+
+                setores.put(rs.getInt("id"), setor);
+            }
+
+//            Retornando a lista de setores cadastrados:
+            return setores;
+
+        } catch (Exception e) {
+            return setores;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM setor");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contarPorIdEmpresa(int idEmpresa){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(s.*)\"contador\" FROM setor s JOIN unidade u " +
+                    "ON s.id_unidade = u.id JOIN empresa e ON u.id_empresa = e.id WHERE id_empresa = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorEmpresaStatus(char status){
+        try{
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM setor s JOIN unidade u ON s.id_unidade = u.id" +
+                    " JOIN empresa e ON u.id_empresa = e.id JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

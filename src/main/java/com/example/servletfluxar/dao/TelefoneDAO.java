@@ -1,7 +1,7 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Telefone;
 
 import java.sql.*;
@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TelefoneDAO implements GenericoDAO<Telefone> {
+public class TelefoneDAO implements DAO<Telefone> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
 
     @Override
@@ -37,6 +38,25 @@ public class TelefoneDAO implements GenericoDAO<Telefone> {
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             return telefones;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
         } finally {
             Conexao.desconectar(conn);
         }

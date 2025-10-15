@@ -1,20 +1,18 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
-import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Endereco;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class EnderecoDAO implements GenericoDAO<Endereco> {
+public class EnderecoDAO implements DAO<Endereco> {
 //    Declarando atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
     @Override
     public Map<Integer, Endereco> listar(int pagina, int limite) {
@@ -41,6 +39,25 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
         } catch (Exception e) {
             return enderecos;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM endereco");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }

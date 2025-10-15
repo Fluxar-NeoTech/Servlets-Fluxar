@@ -1,16 +1,17 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Plano;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlanoDAO implements GenericoDAO<Plano> {
+public class PlanoDAO implements DAO<Plano> {
 //    Declaração de atributos:
     private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
     @Override
     public Map<Integer, Plano> listar(int pagina, int limite){
@@ -37,6 +38,25 @@ public class PlanoDAO implements GenericoDAO<Plano> {
         }catch (Exception e){
             return planos;
         }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contar(){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM plano");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
             Conexao.desconectar(conn);
         }
     }
