@@ -10,7 +10,7 @@ import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import com.example.servletfluxar.util.EmailService;
+import com.example.servletfluxar.util.EnvioEmail;
 import java.io.IOException;
 
 @WebServlet(name = "EsqueciSenhaEnviarCodigoServlet", value = "/EsqueciSenhaEnviarCodigoServlet")
@@ -55,7 +55,7 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
 
             try {
 //                Enviando um email com o código de verificação para ele
-                EmailService.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
+                EnvioEmail.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");

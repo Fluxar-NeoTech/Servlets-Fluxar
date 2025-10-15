@@ -11,8 +11,23 @@
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/Admin/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/assets/img/logo-fluxar-roxo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/conexao/Conexao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/EnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/EnviarCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/esqueciSenha/EsqueciSenhaEnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/esqueciSenha/EsqueciSenhaEnviarCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/EnvioEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/postgresql-42.7.7.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/postgresql-42.7.7.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolherAdmin.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/cnpjNomeEmpresa/cadastro.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/cnpjNomeEmpresa/cadastro.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +97,7 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\lib" />
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
