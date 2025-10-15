@@ -2,12 +2,10 @@ package com.example.servletfluxar.util;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.*;
-import jakarta.mail.*;
 import jakarta.mail.internet.*;
 import java.util.Properties;
-import io.github.cdimascio.dotenv.Dotenv;
 
-public class EmailService {
+public class EnvioEmail {
     private static final Dotenv dotenv = Dotenv.load();
 
     public static void enviarEmail(String destinatario, String assunto, String mensagemHtml) throws Exception {

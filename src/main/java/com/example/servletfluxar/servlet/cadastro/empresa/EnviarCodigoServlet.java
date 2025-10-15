@@ -4,7 +4,7 @@ import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import com.example.servletfluxar.util.EmailService;
+import com.example.servletfluxar.util.EnvioEmail;
 import java.io.IOException;
 
 @WebServlet(name = "EnviarCodigoServlet", value = "/EnviarCodigoServlet")
@@ -37,7 +37,7 @@ public class EnviarCodigoServlet extends HttpServlet {
         codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
         try {
 //            Enviando um email com o código gerado:
-            EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo + "\nNão responda a esse email");
+            EnvioEmail.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo + "\nNão responda a esse email");
             session.setAttribute("codigoVerificacaoAdmin", codigo);
             response.sendRedirect(request.getContextPath() + "/cadastro/Admin/inputCodigo.jsp");
         } catch (Exception e) {
