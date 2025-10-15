@@ -1,10 +1,12 @@
 package com.example.servletfluxar.util;
 
+import java.time.LocalDate;
+
 /*
 *   Classe feita para tratar os inputs para o formato requirido
 *   pelas regras de negócio dentro do banco de dados.
  */
-public class TransformacaoParaInsert {
+public class RegrasBanco {
     public static String cnpj (String cnpj) {
         return cnpj.replaceAll("[^\\d]", "");
     }
@@ -21,5 +23,9 @@ public class TransformacaoParaInsert {
 
     public static String[] separarNomeCompleto (String nomeCompleto){
         return nomeCompleto.split("^.+ ");
+    }
+
+    public static String cep(String input){
+        return input.replaceAll("[^\\d]", "");
     }
 }

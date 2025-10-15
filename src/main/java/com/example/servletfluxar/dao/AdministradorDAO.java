@@ -221,6 +221,7 @@ public class AdministradorDAO implements GenericoDAO<Administrador>, ComLoginDAO
             pstmt.setString(3, administrador.getEmail());
             pstmt.setInt(4, administrador.getId());
 
+
             // Execução da atualização
             return pstmt.executeUpdate()>0;
 
