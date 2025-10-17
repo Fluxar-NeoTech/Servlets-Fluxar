@@ -37,8 +37,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
 //                Adicionando o administrador ao map de administradores:
                 administradores.put(rs.getInt("id"), administrador);
@@ -91,8 +91,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
                 return administrador;
             }
@@ -123,8 +123,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
                 return administrador;
             }
@@ -209,7 +209,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO administrador (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO administrador (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?)");
             pstmt.setString(1,administrador.getNome());
             pstmt.setString(2,administrador.getSobrenome());
             pstmt.setString(3,administrador.getEmail());
