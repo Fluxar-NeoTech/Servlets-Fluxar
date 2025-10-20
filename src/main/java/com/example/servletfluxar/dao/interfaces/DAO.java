@@ -1,5 +1,6 @@
 package com.example.servletfluxar.dao.interfaces;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +22,7 @@ public interface DAO<T> {
      * @param limit Quantidade de resgistros por página;
      * @return      Map onde a chave é o id do objeto e o valor o objeto.
      */
-    Map<Integer, T> listar(int pagina, int limit);
+    List<T> listar(int pagina, int limit);
 
     /**
      * Busca um registro pelo id

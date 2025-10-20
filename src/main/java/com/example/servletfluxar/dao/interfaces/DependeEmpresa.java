@@ -1,5 +1,6 @@
 package com.example.servletfluxar.dao.interfaces;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ public interface DependeEmpresa<T> {
      * @param idEmpresa ID da empresa cujos registros devem ser listados
      * @return          um Map onde a chave é o ID do objeto e o valor é o próprio objeto
      */
-    Map<Integer, T> listarPorIdEmpresa(int pagina, int limite, int idEmpresa);
+    List<T> listarPorIdEmpresa(int pagina, int limite, int idEmpresa);
 
     /**
      * Conta o número total de registros vinculados a uma empresa.

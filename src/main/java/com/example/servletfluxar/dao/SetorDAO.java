@@ -5,7 +5,9 @@ import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Setor;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
@@ -15,10 +17,10 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Setor> listar(int pagina, int limite) {
+    public List<Setor> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Setor> setores= new HashMap<>();
+        List<Setor> setores= new ArrayList<>();
         Setor setor;
 
 //        Conectando ao banco de dados e enviando sql:
@@ -37,7 +39,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
                 setor.setDescricao(rs.getString("descricao"));
                 setor.setIdUnidade(rs.getInt("id_unidade"));
 
-                setores.put(rs.getInt("id"), setor);
+                setores.add(setor);
             }
 
 //            Retornando a lista de setores cadastrados:
@@ -51,10 +53,10 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
     }
 
     @Override
-    public Map<Integer, Setor> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
+    public List<Setor> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Setor> setores= new HashMap<>();
+        List<Setor> setores= new ArrayList<>();
         Setor setor;
 
 //        Conectando ao banco de dados e enviando sql:
@@ -75,7 +77,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
                 setor.setDescricao(rs.getString("descricao"));
                 setor.setIdUnidade(rs.getInt("id_unidade"));
 
-                setores.put(rs.getInt("id"), setor);
+                setores.add(setor);
             }
 
 //            Retornando a lista de setores cadastrados:

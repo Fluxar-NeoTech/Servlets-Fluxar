@@ -58,7 +58,7 @@
             <article>
                 <h2>Confirmação:</h2>
                 <p><%=texto%></p>
-                <form action="../../../CadastroFormaPagamentoServlet" method="get">
+                <form action="../../../FormaPagamentoServlet" method="get">
                     <input name = "formaPagamento" type="text" value="transferencia">
                     <button>CONFIRMAR</button>
                 </form>

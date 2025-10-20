@@ -4,7 +4,9 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Plano;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlanoDAO implements DAO<Plano> {
@@ -14,10 +16,10 @@ public class PlanoDAO implements DAO<Plano> {
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Plano> listar(int pagina, int limite){
+    public List<Plano> listar(int pagina, int limite){
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Plano> planos = new HashMap<>();
+        List<Plano> planos = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try{
@@ -29,7 +31,7 @@ public class PlanoDAO implements DAO<Plano> {
 
 //            Adicionando registros do banco de dados a lista de planos:
             while (rs.next()){
-                planos.put(rs.getInt("id"), new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
             }
 
 //            Retornando a lista de planos:

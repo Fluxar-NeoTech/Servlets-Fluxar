@@ -18,10 +18,10 @@ public class TelefoneDAO implements DAO<Telefone> {
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Telefone> listar(int pagina, int limite) {
+    public List<Telefone> listar(int pagina, int limite) {
 //        Declaração de variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Telefone> telefones = new HashMap<>();
+        List<Telefone> telefones = new ArrayList<>();
 
         try {
             conn = Conexao.conectar();
@@ -31,7 +31,7 @@ public class TelefoneDAO implements DAO<Telefone> {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                telefones.put(rs.getInt("id"), new Telefone(rs.getInt("id"), rs.getString("numero"), rs.getInt("id_empresa")));
+                telefones.add(new Telefone(rs.getInt("id"), rs.getString("numero"), rs.getInt("id_empresa")));
             }
             return telefones;
 

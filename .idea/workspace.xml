@@ -12,9 +12,32 @@
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/AdminNeoTech/listar/ListarPlanosServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DependeEmpresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DependeEmpresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarPlanoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAssinaturasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAssinaturasServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/ValidacaoInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/ValidacaoInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/Assets/CSS/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Assets/CSS/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolhaSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolhaSenha.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/inputCodigo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/inputCodigo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +53,8 @@
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Jsp File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -64,22 +87,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/caiomaciel-ieg/OneDrive - Instituto J&amp;F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/src/main/webapp/WEB-INF/pages/AdminNeoTech&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/caiomaciel-ieg/OneDrive - Instituto J&F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/src/main/webapp/WEB-INF/pages/unidades",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\unidades" />
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\AdminNeoTech" />
       <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar\src\main\resources" />
       <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar" />
@@ -272,7 +296,9 @@
       <workItem from="1760622722246" duration="3011000" />
       <workItem from="1760709953655" duration="4324000" />
       <workItem from="1760747870072" duration="824000" />
-      <workItem from="1760891478318" duration="12367000" />
+      <workItem from="1760891478318" duration="25824000" />
+      <workItem from="1760976796280" duration="820000" />
+      <workItem from="1761000714370" duration="3314000" />
     </task>
     <servers />
   </component>

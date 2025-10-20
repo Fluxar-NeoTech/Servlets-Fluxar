@@ -19,7 +19,7 @@
   <article>
     <h2>Código:</h2>
     <p>Digite seu email para enviarmos um código para ele para a recuperação da sua senha</p>
-    <form action="<%= request.getContextPath() %>/CadastroEscreverCodigoServlet" method="post">
+    <form action="<%= request.getContextPath() %>/EscreverCodigoServlet" method="post">
       <% if (request.getAttribute("erroCodigo") !=null) { %>
       <div class="floating-label-erro">
         <input type="text" class="inputs-erro codigo" id="codigo1" name="codigo"

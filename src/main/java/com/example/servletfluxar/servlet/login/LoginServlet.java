@@ -74,6 +74,7 @@ public class LoginServlet extends HttpServlet {
                 if (assinatura.getStatus() == 'A') {
                     if (assinatura.getDtFim().isAfter(LocalDate.now())) {
                         if (empresaDAO.autenticar(emailInput, senhaInput) != null) {
+                            session.setAttribute("empresa", empresa);
                             session.setAttribute("tipoUsuario", "empresa");
 //                            Definindo tempo de expiração para login da empresa para 1 hora:
                             session.setMaxInactiveInterval(60 * 60);
@@ -85,7 +86,7 @@ public class LoginServlet extends HttpServlet {
                                     .forward(request, response);
                         }
                     } else {
-                        assinatura.setStatus('1');
+                        assinatura.setStatus('I');
                         assinaturaDAO.alterar(assinatura);
                         request.setAttribute("erroEmail", "Empresa inativa");
                         request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")

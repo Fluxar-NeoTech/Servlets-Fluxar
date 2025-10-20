@@ -11,6 +11,7 @@
 
 <body>
 <%
+  Plano plano = (Plano) request.getAttribute("plano");
   request.setAttribute("ativo", true);
 %>
 <header>
@@ -78,21 +79,21 @@
   </div>
 </aside>
 <main>
-  <p id="title">Adicionar Plano</p>
+  <p id="title">Alterar Plano</p>
 
   <form action="${pageContext.request.contextPath}/AdicionarPlanoServlet" method="post">
     <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="name">
+    <input type="text" name="nome" id="name" value="<%= plano.getNome()%>">
 
     <div>
-      <input type="radio" id="anual" name="tempo" value="12">
+      <input type="radio" id="anual" name="tempo" value="12" <%= plano.getTempo()==12? "checked": ""%>>
       <label for="anual">Anual</label>
-      <input type="radio" id="mensal" name="tempo" value="1">
+      <input type="radio" id="mensal" name="tempo" value="1" <%= plano.getTempo()==1? "checked": ""%>>
       <label for="mensal">Mensal</label>
     </div>
 
     <label for="preco">Preço:</label>
-    <input type="text" name="preco" id="preco">
+    <input type="text" name="preco" id="preco" value="<%= plano.getPreco()%>">
 
     <div>
       <button type="submit">Confirmar</button>

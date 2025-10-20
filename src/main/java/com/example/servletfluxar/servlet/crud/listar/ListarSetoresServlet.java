@@ -1,21 +1,20 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
-import com.example.servletfluxar.dao.AssinaturaDAO;
-import com.example.servletfluxar.dao.EmpresaDAO;
-import com.example.servletfluxar.model.Assinatura;
+import com.example.servletfluxar.dao.SetorDAO;
+import com.example.servletfluxar.dao.UnidadeDAO;
 import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.model.Setor;
+import com.example.servletfluxar.model.Unidade;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@WebServlet(name = "ListarAssinaturasServlet", value = "/ListarAssinaturasServlet")
-public class ListarAssinaturasServlet extends HttpServlet {
+@WebServlet(name = "ListarSetoresServlet", value = "/ListarSetoresServlet")
+public class ListarSetoresServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
@@ -24,9 +23,8 @@ public class ListarAssinaturasServlet extends HttpServlet {
         int pagina = 1;
         int limite = 6;
         HttpSession session = request.getSession(false);
-        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
-        List<Assinatura> assinaturas = new ArrayList<>();
-        Assinatura assinatura;
+        SetorDAO setorDAO = new SetorDAO();
+        List<Setor> setores = new ArrayList<>();
 
         if (session == null || session.getAttribute("tipoUsuario") == null) {
             System.out.println("erro");
@@ -36,21 +34,38 @@ public class ListarAssinaturasServlet extends HttpServlet {
             return;
         }
 
+//                Verificando a página atual:
+        if (request.getParameter("pagina") != null) {
+            pagina = Integer.parseInt(request.getParameter("pagina"));
+            if (pagina < 1) {
+                pagina = 1;
+            }
+        }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
-            assinatura = assinaturaDAO.buscarPorId(((Empresa) session.getAttribute("empresa")).getId());
+//              Vendo se há algum filtro definido:
+            if (tipoFiltro != null) {
+//                     Verificando se há algum valor definido para o filtro:
+                if (valorFiltro != null) {
 
-            request.setAttribute("assinatura", assinatura);
-        } else {
-//                Verificando a página atual:
-            if (request.getParameter("pagina") != null) {
-                pagina = Integer.parseInt(request.getParameter("pagina"));
-                if (pagina < 1) {
-                    pagina = 1;
+                } else {
+                    request.setAttribute("erroFiltro", "Defina um valor para o filtro");
+                    request.getRequestDispatcher("")
+                            .forward(request, response);
+                }
+            } else {
+//                Listando setores:
+                setores = setorDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId());
+//                Verificando se a lista de setores não está vazia:
+                if (setores.isEmpty()) {
+//                    Caso esteja, reduzo uma página:
+                    pagina--;
+                    setores = setorDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId());
                 }
             }
-
-            //              Vendo se há algum filtro definido:
+            request.setAttribute("setores", setores);
+        } else {
+//              Vendo se há algum filtro definido:
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
                 if (valorFiltro != null) {
@@ -63,18 +78,18 @@ public class ListarAssinaturasServlet extends HttpServlet {
                 }
 
             } else {
-//                Listando assinaturas:
-                assinaturas = assinaturaDAO.listar(pagina, limite);
-//                Verificando se a lista de assinaturas não está vazia:
-                if (assinaturas.isEmpty()) {
+//                Listando setores:
+                setores = setorDAO.listar(pagina, limite);
+//                Verificando se a lista de setores não está vazia:
+                if (setores.isEmpty()) {
 //                    Caso esteja, reduzo uma página:
                     pagina--;
-                    assinaturas = assinaturaDAO.listar(pagina, limite);
+                    setores = setorDAO.listar(pagina, limite);
                 }
             }
 
-//            Setando atributo assinaturas
-            request.setAttribute("assinaturas",assinaturas);
+//            Setando atributo assinatuas
+            request.setAttribute("setores", setores);
         }
 
         request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));

@@ -7,20 +7,35 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "ListarAdminServlet", value = "/ListarAdminServlet")
+@WebServlet(name = "ListarAdminsServlet", value = "/ListarAdminsServlet")
 public class ListarAdminsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
+        HttpSession session = request.getSession();
         String tipoFiltro = request.getParameter("tipoFiltro");
         String valorFiltro = request.getParameter("valorFiltro");
         int pagina = 1;
         int limite = 6;
         AdministradorDAO administradorDAO = new AdministradorDAO();
-        Map<Integer, Administrador> administradores = new HashMap<>();
+        List<Administrador> administradores = new ArrayList<>();
+
+//        Informando o tipo de usuário logado a fim de saber se pode ou não editar/adicionar dados;
+        try {
+            if (session.getAttribute("tipoUsuario")!=null) {
+                request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
+            }
+        }catch (NullPointerException npe){
+            request.setAttribute("mensagem", "Você passou tempo demais logado, faça seu login novamente");
+            request.setAttribute("erro", npe);
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+        }
 
 //        Verificando qual página está:
         if (request.getParameter("pagina") != null){
