@@ -1,19 +1,23 @@
-package com.example.servletfluxar.servlet.crud.adicionar;
+package com.example.servletfluxar.servlet.crud.alterar;
 
 import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.model.Plano;
-import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdicionarPlanoServlet", value = "/AdicionarPlanoServlet")
-public class AdicionarPlanoServlet extends HttpServlet {
+@WebServlet(name = "AlterarPlanoServlet", value = "/AlterarPlanoServlet")
+public class AlterarPlanoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
+//        Declaração de variáveis:
+        int id = Integer.parseInt(request.getParameter("id"));
+        PlanoDAO planoDAO = new PlanoDAO();
+        Plano plano = planoDAO.buscarPorId(id);
+        request.setAttribute("plano", plano);
+        request.getRequestDispatcher("/WEB-INF/pages/planos/alterarPlano.jsp")
                 .forward(request, response);
     }
 
@@ -39,10 +43,6 @@ public class AdicionarPlanoServlet extends HttpServlet {
             continuar = false;
         } else {
             preco = Double.parseDouble(precoInput);
-            if (!ValidacaoInput.validarPreco(preco)){
-                request.setAttribute("erroPreco", "Preco deve ser maior do que 0");
-                continuar = false;
-            }
         }
         if (!continuar){
             request.getRequestDispatcher(request.getContextPath()+"/WEB-INF/pages/planos/adicionarPlano.jsp")
@@ -55,10 +55,10 @@ public class AdicionarPlanoServlet extends HttpServlet {
         plano.setPreco(preco);
 
 //        Enviando e vendo se há um retorno:
-        if (planoDAO.inserir(plano)){
+        if (planoDAO.alterar(plano)){
             response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
+            request.setAttribute("mensagem", "Não foi possível alterar este plano no momento. Tente novamente mais tarde...");
             request.getRequestDispatcher("")
                     .forward(request, response);
         }

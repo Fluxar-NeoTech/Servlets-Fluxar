@@ -8,7 +8,9 @@ import com.example.servletfluxar.model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, DependeEmpresa<Funcionario> {
@@ -18,10 +20,10 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Funcionario> listar(int pagina, int limite) {
+    public List<Funcionario> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Funcionario> funcionarios = new HashMap<>();
+        List<Funcionario> funcionarios = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -33,7 +35,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:
@@ -47,10 +49,10 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     }
 
     @Override
-    public Map<Integer, Funcionario> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
+    public List<Funcionario> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Funcionario> funcionarios = new HashMap<>();
+        List<Funcionario> funcionarios = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -65,7 +67,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:

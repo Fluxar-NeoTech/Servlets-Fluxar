@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "ListarPlanosServlet", value = "/ListarPlanosServlet")
@@ -21,7 +22,7 @@ public class ListarPlanosServlet extends HttpServlet {
         int pagina = 1;
         int limite = 6;
         PlanoDAO planoDAO = new PlanoDAO();
-        Map<Integer, Plano> planos = null;
+        List<Plano> planos = null;
 
 //        Informando o tipo de usuário logado a fim de saber se pode ou não editar/adicionar dados;
         try {

@@ -7,8 +7,9 @@ import com.example.servletfluxar.model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     private Connection conn = null;
@@ -16,10 +17,10 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer,Empresa> listar(int pagina, int limite) {
+    public List<Empresa> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Empresa> empresas = new HashMap<>();
+        List<Empresa> empresas = new ArrayList<>();
         Empresa empresa;
 
 //        Conectando ao banco de dados e enviando sql:
@@ -39,7 +40,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setEmail(rs.getString("email"));
                 empresa.setDataCadastro(rs.getDate("data_cadastro"));
 
-                empresas.put(rs.getInt("id"),empresa);
+                empresas.add(empresa);
             }
 
 //            Retornando a lista de empresas cadastradas:

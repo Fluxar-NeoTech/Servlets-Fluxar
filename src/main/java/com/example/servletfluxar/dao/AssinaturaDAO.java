@@ -5,8 +5,8 @@ import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Assinatura;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AssinaturaDAO implements DAO<Assinatura>{
 //    Declaração de atributos:
@@ -16,10 +16,10 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Assinatura> listar(int pagina, int limite) {
+    public List<Assinatura> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Assinatura> assinaturas = new HashMap();
+        List<Assinatura> assinaturas = new ArrayList<>();
 
 //        Tentando conectar ao banco de dados e enviar o select do SQL:
         try {
@@ -31,7 +31,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
 //            Pegando as assinaturas do banco e adicionando a lista de assinaturas:
             while (rs.next()) {
-                assinaturas.put(rs.getInt("id"), new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento")));
+                assinaturas.add(new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento")));
             }
 
 //            Retornando a lista de assinaturas:
@@ -55,13 +55,14 @@ public class AssinaturaDAO implements DAO<Assinatura>{
                 return rs.getInt("contador");
             }
             return -1;
-
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             return -1;
         } finally {
             Conexao.desconectar(conn);
         }
+
+
     }
 
     public int contarPorStatus(char status){
@@ -133,7 +134,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             conn = Conexao.conectar();
 
             // Preparando comando SQL para cadastrar uma assinatura:
-            pstmt = conn.prepareStatement("INSERT INTO assinatura (id_plano, id_empresa, status, dt_inicio, dt_fim, forma_pagamento) VALUES (?, ?, ?, to_date(?,\'DD\'), ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO assinatura (id_plano, id_empresa, status, dt_inicio, dt_fim, forma_pagamento) VALUES (?, ?, ?, to_date(?,\"yyyy-mm-dd\"), to_date(?,\"yyyy-mm-dd\"), ?)");
             pstmt.setInt(1, assinatura.getIdPlano());
             pstmt.setInt(2, assinatura.getIdEmpresa());
             pstmt.setString(3, Character.toString(assinatura.getStatus()));

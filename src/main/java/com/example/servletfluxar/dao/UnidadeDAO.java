@@ -6,7 +6,9 @@ import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Unidade;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
@@ -17,10 +19,10 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Unidade> listar(int pagina, int limite){
+    public List<Unidade> listar(int pagina, int limite){
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Unidade> unidades = new HashMap<>();
+        List<Unidade> unidades = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
@@ -32,7 +34,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
 //            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.put(rs.getInt("id"), new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas:
@@ -46,10 +48,10 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
     }
 
     @Override
-    public Map<Integer, Unidade> listarPorIdEmpresa(int pagina, int limite, int idEmpresa){
+    public List<Unidade> listarPorIdEmpresa(int pagina, int limite, int idEmpresa){
 //        Declaração de variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Unidade> unidades = new HashMap<>();
+        List<Unidade> unidades = new ArrayList<>();
 
 //        Conectando ao banco de dados:
         try{
@@ -62,7 +64,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.put(rs.getInt("id"), new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:

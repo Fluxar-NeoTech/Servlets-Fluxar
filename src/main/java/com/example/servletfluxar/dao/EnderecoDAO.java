@@ -5,7 +5,9 @@ import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Endereco;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EnderecoDAO implements DAO<Endereco> {
@@ -15,10 +17,10 @@ public class EnderecoDAO implements DAO<Endereco> {
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Endereco> listar(int pagina, int limite) {
+    public List<Endereco> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
-        Map<Integer, Endereco> enderecos = new HashMap<>();
+        List<Endereco> enderecos = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
@@ -30,7 +32,7 @@ public class EnderecoDAO implements DAO<Endereco> {
 
 //            Criando objetos e adicionando a lista dos endereços:
             while (rs.next()) {
-                enderecos.put(rs.getInt("id"), new Endereco(rs.getInt("id"), rs.getString("cep"), rs.getInt("numero"), rs.getString("complemento")));
+                enderecos.add(new Endereco(rs.getInt("id"), rs.getString("cep"), rs.getInt("numero"), rs.getString("complemento")));
             }
 
 //            Returnando o map com os endereços:

@@ -1,21 +1,20 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
-import com.example.servletfluxar.dao.EmpresaDAO;
-import com.example.servletfluxar.dao.TelefoneDAO;
+import com.example.servletfluxar.dao.AssinaturaDAO;
+import com.example.servletfluxar.dao.UnidadeDAO;
+import com.example.servletfluxar.model.Assinatura;
 import com.example.servletfluxar.model.Empresa;
-import com.example.servletfluxar.model.Telefone;
+import com.example.servletfluxar.model.Unidade;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@WebServlet(name = "ListarEmpresasServlet", value = "/ListarEmpresasServlet")
-public class ListarEmpresasServlet extends HttpServlet {
+@WebServlet(name = "ListarUnidadesServlet", value = "/ListarUnidadesServlet")
+public class ListarUnidadesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
@@ -24,32 +23,30 @@ public class ListarEmpresasServlet extends HttpServlet {
         int pagina = 1;
         int limite = 6;
         HttpSession session = request.getSession(false);
-        EmpresaDAO empresaDAO = new EmpresaDAO();
-        List<Empresa> empresas = new ArrayList<>();
-        Empresa empresa;
+        UnidadeDAO unidadeDAO = new UnidadeDAO();
+        List<Unidade> unidades = new ArrayList<>();
 
         if (session == null || session.getAttribute("tipoUsuario") == null) {
             System.out.println("erro");
             request.setAttribute("mensagem", "Faça login novamente");
-            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+            request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         }
 
+//                Verificando a página atual:
+        if (request.getParameter("pagina") != null) {
+            pagina = Integer.parseInt(request.getParameter("pagina"));
+            if (pagina < 1) {
+                pagina = 1;
+            }
+        }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
-            empresa = empresaDAO.buscarPorId(((Empresa) session.getAttribute("empresa")).getId());
+            unidades = unidadeDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId());
 
-            request.setAttribute("empresa", empresa);
+            request.setAttribute("unidades", unidades);
         } else {
-//                Verificando a página atual:
-            if (request.getParameter("pagina") != null) {
-                pagina = Integer.parseInt(request.getParameter("pagina"));
-                if (pagina < 1) {
-                    pagina = 1;
-                }
-            }
-
             //              Vendo se há algum filtro definido:
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
@@ -57,20 +54,24 @@ public class ListarEmpresasServlet extends HttpServlet {
 
                 } else {
                     request.setAttribute("erroFiltro", "Defina um valor para o filtro");
-                    request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                    request.getRequestDispatcher("")
                             .forward(request, response);
                     return;
                 }
 
             } else {
-                empresas = empresaDAO.listar(pagina, limite);
-                if (empresas.isEmpty()) {
+//                Listando unidades:
+                unidades = unidadeDAO.listar(pagina, limite);
+//                Verificando se a lista de unidades não está vazia:
+                if (unidades.isEmpty()) {
+//                    Caso esteja, reduzo uma página:
                     pagina--;
-                    empresas = empresaDAO.listar(pagina, limite);
+                    unidades = unidadeDAO.listar(pagina, limite);
                 }
             }
 
-            request.setAttribute("empresas", empresas);
+//            Setando atributo assinatuas
+            request.setAttribute("unidades", unidades);
         }
 
         request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
@@ -79,12 +80,12 @@ public class ListarEmpresasServlet extends HttpServlet {
         request.setAttribute("pagina", pagina);
 
 //        Enviando retorno:
-        request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+        request.getRequestDispatcher("")
                 .forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+
     }
 }

@@ -406,6 +406,8 @@ td{
     border-radius: 10px;
     color: aliceblue;
     font-weight: 550;
+    text-align: center;
+    vertical-align: center;
     background-color: var(--cor-primaria);
     font-size: inherit;
     padding: 4px;
@@ -426,4 +428,14 @@ td{
 svg{
     margin: auto;
     cursor: pointer;
+}
+
+.alterar{
+    width: 35px;
+    height: 25px;
+    margin-right: -7px;
+}
+
+.alterar:hover{
+    filter: brightness(70%);
 }

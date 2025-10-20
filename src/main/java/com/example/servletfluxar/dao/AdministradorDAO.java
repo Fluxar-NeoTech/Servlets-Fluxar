@@ -7,7 +7,9 @@ import com.example.servletfluxar.model.Administrador;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administrador> {
@@ -18,11 +20,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Administrador> listar(int pagina, int limite) {
+    public List<Administrador> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
         Administrador administrador;
-        Map<Integer, Administrador> administradores = new HashMap();
+        List<Administrador> administradores = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
@@ -41,7 +43,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador.setEmail(rs.getString("email"));
 
 //                Adicionando o administrador ao map de administradores:
-                administradores.put(rs.getInt("id"), administrador);
+                administradores.add(administrador);
             }
 
 //            Returnando o map de administrador
