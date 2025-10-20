@@ -59,4 +59,13 @@ public class ValidacaoInput {
         }
         return 0;
     }
+
+    /**
+     * Método para verificar se valor do plano é válido:
+     * @param input é o valor do plano colocado no input
+     * @return     true se o valor for maior que 0
+     */
+    public static boolean validarPreco(double input){
+        return input>0;
+    }
 }
