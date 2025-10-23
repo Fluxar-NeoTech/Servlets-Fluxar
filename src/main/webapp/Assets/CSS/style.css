@@ -128,10 +128,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Montserrat";
 }
 
 body {
-    font-family: "Montserrat";
     margin: 0;
     padding: 0;
     height: 100%;
@@ -180,22 +180,29 @@ header {
 aside {
     font-size: 18px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     position: fixed;
     /* gruda na tela */
     top: 0;
     /* começa no topo */
     left: 0;
     /* fica à esquerda */
-    height: 100vh;
     width: 240px;
+    height: 100vh;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     background-color: var(--cor-secundaria);
     z-index: 2;
 }
 
+.linksServlet{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
 #logo {
-    width: 145px;
-    padding: 20px;
+    width: 150px;
 }
 
 .text {
@@ -213,7 +220,7 @@ aside {
     font-weight: 700;
 }
 
-#func {
+.func {
     border-bottom: solid 2.2px;
     border-color: rgba(0, 0, 0, 0.5);
 }
@@ -224,6 +231,7 @@ aside {
 
 a {
     text-decoration: none;
+    color: var(--cor-primaria);
 }
 
 #sairB {
@@ -243,7 +251,6 @@ main {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    height: 90vh;
 }
 
 #title {
@@ -372,11 +379,15 @@ th{
 }
 
 td{
+    font-family: 'Roboto';
     text-align: center;
-    width: 2px;
     border-top: solid 1px;
     height: 50px;
     border-color: rgba(0, 0, 0, 0.5);
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #footer{
@@ -384,6 +395,7 @@ td{
     bottom: 30px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #pages{
@@ -410,7 +422,8 @@ td{
     vertical-align: center;
     background-color: var(--cor-primaria);
     font-size: inherit;
-    padding: 4px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -423,6 +436,10 @@ td{
     color: var(--cor-primaria);
     text-align: center;
     align-items: center;
+}
+
+#sair{
+    margin-bottom: 20px;
 }
 
 svg{

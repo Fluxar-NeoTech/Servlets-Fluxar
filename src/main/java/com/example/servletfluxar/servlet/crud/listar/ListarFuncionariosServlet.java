@@ -1,5 +1,6 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
+import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.dao.SetorDAO;
 import com.example.servletfluxar.model.Empresa;
@@ -22,6 +23,8 @@ public class ListarFuncionariosServlet extends HttpServlet {
         String valorFiltro = request.getParameter("valorFiltro");
         int pagina = 1;
         int limite = 6;
+        int totalRegitros = 0;
+        int totalPaginas = 0;
         HttpSession session = request.getSession(false);
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         List<Funcionario> funcionarios = new ArrayList<>();
@@ -29,7 +32,7 @@ public class ListarFuncionariosServlet extends HttpServlet {
         if (session == null || session.getAttribute("tipoUsuario") == null) {
             System.out.println("erro");
             request.setAttribute("mensagem", "Faça login novamente");
-            request.getRequestDispatcher("")
+            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
                     .forward(request, response);
             return;
         }
@@ -43,68 +46,58 @@ public class ListarFuncionariosServlet extends HttpServlet {
         }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
-//              Vendo se há algum filtro definido:
-            if (tipoFiltro != null) {
-//                     Verificando se há algum valor definido para o filtro:
-                if (valorFiltro != null) {
+            if (tipoFiltro != null){
 
-                } else {
-                    request.setAttribute("erroFiltro", "Defina um valor para o filtro");
-                    request.getRequestDispatcher("")
-                            .forward(request, response);
-                }
             } else {
-//                Listando funcionários:
-                funcionarios = funcionarioDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId());
-//                Verificando se a lista de setores não está vazia:
-                if (funcionarios.isEmpty()) {
-//                    Caso esteja, reduzo uma página:
-                    pagina--;
-                    funcionarios = funcionarioDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId());
-                }
+                totalRegitros = funcionarioDAO.contarPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
+                totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+
+//              Garante que pagina está no intervalo válido [1, totalPaginas]
+                pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                funcionarios = totalRegitros > 0 ?
+                        funcionarioDAO.listarPorIdEmpresa(pagina, limite,
+                        ((Empresa) session.getAttribute("empresa")).getId()) :
+                        new ArrayList<>();
             }
-            request.setAttribute("funcionarios", funcionarios);
+
         } else {
-//              Vendo se há algum filtro definido:
+            //              Vendo se há algum filtro definido:
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
                 if (valorFiltro != null) {
 
                 } else {
                     request.setAttribute("erroFiltro", "Defina um valor para o filtro");
-                    request.getRequestDispatcher("")
+                    request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
                             .forward(request, response);
                     return;
                 }
 
             } else {
-//                Listando funcionários:
-                funcionarios = funcionarioDAO.listar(pagina, limite);
-//                Verificando se a lista de funcionários não está vazia:
-                if (funcionarios.isEmpty()) {
-//                    Caso esteja, reduzo uma página:
-                    pagina--;
-                    funcionarios = funcionarioDAO.listar(pagina, limite);
-                }
-            }
+                totalRegitros = funcionarioDAO.contar();
+                totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
 
-//            Setando atributo assinatuas
-            request.setAttribute("funcionarios", funcionarios);
+//              Garante que pagina está no intervalo válido [1, totalPaginas]
+                pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                funcionarios = totalRegitros > 0 ? funcionarioDAO.listar(pagina, limite) : new ArrayList<>();
+            }
         }
 
+        request.setAttribute("funcionarios", funcionarios);
         request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
 
 //        Setando atributo de página atual:
         request.setAttribute("pagina", pagina);
 
 //        Enviando retorno:
-        request.getRequestDispatcher("")
+        request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
                 .forward(request, response);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

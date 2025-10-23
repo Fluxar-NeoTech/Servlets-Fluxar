@@ -7,18 +7,19 @@ import com.example.servletfluxar.model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
     @Override
     public List<Empresa> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Empresa> empresas = new ArrayList<>();
         Empresa empresa;
@@ -38,7 +39,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
 
                 empresas.add(empresa);
             }
@@ -56,29 +57,11 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM empresa");
-
-            if(rs.next()){
-                return rs.getInt("contador");
-            }
-            return -1;
-
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-            return -1;
-        } finally {
-            Conexao.desconectar(conn);
-        }
-    }
-
-    public int contar(char status){
-        try{
-            pstmt = conn.prepareStatement("SELECT COUNT(e.*)\"contador\" FROM empresa e JOIN assinatura a " +
-                    "ON a.id_empresa = e.id WHERE a.status = ?");
-            pstmt.setString(1, String.valueOf(status));
-            rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return rs.getInt("contador");
@@ -97,8 +80,6 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     public Empresa buscarPorId(int id) {
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
         Empresa empresa;
 
 //        Conectando ao banco de dados:
@@ -115,7 +96,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
                 return empresa;
             }
             return null;
@@ -131,8 +112,6 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     public Empresa buscarPorCNPJ(String cnpj) {
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
         Empresa empresa;
 
 //        Conectando ao banco de dados:
@@ -149,7 +128,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
                 return empresa;
             }
             return null;
@@ -165,6 +144,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     @Override
     public Empresa buscarPorNome(String nome) {
 //        Declaração de variáveis:
+        Connection conn = null;
         Empresa empresa;
 
 //        Conectando ao banco de dados:
@@ -181,7 +161,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
 
                 return empresa;
             }
@@ -199,8 +179,6 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     public Empresa buscarPorEmail(String email) {
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
         Empresa empresa;
 
 //        Conectando ao banco de dados:
@@ -217,7 +195,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("data_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
 
                 return empresa;
             }
@@ -234,12 +212,14 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     @Override
     public Empresa autenticar(String email, String senha){
 //        Declaração de variáveis:
+        Connection conn = null;
         Empresa empresa;
 
 //        Tentando conectar ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email = ?");
+            pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -248,7 +228,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setNome(rs.getString("nome"));
                 empresa.setCnpj(rs.getString("cnpj"));
                 empresa.setEmail(rs.getString("email"));
-                empresa.setDataCadastro(rs.getDate("dt_cadastro"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
 
                 if(BCrypt.checkpw(senha, rs.getString("senha"))){
                     return empresa;
@@ -268,7 +248,6 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     public boolean inserir(Empresa empresa){
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
 
 //        Conectando ao banco de dados:
         try{
@@ -291,6 +270,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
     @Override
     public boolean alterar(Empresa empresa) {
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try {
             // Obtenção da conexão com o banco de dados:
@@ -314,6 +294,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try {
             // Obtenção da conexão com o banco de dados:
@@ -337,6 +318,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
     @Override
     public boolean deletarPorId(int id){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM empresa WHERE id = ?");

@@ -1,4 +1,6 @@
 <%@ page import="com.example.servletfluxar.model.Plano" %>
+<%@ page import="com.example.servletfluxar.model.Empresa" %>
+<%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,10 +15,17 @@
 <%
   Plano plano = (Plano) request.getAttribute("plano");
   request.setAttribute("ativo", true);
+  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
-    <p>Caio Marcos</p>
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
+                    ((Empresa) session.getAttribute("empresa")).getId() :
+                    ((Administrador) session.getAttribute("administrador")).getId()%>">
+      <%= tipoUsuario == "empresa" ?
+              ((Empresa) session.getAttribute("empresa")).getNome() :
+              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
   </div>
 </header>
 <aside>
@@ -26,53 +35,79 @@
          id="logo">
   </div>
 
-  <a href="">
-    <div class="text">
-      Home
-    </div>
-  </a>
+  <nav>
+    <ul class="linksServlet">
+      <li>
+        <a href="${pageContext.request.contextPath}/HomeServlet">
+          <div class="text">
+            Home
+          </div>
+        </a>
+      </li>
 
-  <a href="">
-    <div class="text">
-      Admin
-    </div>
-  </a>
+      <%if (tipoUsuario.equals("administrador")) { %>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
+          <div class="text">
+            Admins
+          </div>
+        </a>
+      </li>
+      <%}%>
 
-  <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
-    <div class="text" id="atual">
-      Planos
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
+          <div class="text">
+            Planos
+          </div>
+        </a>
+      </li>
 
-  <a href="">
-    <div class="text">
-      Assinaturas
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
+          <div class="text">
+            Assinaturas
+          </div>
+        </a>
+      </li>
 
-  <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
-    <div class="text">
-      Empresas
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
+          <div class="text" id="atual">
+            <%if (tipoUsuario == "administrador") {%>
+              Empresas
+            <%} else {%>
+              Empresa
+            <%}%>
+          </div>
+        </a>
+      </li>
 
-  <a href="">
-    <div class="text">
-      Unidades
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarUnidadesServlet">
+          <div class="text">
+            Unidades
+          </div>
+        </a>
+      </li>
 
-  <a href="">
-    <div class="text">
-      Setores
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarSetoresServlet">
+          <div class="text">
+            Setores
+          </div>
+        </a>
+      </li>
 
-  <a href="">
-    <div class="text" id="func">
-      Funcionarios
-    </div>
-  </a>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet">
+          <div class="text func">
+            Funcionarios
+          </div>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <div class="maior" id="sair">
     <a id="sairB" href="${pageContext.request.contextPath}%>/index.html">Sair</a>

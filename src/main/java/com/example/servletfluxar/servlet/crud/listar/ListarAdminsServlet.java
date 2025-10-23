@@ -1,7 +1,10 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
+import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Assinatura;
+import com.example.servletfluxar.model.Empresa;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,52 +20,60 @@ public class ListarAdminsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
-        HttpSession session = request.getSession();
         String tipoFiltro = request.getParameter("tipoFiltro");
         String valorFiltro = request.getParameter("valorFiltro");
         int pagina = 1;
         int limite = 6;
+        int totalRegitros = 0;
+        int totalPaginas = 0;
+        HttpSession session = request.getSession(false);
         AdministradorDAO administradorDAO = new AdministradorDAO();
         List<Administrador> administradores = new ArrayList<>();
 
-//        Informando o tipo de usuário logado a fim de saber se pode ou não editar/adicionar dados;
-        try {
-            if (session.getAttribute("tipoUsuario")!=null) {
-                request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
-            }
-        }catch (NullPointerException npe){
-            request.setAttribute("mensagem", "Você passou tempo demais logado, faça seu login novamente");
-            request.setAttribute("erro", npe);
-            request.getRequestDispatcher("")
+        if (session == null || session.getAttribute("tipoUsuario") == null) {
+            System.out.println("erro");
+            request.setAttribute("mensagem", "Faça login novamente");
+            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
                     .forward(request, response);
+            return;
         }
 
-//        Verificando qual página está:
-        if (request.getParameter("pagina") != null){
-            try {
-                pagina = Integer.parseInt(request.getParameter("pagina"));
-                if (pagina<1){
-                    pagina=1;
-                }
-            } catch (NullPointerException npe){
+//                Verificando a página atual:
+        if (request.getParameter("pagina") != null) {
+            pagina = Integer.parseInt(request.getParameter("pagina"));
+            if (pagina < 1) {
                 pagina = 1;
             }
         }
+        if (tipoFiltro != null) {
+//                     Verificando se há algum valor definido para o filtro:
+            if (valorFiltro != null) {
 
-//        Vendo se há algum filtro definido:
-        if (tipoFiltro != null){
+            } else {
+                request.setAttribute("erroFiltro", "Defina um valor para o filtro");
+                request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                        .forward(request, response);
+                return;
+            }
 
         } else {
-            administradores = administradorDAO.listar(pagina, limite);
-            if (administradores.isEmpty()){
-                pagina--;
-                administradores = administradorDAO.listar(pagina, limite);
-            }
+            totalRegitros = administradorDAO.contar();
+            totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+
+//              Garante que pagina está no intervalo válido [1, totalPaginas]
+            pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+            administradores = totalRegitros > 0 ? administradorDAO.listar(pagina, limite) : new ArrayList<>();
         }
 
-        request.setAttribute("pagina", pagina);
         request.setAttribute("administradores", administradores);
-        request.getRequestDispatcher("")
+        request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
+
+//        Setando atributo de página atual:
+        request.setAttribute("pagina", pagina);
+
+//        Enviando retorno:
+        request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                 .forward(request, response);
     }
 

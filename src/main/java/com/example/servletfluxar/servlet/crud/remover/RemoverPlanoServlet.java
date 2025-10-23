@@ -17,11 +17,12 @@ public class RemoverPlanoServlet extends HttpServlet {
         PlanoDAO planoDAO = new PlanoDAO();
         Plano plano = planoDAO.buscarPorId(id);
 
-        planoDAO.deletarPorId(plano.getId());
+        if (planoDAO.contar() > 1) {
+            planoDAO.deletarPorId(plano.getId());
+        }
 
         request.setAttribute("plano", plano);
-        request.getRequestDispatcher("/WEB-INF/pages/planos/verPlanos.jsp")
-                .forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
     }
 
     @Override

@@ -23,10 +23,11 @@ public class ListarEmpresasServlet extends HttpServlet {
         String valorFiltro = request.getParameter("valorFiltro");
         int pagina = 1;
         int limite = 6;
+        int totalRegitros = 0;
+        int totalPaginas = 0;
         HttpSession session = request.getSession(false);
         EmpresaDAO empresaDAO = new EmpresaDAO();
         List<Empresa> empresas = new ArrayList<>();
-        Empresa empresa;
 
         if (session == null || session.getAttribute("tipoUsuario") == null) {
             System.out.println("erro");
@@ -36,20 +37,17 @@ public class ListarEmpresasServlet extends HttpServlet {
             return;
         }
 
+//                Verificando a página atual:
+        if (request.getParameter("pagina") != null) {
+            pagina = Integer.parseInt(request.getParameter("pagina"));
+            if (pagina < 1) {
+                pagina = 1;
+            }
+        }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
-            empresa = empresaDAO.buscarPorId(((Empresa) session.getAttribute("empresa")).getId());
-
-            request.setAttribute("empresa", empresa);
+            empresas.add(empresaDAO.buscarPorId(((Empresa) session.getAttribute("empresa")).getId()));
         } else {
-//                Verificando a página atual:
-            if (request.getParameter("pagina") != null) {
-                pagina = Integer.parseInt(request.getParameter("pagina"));
-                if (pagina < 1) {
-                    pagina = 1;
-                }
-            }
-
             //              Vendo se há algum filtro definido:
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
@@ -63,16 +61,17 @@ public class ListarEmpresasServlet extends HttpServlet {
                 }
 
             } else {
-                empresas = empresaDAO.listar(pagina, limite);
-                if (empresas.isEmpty()) {
-                    pagina--;
-                    empresas = empresaDAO.listar(pagina, limite);
-                }
-            }
+                totalRegitros = empresaDAO.contar();
+                totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
 
-            request.setAttribute("empresas", empresas);
+//              Garante que pagina está no intervalo válido [1, totalPaginas]
+                pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                empresas = totalRegitros > 0 ? empresaDAO.listar(pagina, limite) : new ArrayList<>();
+            }
         }
 
+        request.setAttribute("empresas", empresas);
         request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
 
 //        Setando atributo de página atual:

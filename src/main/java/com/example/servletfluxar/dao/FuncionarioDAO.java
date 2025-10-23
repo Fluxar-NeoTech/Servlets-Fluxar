@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, DependeEmpresa<Funcionario> {
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
     @Override
     public List<Funcionario> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Funcionario> funcionarios = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:
@@ -51,13 +51,14 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     @Override
     public List<Funcionario> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Funcionario> funcionarios = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(f.*) \"contador\" FROM funcionario f JOIN setor s " +
+            pstmt = conn.prepareStatement("SELECT f.* FROM funcionario f JOIN setor s " +
                     "ON f.id_setor = s.id JOIN unidade u ON s.id_unidade = u.id JOIN empresa e " +
                     "ON u.id_empresa = e.id WHERE e.id = ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setInt(1, idEmpresa);
@@ -67,7 +68,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
 //            Criando objetos e adicionando a lista dos funcionários:
             while (rs.next()) {
-                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha"), rs.getString("cargo"), rs.getInt("id_setor")));
             }
 
 //        Retornando os funcionários cadastrados:
@@ -82,7 +83,9 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM funcionario");
 
@@ -101,12 +104,14 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
     @Override
     public int contarPorIdEmpresa(int idEmpresa){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT COUNT(f.*) \"contador\" FROM funcionario f JOIN setor s " +
                     "ON f.id_setor = s.id JOIN unidade u ON s.id_unidade = u.id JOIN empresa e " +
                     "ON u.id_empresa = e.id WHERE e.id = ?");
             pstmt.setInt(1, idEmpresa);
-            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM funcionario");
+            rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return rs.getInt("contador");
@@ -122,6 +127,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     }
 
     public int contarPorEmpresaStatus(char status){
+        Connection conn = null;
         try{
             pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario f JOIN setor s ON f.id_setor = s.id" +
                     "JOIN unidade u ON s.id_unidade = u.id JOIN empresa e ON u.id_empresa = e.id " +
@@ -142,36 +148,10 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
         }
     }
 
-    public Map<Integer, Funcionario> listarPorEmpresa(int codigoEmpresa) {
-//        Declarando variáveis:
-        Map<Integer, Funcionario> funcionarios = new HashMap<>();
-
-//        Conectando ao banco de dados e enviando sql:
-        try {
-            conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM funcionario f JOIN setor s ON s.id=f.id_setor JOIN unidade u ON u.id=s.id_unidade JOIN empresa e ON e.id=u.id_empresa WHERE e.id = ? ORDER BY id");
-            pstmt.setInt(1,codigoEmpresa);
-            rs = pstmt.executeQuery();
-
-//            Criando objetos e adicionando a lista dos funcionários:
-            while (rs.next()) {
-                funcionarios.put(rs.getInt("id"), new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("senha"), rs.getString("email"), rs.getString("cargo"), rs.getInt("id_setor")));
-            }
-
-//        Retornando os funcionários cadastrados:
-            return funcionarios;
-
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-            return funcionarios;
-        }finally {
-            Conexao.desconectar(conn);
-        }
-    }
-
     @Override
     public Funcionario buscarPorId(int id){
 //        Declaração de variáveis:
+        Connection conn = null;
         Funcionario funcionario;
 
 //        Conectando ao banco de dados:
@@ -206,6 +186,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     @Override
     public Funcionario buscarPorEmail(String email){
 //        Declaração de variáveis:
+        Connection conn = null;
         Funcionario funcionario;
 
 //        Conectando ao banco de dados:
@@ -240,6 +221,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     @Override
     public Funcionario buscarPorNome(String nome){
 //        Declaração de variáveis:
+        Connection conn = null;
         Funcionario funcionario;
 
 //        Conectando ao banco de dados:
@@ -274,6 +256,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     @Override
     public Funcionario autenticar(String email, String senha){
 //        Declaração de variáveis:
+        Connection conn = null;
         Funcionario funcionario;
 
 //        Tentando conectar ao banco de dados:
@@ -309,7 +292,6 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
     public boolean inserir(Funcionario funcionario){
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
 
 //        Conectando ao banco de dados:
         try{
@@ -334,6 +316,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
     @Override
     public  boolean alterarSenha(String email, String novaSenha) {
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
@@ -356,6 +339,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
     @Override
     public  boolean alterar(Funcionario funcionario) {
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();

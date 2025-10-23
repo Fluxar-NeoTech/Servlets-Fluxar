@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class TelefoneDAO implements DAO<Telefone> {
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
@@ -20,6 +19,7 @@ public class TelefoneDAO implements DAO<Telefone> {
     @Override
     public List<Telefone> listar(int pagina, int limite) {
 //        Declaração de variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Telefone> telefones = new ArrayList<>();
 
@@ -45,7 +45,9 @@ public class TelefoneDAO implements DAO<Telefone> {
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
 
@@ -65,6 +67,7 @@ public class TelefoneDAO implements DAO<Telefone> {
 //    Método para listar telefones por empresa:
     public List<Telefone> listarPorIdEmpresa(int idEmpresa) {
 //        Declaração de variáveis:
+        Connection conn = null;
         List<Telefone> telefones = new ArrayList<>();
 
 //        Conectando ao banco:
@@ -93,8 +96,6 @@ public class TelefoneDAO implements DAO<Telefone> {
     public Telefone buscarPorId(int id) {
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
 
 //        Conectando ao banco de dados:
         try {
@@ -119,11 +120,9 @@ public class TelefoneDAO implements DAO<Telefone> {
 
 
 //    Buscar pelo número de telefone em si:
-    public static Telefone buscarPorNumero(String numero) {
+    public Telefone buscarPorNumero(String numero) {
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
 
 //        Conectando ao banco de dados:
         try {
@@ -148,6 +147,7 @@ public class TelefoneDAO implements DAO<Telefone> {
 
     @Override
     public boolean inserir(Telefone telefone){
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();

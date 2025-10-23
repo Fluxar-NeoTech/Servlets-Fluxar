@@ -1,5 +1,5 @@
-<%@ page import="com.example.servletfluxar.model.Plano" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
+<%@ page import="java.util.List" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -7,13 +7,15 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listar planos</title>
+  <title>Home</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
-  request.setAttribute("ativo", true);
+  Integer paginaObjeto = (Integer) request.getAttribute("pagina");
+  int pagina = (paginaObjeto!=null) ? paginaObjeto: 1;
+  List<Empresa> empresas = (List<Empresa>) request.getAttribute("empresas");
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -25,6 +27,7 @@
               ((Empresa) session.getAttribute("empresa")).getNome() :
               ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                       ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
+    </p>
   </div>
 </header>
 <aside>
@@ -38,7 +41,7 @@
     <ul class="linksServlet">
       <li>
         <a href="${pageContext.request.contextPath}/HomeServlet">
-          <div class="text">
+          <div class="text" id="atual">
             Home
           </div>
         </a>
@@ -72,7 +75,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
-          <div class="text" id="atual">
+          <div class="text">
             <%if (tipoUsuario == "administrador") {%>
               Empresas
             <%} else {%>
@@ -109,31 +112,11 @@
   </nav>
 
   <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}%>/index.html">Sair</a>
+    <a id="sairB" href="${pageContext.request.contextPath}/index.html">Sair</a>
   </div>
 </aside>
 <main>
-  <p id="title">Adicionar Plano</p>
 
-  <form action="${pageContext.request.contextPath}/AdicionarPlanoServlet" method="post">
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="name">
-
-    <div>
-      <input type="radio" id="anual" name="tempo" value="12">
-      <label for="anual">Anual</label>
-      <input type="radio" id="mensal" name="tempo" value="1">
-      <label for="mensal">Mensal</label>
-    </div>
-
-    <label for="preco">Preço:</label>
-    <input type="text" name="preco" id="preco">
-
-    <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
-    </div>
-  </form>
 </main>
 </body>
 
