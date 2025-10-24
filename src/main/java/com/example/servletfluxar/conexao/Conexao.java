@@ -17,8 +17,10 @@ public class Conexao {
             conn = DriverManager.getConnection(url,usuario,senha);
             return conn;
         }catch (SQLException sqle){
+            sqle.printStackTrace();
             return conn;
-        }catch (Exception e){
+        }catch (ClassNotFoundException cnfe){
+            cnfe.printStackTrace();
             return conn;
         }
     }
@@ -29,6 +31,7 @@ public class Conexao {
                 conn.close();
             }
         }catch (SQLException sqle){
+            sqle.printStackTrace();
             throw new RuntimeException("Erro ao fechar conexão");
         }
     }

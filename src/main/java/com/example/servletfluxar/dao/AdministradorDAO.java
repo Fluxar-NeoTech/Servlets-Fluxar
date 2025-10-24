@@ -296,6 +296,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 }

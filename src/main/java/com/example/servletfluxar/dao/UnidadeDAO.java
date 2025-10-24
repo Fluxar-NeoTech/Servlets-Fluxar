@@ -199,7 +199,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         } catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally {
+        } finally {
             Conexao.desconectar(conn);
         }
     }

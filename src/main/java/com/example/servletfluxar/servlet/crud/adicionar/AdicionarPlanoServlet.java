@@ -26,12 +26,10 @@ public class AdicionarPlanoServlet extends HttpServlet {
             } else {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
-
-            request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
-                    .forward(request, response);
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
     }
 
@@ -55,12 +53,10 @@ public class AdicionarPlanoServlet extends HttpServlet {
             } else {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
-
-            request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
-                    .forward(request, response);
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
 
 //        Verificações do input:
