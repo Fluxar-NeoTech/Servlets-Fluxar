@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administrador> {
 //    Declaração de atributos:
-    private Connection conn;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
@@ -22,6 +21,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public List<Administrador> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         Administrador administrador;
         List<Administrador> administradores = new ArrayList<>();
@@ -59,7 +59,9 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
 
@@ -79,6 +81,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorId(int id){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -111,6 +114,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorNome(String nome){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -143,6 +147,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorEmail(String email){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -175,6 +180,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador autenticar(String email, String senha){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador = null;
 
 //        Conectando ao banco de dados:
@@ -208,6 +214,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean inserir (Administrador administrador) {
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -229,6 +236,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean alterar(Administrador administrador) {
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
@@ -253,6 +261,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try {
             // Obtenção da conexão com o banco de dados
@@ -276,6 +285,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean deletarPorId(int id){
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try{
             conn = Conexao.conectar();

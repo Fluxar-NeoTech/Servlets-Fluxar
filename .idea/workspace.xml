@@ -10,34 +10,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AssinaturaDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EnderecoDAO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DependeEmpresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/interfaces/DependeEmpresa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarPlanoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Endereco.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Unidade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/model/Unidade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAssinaturasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAssinaturasServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarFuncionariosServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarFuncionariosServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarSetoresServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarSetoresServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarUnidadesServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarUnidadesServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverPlanoServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/FormatoOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/FormatoOutput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/Assets/CSS/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/Assets/CSS/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/alterarPlano.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/alterarPlano.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolhaSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/escolhaSenha.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/inputCodigo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/Admin/inputCodigo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarBoleto.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarCartao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarPIX.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/cadastro/pagamento/confirmar/confirmarTransferencia.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,21 +93,23 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/caiomaciel-ieg/OneDrive - Instituto J&F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/src/main/webapp/WEB-INF/pages/unidades",
+    "last_opened_file_path": "C:/Users/caiomaciel-ieg/OneDrive - Instituto J&F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/src/main/webapp/WEB-INF/pages/assinaturas",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\unidades" />
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\AdminNeoTech" />
-      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar\src\main\resources" />
-      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\assinaturas" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\setores" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\administradores" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\funcionarios" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
@@ -124,12 +127,12 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.42">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.14.10">
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/NeoTechSite_war/index.html">
       <method v="2" />
     </configuration>
-    <configuration name="Tomcat 10.1.42" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+    <configuration name="Tomcat 10.14.10" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="update-resources" />
       <deployment>
         <artifact name="NeoTechSite:war exploded">
           <settings>
@@ -217,7 +220,7 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.index.html" />
-      <item itemvalue="Tomcat Server.Tomcat 10.1.42" />
+      <item itemvalue="Tomcat Server.Tomcat 10.14.10" />
     </list>
     <recent_temporary>
       <list>
@@ -298,7 +301,15 @@
       <workItem from="1760747870072" duration="824000" />
       <workItem from="1760891478318" duration="25824000" />
       <workItem from="1760976796280" duration="820000" />
-      <workItem from="1761000714370" duration="3314000" />
+      <workItem from="1761000714370" duration="10568000" />
+      <workItem from="1761072155760" duration="65000" />
+      <workItem from="1761072410207" duration="5000" />
+      <workItem from="1761090839270" duration="4910000" />
+      <workItem from="1761132094169" duration="52000" />
+      <workItem from="1761133031472" duration="5843000" />
+      <workItem from="1761175245821" duration="16304000" />
+      <workItem from="1761237199823" duration="37000" />
+      <workItem from="1761257241264" duration="5982000" />
     </task>
     <servers />
   </component>
@@ -318,5 +329,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

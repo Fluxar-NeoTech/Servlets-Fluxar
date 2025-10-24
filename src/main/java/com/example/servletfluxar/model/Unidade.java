@@ -7,17 +7,23 @@ public class Unidade {
     private String nome;
     private String cnpj;
     private String email;
-    private int idEndereco;
     private int idEmpresa;
+    private String cep;
+    private int numero;
+    private String complemento;
 
 //    Métodos construtores:
-    public Unidade(int id, String nome, String cnpj, String email, int idEndereco, int idEmpresa) {
+
+
+    public Unidade(int id, String nome, String cnpj, String email, int idEmpresa, String cep, int numero, String complemento) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
         this.email = email;
-        this.idEndereco = idEndereco;
         this.idEmpresa = idEmpresa;
+        this.cep = cep;
+        this.numero = numero;
+        this.complemento = complemento;
     }
 
     public Unidade() {
@@ -41,12 +47,20 @@ public class Unidade {
         return email;
     }
 
-    public int getIdEndereco() {
-        return idEndereco;
-    }
-
     public int getIdEmpresa() {
         return idEmpresa;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
     }
 
     public void setId(int id) {
@@ -65,11 +79,19 @@ public class Unidade {
         this.email = email;
     }
 
-    public void setIdEndereco(int idEndereco) {
-        this.idEndereco = idEndereco;
-    }
-
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 }

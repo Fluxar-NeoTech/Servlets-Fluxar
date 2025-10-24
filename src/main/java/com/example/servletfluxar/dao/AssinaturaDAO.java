@@ -10,7 +10,6 @@ import java.util.List;
 
 public class AssinaturaDAO implements DAO<Assinatura>{
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
@@ -18,6 +17,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     @Override
     public List<Assinatura> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Assinatura> assinaturas = new ArrayList<>();
 
@@ -47,7 +47,9 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM assinatura");
 
@@ -66,7 +68,9 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     }
 
     public int contarPorStatus(char status){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM assinatura WHERE status = ?");
             pstmt.setString(1, String.valueOf(status));
             rs = pstmt.executeQuery();
@@ -85,6 +89,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     }
 
     public Assinatura buscarPorIdEmpresa(int idEmpresa) {
+        Connection conn = null;
 //        Conectando ao banco de dados e enviando o select no SQL:
         try {
             conn = Conexao.conectar();
@@ -107,6 +112,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     @Override
     public Assinatura buscarPorId(int id) {
+        Connection conn = null;
 //        Conectando ao banco de dados e enviando select do SQL:
         try {
             conn = Conexao.conectar();
@@ -128,6 +134,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     @Override
     public boolean inserir (Assinatura assinatura) {
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try {
             // Obtenção da conexão com o banco de dados:
@@ -155,6 +162,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     @Override
     public boolean alterar(Assinatura assinatura) {
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
@@ -182,6 +190,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     @Override
     public boolean deletarPorId(int id){
+        Connection conn = null;
 //        Tenatando conectar ao banco de dados:
         try{
             conn = Conexao.conectar();

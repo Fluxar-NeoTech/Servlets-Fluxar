@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public class ListarPlanosServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int pagina = 1;
         int limite = 6;
+        int totalRegitros = 0;
+        int totalPaginas = 0;
         PlanoDAO planoDAO = new PlanoDAO();
         List<Plano> planos = null;
 
@@ -38,13 +41,9 @@ public class ListarPlanosServlet extends HttpServlet {
 
 //        Verificando se no jsp é declarado :
         if (request.getParameter("pagina") != null){
-            try {
-                pagina = Integer.parseInt(request.getParameter("pagina"));
-                if (pagina<1){
-                    pagina=1;
-                }
-            } catch (NullPointerException npe){
-                pagina = 1;
+            pagina = Integer.parseInt(request.getParameter("pagina"));
+            if (pagina<1){
+                pagina=1;
             }
         }
 
@@ -61,11 +60,13 @@ public class ListarPlanosServlet extends HttpServlet {
             }
         } else {
 //            Caso não haja um filtro, ele retorna todos os elementos:
-            planos = planoDAO.listar(pagina, limite);
-            if (planos.isEmpty()){
-                pagina--;
-                planos = planoDAO.listar(pagina, limite);
-            }
+            totalRegitros = planoDAO.contar();
+            totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+
+//              Garante que pagina está no intervalo válido [1, totalPaginas]
+            pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+            planos = totalRegitros > 0 ? planoDAO.listar(pagina, limite) : new ArrayList<>();
         }
 
         request.setAttribute("pagina", pagina);

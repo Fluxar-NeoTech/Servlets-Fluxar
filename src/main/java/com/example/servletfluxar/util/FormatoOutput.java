@@ -1,5 +1,8 @@
 package com.example.servletfluxar.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class FormatoOutput {
     /**
      * Método que formata o preço para mostrar ao usuário
@@ -19,5 +22,34 @@ public class FormatoOutput {
 //      Usa regex para inserir os caracteres no lugar correto
         return cnpj.replaceFirst("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})",
                 "$1.$2.$3/$4-$5");
+    }
+
+    /**
+     * Método que transforma o valor do tempo para uma string de duração
+     * @param tempo Tempo registrado no banco de dados
+     * @return      retorna Anual se o tempo for 12 meses e Mensal se for 1 mês
+     */
+    public static String duracao (int tempo){
+        return tempo==1 ? "Mensal" : "Anual";
+    }
+
+    /**
+     * Método que une o valor do nome ao sobrenome:
+     * @param nome Nome do usuário
+     * @param sobrenome Sobrenome do usuário
+     * @return         nome + espaço + sobrenome
+     */
+    public static String nome(String nome, String sobrenome){
+        return nome + " " + sobrenome;
+    }
+
+    /**
+     * Método para formatar a data para mostrar ao usuário
+     * @param data É a data que vem dos DAOs
+     * @return     A data no formato ano / mês / dia
+     */
+    public static String data(LocalDate data){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return formatter.format(data);
     }
 }

@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
@@ -21,6 +20,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
     @Override
     public List<Unidade> listar(int pagina, int limite){
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Unidade> unidades = new ArrayList<>();
 
@@ -34,14 +34,19 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
 //            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento")));
             }
 
 //        Retornando as unidades cadastradas:
             return unidades;
 
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return null;
+
         }finally {
             Conexao.desconectar(conn);
         }
@@ -50,6 +55,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
     @Override
     public List<Unidade> listarPorIdEmpresa(int pagina, int limite, int idEmpresa){
 //        Declaração de variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Unidade> unidades = new ArrayList<>();
 
@@ -64,13 +70,17 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:
             return unidades;
 
         }catch (SQLException sqle){
+            sqle.printStackTrace();
             return unidades;
         }finally {
             Conexao.desconectar(conn);
@@ -79,7 +89,9 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM unidade");
 
@@ -98,7 +110,9 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public int contarPorIdEmpresa(int idEmpresa){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
                     "ON u.id_empresa = e.id WHERE e.id = ?");
             pstmt.setInt(1, idEmpresa);
@@ -117,7 +131,9 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         }
     }
     public int contarPorEmpresaStatus(char status){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
                     "ON u.id_empresa = e.id JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
             pstmt.setString(1, String.valueOf(status));
@@ -138,6 +154,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public Unidade buscarPorId(int id){
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -147,7 +164,10 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa"));
+                return new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento"));
             }
             return null;
 
@@ -161,15 +181,19 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public boolean inserir (Unidade unidade){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO unidade (cnpj, nome, email, id_endereco, id_empresa)" +
-                    "VALUES (?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO unidade (cnpj, nome, email, id_empresa, " +
+                    "endereco_cep, endereco_numero, endereco_complemento)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, unidade.getCnpj());
             pstmt.setString(2, unidade.getNome());
             pstmt.setString(3, unidade.getEmail());
-            pstmt.setInt(4, unidade.getIdEndereco());
-            pstmt.setInt(5, unidade.getIdEmpresa());
+            pstmt.setInt(4, unidade.getIdEmpresa());
+            pstmt.setString(5, unidade.getCep());
+            pstmt.setInt(6, unidade.getNumero());
+            pstmt.setString(7, unidade.getComplemento());
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException sqle){
@@ -182,13 +206,17 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public boolean alterar (Unidade unidade){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("UPDATE unidade SET nome = ?, email = ?, id_endereco = ? WHERE id = ?");
+            pstmt = conn.prepareStatement("UPDATE unidade SET nome = ?, email = ?, endereco_cep = ?, endereco_numero = ?, " +
+                    "endereco_complemento = ? WHERE id = ?");
             pstmt.setString(1, unidade.getNome());
             pstmt.setString(2, unidade.getEmail());
-            pstmt.setInt(3, unidade.getIdEndereco());
-            pstmt.setInt(4, unidade.getId());
+            pstmt.setString(3, unidade.getCep());
+            pstmt.setInt(4, unidade.getNumero());
+            pstmt.setString(5, unidade.getComplemento());
+            pstmt.setInt(6, unidade.getId());
 
             return pstmt.executeUpdate()>0;
         } catch (SQLException sqle) {
@@ -201,6 +229,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 
     @Override
     public boolean deletarPorId (int id){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM unidade WHERE id = ?");
