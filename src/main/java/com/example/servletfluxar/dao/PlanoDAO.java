@@ -1,32 +1,34 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.dao.interfaces.GenericoDAO;
 import com.example.servletfluxar.model.Plano;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PlanoDAO {
-//    Criando método para listar os planos:
-    public static List<Plano> listar(){
+public class PlanoDAO implements GenericoDAO<Plano> {
+//    Declaração de atributos:
+    private Connection conn = null;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
+    @Override
+    public Map<Integer, Plano> listar(int pagina, int limite){
 //        Declarando variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
-        List<Plano> planos = new ArrayList<>();
+        int offset = (pagina - 1) * limite;
+        Map<Integer, Plano> planos = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM plano ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM plano ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
 //            Adicionando registros do banco de dados a lista de planos:
             while (rs.next()){
-                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+                planos.put(rs.getInt("id"), new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
             }
 
 //            Retornando a lista de planos:
@@ -39,19 +41,12 @@ public class PlanoDAO {
         }
     }
 
-    public static Plano buscarPeloId(int id){
-//        Declarando variáveis:
-        String sql = "SELECT * FROM plano WHERE id = ?";
-        Connection conn;
-        PreparedStatement pstmt;
-        ResultSet rs;
-        Plano plano;
-        List<Plano> planos = new ArrayList<>();
-
+    @Override
+    public Plano buscarPorId(int id){
 //        Conectando ao banco de dados e enviando sql:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE id = ?");
             pstmt.setInt(1,id);
             rs = pstmt.executeQuery();
 
@@ -68,11 +63,8 @@ public class PlanoDAO {
         return null;
     }
 
-    public static boolean cadastrar(Plano plano){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-
+    @Override
+    public boolean inserir(Plano plano){
 //        Conectando ao banco de dados e dando o insert:
         try{
             conn = Conexao.conectar();
@@ -91,11 +83,8 @@ public class PlanoDAO {
         }
     }
 
-    public static boolean alterar(Plano plano){
-//      Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-
+    @Override
+    public boolean alterar(Plano plano){
         try {
             // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();
@@ -118,14 +107,15 @@ public class PlanoDAO {
         }
     }
 
-    public boolean removerPorId(int id){
+    @Override
+    public boolean deletarPorId(int id){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;
 
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM plano WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM plano WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 

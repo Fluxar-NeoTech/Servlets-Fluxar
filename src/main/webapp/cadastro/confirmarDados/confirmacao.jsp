@@ -10,8 +10,7 @@
         cnpjFormatado = cnpjBruto; // mostra como está, se não for válido
     }
     
-    Boolean statusObj=(Boolean) session.getAttribute("status"); 
-    boolean status=(statusObj !=null) ? statusObj : false; 
+    Boolean statusObj=(Boolean) session.getAttribute("status");
     int plano= (int) session.getAttribute("plano");
     String planoString="" ;
     String duracaoString="";

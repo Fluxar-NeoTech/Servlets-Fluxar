@@ -9,20 +9,20 @@ public class Empresa {
     private String cnpj;
     private String email;
     private String senha;
-    private String telefone;
+    private Date dtCadastro;
 
 //    Métodos construtores:
-    public Empresa(int id, String nome, String cnpj, String email, String senha, String telefone) {
+    public Empresa(int id, String nome, String cnpj, String email, String senha, Date dtCadastro) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
         this.email = email;
         this.senha = senha;
-        this.telefone = telefone;
+        this.dtCadastro = dtCadastro;
     }
     public Empresa() {}
 
-    //        Getters e setters:
+//        Getters e setters:
 
     public int getId() {
         return id;
@@ -44,8 +44,8 @@ public class Empresa {
         return senha;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public Date getDtCadastro() {
+        return dtCadastro;
     }
 
     public void setId(int id) {
@@ -68,7 +68,7 @@ public class Empresa {
         this.senha = senha;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setDataCadastro(Date dtCadastro) {
+        this.dtCadastro = dtCadastro;
     }
 }

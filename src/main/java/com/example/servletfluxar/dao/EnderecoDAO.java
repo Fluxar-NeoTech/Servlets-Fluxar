@@ -1,33 +1,41 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.dao.interfaces.GenericoDAO;
+import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Endereco;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class EnderecoDAO {
-    public static List<Endereco> listar() {
+public class EnderecoDAO implements GenericoDAO<Endereco> {
+//    Declarando atributos:
+    private Connection conn = null;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
+    @Override
+    public Map<Integer, Endereco> listar(int pagina, int limite) {
 //        Declarando variáveis:
-        Connection conn = null;
-        Statement stmt;
-        ResultSet rs;
-        List<Endereco> enderecos = new ArrayList<>();
+        int offset = (pagina - 1) * limite;
+        Map<Integer, Endereco> enderecos = new HashMap<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM endereco ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM endereco ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista dos endereços:
             while (rs.next()) {
-                enderecos.add(new Endereco(rs.getInt("id"), rs.getString("cep"), rs.getInt("numero"), rs.getString("complemento")));
+                enderecos.put(rs.getInt("id"), new Endereco(rs.getInt("id"), rs.getString("cep"), rs.getInt("numero"), rs.getString("complemento")));
             }
 
-//            Returnando a lista de endereços
-
+//            Returnando o map com os endereços:
             return enderecos;
 
         } catch (Exception e) {
@@ -37,12 +45,8 @@ public class EnderecoDAO {
         }
     }
 
-    public static Endereco buscarPorId(int id){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
-
+    @Override
+    public Endereco buscarPorId(int id){
 //        Conectando ao banco de dados e executando sql:
         try{
             conn = Conexao.conectar();
@@ -62,11 +66,8 @@ public class EnderecoDAO {
         }
     }
 
-    public static boolean adicionar(Endereco endereco){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-
+    @Override
+    public boolean inserir(Endereco endereco){
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -86,7 +87,30 @@ public class EnderecoDAO {
         }
     }
 
-    public static boolean removerPorId(int id){
+    @Override
+    public boolean alterar(Endereco endereco){
+//        Tentando conectar ao banco de dados:
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("UPDATE empresa SET cep = ?, numero = ?, complemento = ? WHERE id = ?");
+            pstmt.setString(1, endereco.getCep());
+            pstmt.setInt(2, endereco.getNumero());
+            pstmt.setString(3, endereco.getComplemento());
+            pstmt.setInt(4, endereco.getId());
+
+//            Retornando se houve um retono na alteração:
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean deletarPorId(int id){
 //        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;

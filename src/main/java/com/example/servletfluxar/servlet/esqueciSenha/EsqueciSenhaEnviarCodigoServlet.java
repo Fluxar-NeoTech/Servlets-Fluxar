@@ -1,14 +1,16 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.esqueciSenha;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
+import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import util.EmailService;
+import com.example.servletfluxar.util.EmailService;
 import java.io.IOException;
 
 @WebServlet(name = "EsqueciSenhaEnviarCodigoServlet", value = "/EsqueciSenhaEnviarCodigoServlet")
@@ -23,9 +25,11 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String emailInput;
-        RequestDispatcher dispatcher = null;
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario funcionario;
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresa;
+        AdministradorDAO administradorDAO = new AdministradorDAO();
         Administrador administrador;
         String codigo;
         HttpSession session = request.getSession();
@@ -33,16 +37,25 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
 //        Recebendo o input do usuário:
         emailInput = request.getParameter("emailUsuario").trim();
 
-//        Verificando se o email é válido:
-        empresa = EmpresaDAO.buscarPorEmail(emailInput);
-        administrador = AdministradorDAO.buscarPorEmail(emailInput);
+//        Verificando se o email possui formato válido:
+        if (!ValidacaoInput.validarEmail(emailInput)){
+            request.setAttribute("erroEmail", "Formato de email inválido");
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+                    .forward(request, response);
+            return;
+        }
 
-        if ((empresa != null && empresa.getEmail()!=null) || (administrador!= null && administrador.getEmail()!=null)){
+//        Verificando se o email está cadastrado:
+        empresa = empresaDAO.buscarPorEmail(emailInput);
+        administrador = administradorDAO.buscarPorEmail(emailInput);
+
+        if (empresa != null || administrador != null){
             session.setAttribute("registroAlterar",emailInput);
             codigo = String.valueOf((int) (Math.random() * 900000 + 100000));
 
             try {
-                EmailService.enviarEmail(emailInput, "Seu código de verificação", "Código: " + codigo+"\nNão responda a esse email");
+//                Enviando um email com o código de verificação para ele
+                EmailService.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");
@@ -50,15 +63,15 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("erroEmail", e);
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp");
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+                        .forward(request, response);
             }
 
         }else{
 //            Comunicando email inválido
             request.setAttribute("erroEmail", "Email não cadastrado");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+                    .forward(request, response);
         }
     }
 }

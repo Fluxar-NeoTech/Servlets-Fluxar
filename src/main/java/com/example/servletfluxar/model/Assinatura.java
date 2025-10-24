@@ -1,12 +1,12 @@
 package com.example.servletfluxar.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Assinatura {
 //    Desclaração de variáveis:
     private int id;
-    private Date dtInicio;
-    private Date dtFim;
+    private LocalDate dtInicio;
+    private LocalDate dtFim;
     private char status;
     private int idEmpresa;
     private int idPlano;
@@ -14,7 +14,7 @@ public class Assinatura {
 
 //    Métodos construtores:
 
-    public Assinatura(int id, Date dtInicio, Date dtFim, char status, int idEmpresa, int idPlano, String formaPagamento) {
+    public Assinatura(int id, LocalDate dtInicio, LocalDate dtFim, char status, int idEmpresa, int idPlano, String formaPagamento) {
         this.id = id;
         this.dtInicio = dtInicio;
         this.dtFim = dtFim;
@@ -32,11 +32,11 @@ public class Assinatura {
         return id;
     }
 
-    public Date getDtInicio() {
+    public LocalDate getDtInicio() {
         return dtInicio;
     }
 
-    public Date getDtFim() {
+    public LocalDate getDtFim() {
         return dtFim;
     }
 
@@ -60,11 +60,11 @@ public class Assinatura {
         this.id = id;
     }
 
-    public void setDtInicio(Date dtInicio) {
+    public void setDtInicio(LocalDate dtInicio) {
         this.dtInicio = dtInicio;
     }
 
-    public void setDtFim(Date dtFim) {
+    public void setDtFim(LocalDate dtFim) {
         this.dtFim = dtFim;
     }
 

@@ -1,34 +1,52 @@
 package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.dao.interfaces.ComLoginDAO;
+import com.example.servletfluxar.dao.interfaces.GenericoDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class AdministradorDAO {
-    public static List<Administrador> listar() {
+public class AdministradorDAO implements GenericoDAO<Administrador>, ComLoginDAO<Administrador> {
+//    Declaração de atributos:
+    private Connection conn;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
+
+    @Override
+    public Map<Integer, Administrador> listar(int pagina, int limite) {
 //        Declarando variáveis:
-        Connection conn = null;
-        Statement stmt;
-        ResultSet rs;
-        List<Administrador> administradores = new ArrayList<>();
+        int offset = (pagina - 1) * limite;
+        Administrador administrador;
+        Map<Integer, Administrador> administradores = new HashMap();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
             conn = Conexao.conectar();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM administrador ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT * FROM administrador ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
 
 //            Criando objetos e adicionando a lista dos administradores:
             while (rs.next()) {
-                administradores.add(new Administrador(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha")));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+//                Adicionando o administrador ao map de administradores:
+                administradores.put(rs.getInt("id"), administrador);
             }
 
-//            Returnando a lista de administrador
+//            Retornando o map de administrador:
             return administradores;
 
         } catch (SQLException sqle) {
@@ -39,13 +57,11 @@ public class AdministradorDAO {
         }
     }
 
-    public static Administrador buscarPorId(int id){
+    @Override
+    public Administrador buscarPorId(int id){
 //        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Administrador administrador;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE id = ?");
@@ -54,7 +70,13 @@ public class AdministradorDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+                return administrador;
             }
             return null;
 
@@ -66,13 +88,73 @@ public class AdministradorDAO {
         }
     }
 
-    public static Administrador buscarPorEmail(String email){
+    @Override
+    public Administrador buscarPorNome(String nome){
 //        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
+        Administrador administrador;
 
-//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT id, nome+\' \'+sobrenome \"nome_completo\", email, senha  FROM administrador WHERE nome_completo LIKE ?");
+            pstmt.setString(1, nome);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um retorno com um registro do banco de dados:
+            if(rs.next()){
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+                return administrador;
+            }
+            return null;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public Administrador buscarPorEmail(String email){
+//        Declaração de variáveis:
+        Administrador administrador;
+
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email LIKE ?");
+            pstmt.setString(1, email);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um retorno com um registro do banco de dados:
+            if(rs.next()){
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+                return administrador;
+            }
+            return null;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public Administrador autenticar(String email, String senha){
+//        Declaração de variáveis:
+        Administrador administrador = null;
+
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email = ?");
@@ -81,7 +163,15 @@ public class AdministradorDAO {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+                if (BCrypt.checkpw(senha, rs.getString("senha"))){
+                    return administrador;
+                }
             }
             return null;
 
@@ -93,40 +183,8 @@ public class AdministradorDAO {
         }
     }
 
-    public static Administrador buscarPorNomeSobrenome(String nome, String sobrenome){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-        ResultSet rs;
-
-//        Conectando ao banco de dados:
-        try{
-            conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE nome = ? AND sobrenome = ?");
-            pstmt.setString(1, nome);
-            pstmt.setString(2,sobrenome);
-            rs = pstmt.executeQuery();
-
-//            Verificando se há um retorno com um registro do banco de dados:
-            if(rs.next()){
-                return new Administrador(rs.getInt("id"),rs.getString("nome"),rs.getString("sobrenome"),rs.getString("email"),rs.getString("senha"));
-            }
-            return null;
-
-        }catch (SQLException sqle){
-            sqle.printStackTrace();
-            return null;
-        } finally {
-            Conexao.desconectar(conn);
-        }
-    }
-
-    public static boolean cadastrar(Administrador administrador){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
-
-//        Conectando ao banco de dados:
+    @Override
+    public boolean inserir (Administrador administrador) {
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("INSERT INTO administrador (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?, ?)");
@@ -145,22 +203,20 @@ public class AdministradorDAO {
         }
     }
 
-    public static boolean alterarSenha(String email, String novaSenha) {
-        // Declaração de variáveis
-        Connection conn = null;
-        PreparedStatement pstm;
-
+    @Override
+    public boolean alterar(Administrador administrador) {
         try {
-            // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
 
             // Preparação do comando SQL para atualizar a senha do admin da empresa
-            pstm = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
-            pstm.setString(1,novaSenha);
-            pstm.setString(2,email);
+            pstmt = conn.prepareStatement("UPDATE administrador SET nome = ?, sobrenome = ?, email = ? WHERE id = ?");
+            pstmt.setString(1, administrador.getNome());
+            pstmt.setString(2, administrador.getSobrenome());
+            pstmt.setString(3, administrador.getEmail());
+            pstmt.setInt(4, administrador.getId());
 
             // Execução da atualização
-            return pstm.executeUpdate()>0;
+            return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -170,14 +226,32 @@ public class AdministradorDAO {
         }
     }
 
-    public boolean removerPorId(int id){
-//        Declaração de variáveis:
-        Connection conn = null;
-        PreparedStatement pstmt;
+    @Override
+    public boolean alterarSenha(String email, String novaSenha) {
+        try {
+            conn = Conexao.conectar();
 
+            // Preparação do comando SQL para atualizar a senha do admin da empresa
+            pstmt = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
+            pstmt.setString(1,novaSenha);
+            pstmt.setString(2,email);
+
+            // Execução da atualização
+            return pstmt.executeUpdate()>0;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public boolean deletarPorId(int id){
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("DELETE * FROM administrador WHERE id = ?");
+            pstmt = conn.prepareStatement("DELETE FROM administrador WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;
 

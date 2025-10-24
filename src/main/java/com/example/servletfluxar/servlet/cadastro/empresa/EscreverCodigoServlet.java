@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "EscreverCodigoEmpresaServlet", value = "/EscreverCodigoEmpresaServlet")
-public class EscreverCodigoEmpresaServlet extends HttpServlet {
+@WebServlet(name = "EscreverCodigoServlet", value = "/EscreverCodigoServlet")
+public class EscreverCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -19,7 +19,6 @@ public class EscreverCodigoEmpresaServlet extends HttpServlet {
 //        Declaração de variáveis:
         RequestDispatcher dispatcher = null;
         String codigoInput;
-        String codigo;
         HttpSession session = request.getSession();
         String codigoGerado;
 

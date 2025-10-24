@@ -26,7 +26,7 @@
                 <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
                     <% if (request.getAttribute("erroEmail") !=null) { %>
                         <div class="floating-label-erro">
-                            <input type="email" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"
+                            <input type="text" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"
                                 placeholder=" " required>
                             <label id="label1" for="userEmail">Digite seu email aqui</label>
                             <p class="erro">
@@ -35,7 +35,7 @@
                         </div>
                         <% } else { %>
                             <div class="floating-label">
-                                <input type="email" class="inputs userEmail" id="emailUsuario" name="emailUsuario"
+                                <input type="text" class="inputs userEmail" id="emailUsuario" name="emailUsuario"
                                     placeholder=" " required>
                                 <label id="label2" for="emailUsuario">Digite seu email aqui</label>
                             </div>

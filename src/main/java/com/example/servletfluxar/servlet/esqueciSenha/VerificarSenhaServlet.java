@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet;
+package com.example.servletfluxar.servlet.esqueciSenha;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
@@ -12,8 +12,8 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
-@WebServlet(name = "VerificarNovaSenhaServlet", value = "/VerificarNovaSenhaServlet")
-public class VerificarNovaSenhaServlet extends HttpServlet {
+@WebServlet(name = "VerificarSenhaServlet", value = "/VerificarSenhaServlet")
+public class VerificarSenhaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -25,9 +25,8 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         // Declaração de variáveis:
-        Empresa empresa;
-        Administrador administrador;
-        Funcionario funcionario;
+        EmpresaDAO empresaDAO = new EmpresaDAO();
+        AdministradorDAO administradorDAO = new AdministradorDAO();
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("registroAlterar");
         String novaSenha = request.getParameter("novaSenha").trim();
@@ -36,13 +35,12 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         boolean temNumero = false;
         boolean temMaiuscula = false;
         boolean temMinuscula = false;
-        RequestDispatcher dispatcher = null;
 
         // Verificando se senha está nos padrões:
         if (novaSenha.length() < 8) {
             request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+                    .forward(request, response);
             return;
         } else {
             for (char c : novaSenha.toCharArray()) {
@@ -62,8 +60,8 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
                 request.setAttribute("erroSenha", "Senha deve ter um número");
             }
             if (request.getAttribute("erroSenha") != null) {
-                dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+                        .forward(request, response);
                 return;
             }
         }
@@ -71,8 +69,8 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         // Verificando se a senha e a senha confirmada são iguais:
         if (!senhaConfirmada.equals(novaSenha)) {
             request.setAttribute("erroConfSenha", "Senha incorreta");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+                    .forward(request, response);
             return;
         }
 
@@ -80,12 +78,12 @@ public class VerificarNovaSenhaServlet extends HttpServlet {
         senhaCriptografada = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
 
 //        Atualizando banco de dados:
-        if(EmpresaDAO.alterarSenha(email,senhaCriptografada) || AdministradorDAO.alterarSenha(email, senhaCriptografada) || AdministradorDAO.alterarSenha(email, senhaCriptografada)){
+        if(empresaDAO.alterarSenha(email,senhaCriptografada) || administradorDAO.alterarSenha(email, senhaCriptografada)){
             response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
         }else{
             request.setAttribute("erroSenha","Não foi possível alterar a senha");
-            dispatcher = request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp");
-            dispatcher.forward(request,response);
+            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+                    .forward(request,response);
         }
     }
 }

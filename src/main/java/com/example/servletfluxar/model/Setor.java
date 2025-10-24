@@ -5,12 +5,14 @@ public class Setor {
 //    Declarando os atributos:
     private int id;
     private String nome;
+    private String descricao;
     private int idUnidade;
 
-//    Construtores:
-    public Setor(int id, String nome, int idUnidade) {
+//    Métodos construtores:
+    public Setor(int id, String nome, String descricao, int idUnidade) {
         this.id = id;
         this.nome = nome;
+        this.descricao = descricao;
         this.idUnidade = idUnidade;
     }
 
@@ -18,12 +20,17 @@ public class Setor {
     }
 
     //    Getters e setters:
+
     public int getId() {
         return id;
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 
     public int getIdUnidade() {
@@ -36,6 +43,10 @@ public class Setor {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public void setIdUnidade(int idUnidade) {

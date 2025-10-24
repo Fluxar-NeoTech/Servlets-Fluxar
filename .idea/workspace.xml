@@ -9,7 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="" />
+=======
+    <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/CriarAdminEmpresaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/CriarAdminEmpresaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/NomeCNPJEmpresaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/cadastro/empresa/NomeCNPJEmpresaServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/esqueciSenha/EsqueciSenhaEnviarCodigoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/esqueciSenha/EsqueciSenhaEnviarCodigoServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/login/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/fazerLogin/paginaLogin/login.jsp" afterDir="false" />
+    </list>
+>>>>>>> 33dbeccaaa92d9ad48525d2fe70cd3b7b3ca1016
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,8 +34,9 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="Class" />
         <option value="Jsp File" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -63,6 +75,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
@@ -82,20 +95,42 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "project.propCompiler",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+>>>>>>> 33dbeccaaa92d9ad48525d2fe70cd3b7b3ca1016
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar\src\main\resources" />
       <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF" />
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.servletfluxar.servlet.esqueciSenha" />
     </key>
   </component>
   <component name="RunManager">
+<<<<<<< HEAD
     <configuration name="Tomcat 11.0.11" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="redeploy-artifacts" />
+=======
+    <configuration name="Tomcat 10.1.42" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+>>>>>>> 33dbeccaaa92d9ad48525d2fe70cd3b7b3ca1016
       <deployment>
         <artifact name="NeoTechSite:war exploded">
           <settings>
@@ -185,7 +220,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b7120544-a1ac-497c-a355-b3ab6c894407" name="Changes" comment="" />
+      <changelist id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="" />
       <created>1753447553531</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -219,11 +254,57 @@
       <workItem from="1758120532521" duration="1139000" />
       <workItem from="1758634037991" duration="2166000" />
       <workItem from="1758735088955" duration="1629000" />
+<<<<<<< HEAD
       <workItem from="1760449733627" duration="19000" />
+=======
+      <workItem from="1759021003580" duration="1015000" />
+      <workItem from="1759103028263" duration="135000" />
+      <workItem from="1759103904646" duration="596000" />
+      <workItem from="1759138691461" duration="5592000" />
+      <workItem from="1759253201342" duration="25000" />
+      <workItem from="1759272134162" duration="2000" />
+      <workItem from="1759273855372" duration="4000" />
+      <workItem from="1759314385796" duration="32000" />
+      <workItem from="1759316479105" duration="2074000" />
+      <workItem from="1759330343599" duration="1602000" />
+      <workItem from="1759407803528" duration="197000" />
+      <workItem from="1759414942914" duration="679000" />
+      <workItem from="1759502608277" duration="282000" />
+      <workItem from="1759504025385" duration="672000" />
+      <workItem from="1759539911643" duration="1195000" />
+      <workItem from="1759620805199" duration="14106000" />
+      <workItem from="1759763379402" duration="31000" />
+      <workItem from="1759766596117" duration="591000" />
+      <workItem from="1759790048871" duration="1260000" />
+      <workItem from="1759791339044" duration="604000" />
+      <workItem from="1759792007424" duration="1433000" />
+      <workItem from="1759829537802" duration="1774000" />
+      <workItem from="1759868371103" duration="715000" />
+      <workItem from="1759916869602" duration="8210000" />
+      <workItem from="1759965950560" duration="1159000" />
+      <workItem from="1759967365342" duration="7955000" />
+      <workItem from="1760026132528" duration="911000" />
+      <workItem from="1760052967490" duration="8730000" />
+      <workItem from="1760128324728" duration="7229000" />
+>>>>>>> 33dbeccaaa92d9ad48525d2fe70cd3b7b3ca1016
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/ValidacaoInput.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
