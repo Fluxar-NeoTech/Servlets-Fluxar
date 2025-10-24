@@ -17,16 +17,23 @@ public class RemoverPlanoServlet extends HttpServlet {
         PlanoDAO planoDAO = new PlanoDAO();
         Plano plano = planoDAO.buscarPorId(id);
 
-        if (planoDAO.contar() > 1) {
-            planoDAO.deletarPorId(plano.getId());
+        if (planoDAO.contar() > 1){
+            request.setAttribute("plano", plano);
+            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+                    .forward(request, response);
         }
-
-        request.setAttribute("plano", plano);
-        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        Declaração de variáveis:
+        int id = Integer.parseInt(request.getParameter("id"));
+        PlanoDAO planoDAO = new PlanoDAO();
+        Plano plano = planoDAO.buscarPorId(id);
 
+        planoDAO.deletarPorId(plano.getId());
+
+        request.setAttribute("plano", plano);
+        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
     }
 }

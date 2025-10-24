@@ -30,20 +30,22 @@ public class ListarAdminsServlet extends HttpServlet {
         AdministradorDAO administradorDAO = new AdministradorDAO();
         List<Administrador> administradores = new ArrayList<>();
 
-        if (session == null || session.getAttribute("tipoUsuario") == null) {
-            System.out.println("erro");
-            request.setAttribute("mensagem", "Faça login novamente");
-            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
-                    .forward(request, response);
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
 
 //                Verificando a página atual:
         if (request.getParameter("pagina") != null) {
             pagina = Integer.parseInt(request.getParameter("pagina"));
-            if (pagina < 1) {
-                pagina = 1;
-            }
         }
         if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:

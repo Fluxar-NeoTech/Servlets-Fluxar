@@ -1,6 +1,8 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
 import com.example.servletfluxar.dao.PlanoDAO;
+import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Plano;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -29,22 +31,21 @@ public class ListarPlanosServlet extends HttpServlet {
 
 //        Informando o tipo de usuário logado a fim de saber se pode ou não editar/adicionar dados;
         try {
-            if (session.getAttribute("tipoUsuario")!=null) {
-                request.setAttribute("tipoUsuario", session.getAttribute("tipoUsuario"));
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
-        }catch (NullPointerException npe){
-            request.setAttribute("mensagem", "Você passou tempo demais logado, faça seu login novamente");
-            request.setAttribute("erro", npe);
-            request.getRequestDispatcher("")
-                    .forward(request, response);
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
 
 //        Verificando se no jsp é declarado :
         if (request.getParameter("pagina") != null){
             pagina = Integer.parseInt(request.getParameter("pagina"));
-            if (pagina<1){
-                pagina=1;
-            }
         }
 
 //        Vendo se há algum filtro definido:
