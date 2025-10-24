@@ -56,7 +56,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
-          <div class="text">
+          <div class="text" id="atual">
             Planos
           </div>
         </a>
@@ -72,7 +72,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
-          <div class="text" id="atual">
+          <div class="text">
             <%if (tipoUsuario == "administrador") {%>
               Empresas
             <%} else {%>

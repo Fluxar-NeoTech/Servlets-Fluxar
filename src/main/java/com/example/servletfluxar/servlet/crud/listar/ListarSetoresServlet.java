@@ -3,10 +3,7 @@ package com.example.servletfluxar.servlet.crud.listar;
 import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.dao.SetorDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
-import com.example.servletfluxar.model.Empresa;
-import com.example.servletfluxar.model.Funcionario;
-import com.example.servletfluxar.model.Setor;
-import com.example.servletfluxar.model.Unidade;
+import com.example.servletfluxar.model.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -31,20 +28,22 @@ public class ListarSetoresServlet extends HttpServlet {
         SetorDAO setorDAO = new SetorDAO();
         List<Setor> setores = new ArrayList<>();
 
-        if (session == null || session.getAttribute("tipoUsuario") == null) {
-            System.out.println("erro");
-            request.setAttribute("mensagem", "Faça login novamente");
-            request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
-                    .forward(request, response);
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
 
 //                Verificando a página atual:
         if (request.getParameter("pagina") != null) {
             pagina = Integer.parseInt(request.getParameter("pagina"));
-            if (pagina < 1) {
-                pagina = 1;
-            }
         }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {

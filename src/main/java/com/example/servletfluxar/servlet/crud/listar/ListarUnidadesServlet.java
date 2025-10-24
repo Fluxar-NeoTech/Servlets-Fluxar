@@ -1,6 +1,7 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
 import com.example.servletfluxar.dao.UnidadeDAO;
+import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Unidade;
 import jakarta.servlet.*;
@@ -27,18 +28,22 @@ public class ListarUnidadesServlet extends HttpServlet {
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         List<Unidade> unidades = new ArrayList<>();
 
-
-        if (session == null || session.getAttribute("tipoUsuario") == null) {
-            response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
 
 //                Verificando a página atual:
         if (request.getParameter("pagina") != null) {
             pagina = Integer.parseInt(request.getParameter("pagina"));
-            if (pagina < 1) {
-                pagina = 1;
-            }
         }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {

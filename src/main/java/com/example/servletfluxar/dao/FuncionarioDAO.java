@@ -81,6 +81,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
         }
     }
 
+
     @Override
     public int contar(){
         Connection conn = null;
