@@ -22,11 +22,17 @@ public class AlterarPlanoServlet extends HttpServlet {
         Plano plano = planoDAO.buscarPorId(id);
         session.setAttribute("plano", plano);
 
-        request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-        if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-            request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-        } else {
-            request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
 
         request.setAttribute("plano", plano);
@@ -54,12 +60,10 @@ public class AlterarPlanoServlet extends HttpServlet {
             } else {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
-
-            request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
-                    .forward(request, response);
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
 
 //        Criando um objeto plano:

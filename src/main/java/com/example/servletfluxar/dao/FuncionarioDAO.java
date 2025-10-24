@@ -75,6 +75,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
             return funcionarios;
 
         } catch (Exception e) {
+            e.printStackTrace();
             return funcionarios;
         }finally {
             Conexao.desconectar(conn);

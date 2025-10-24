@@ -80,12 +80,14 @@ public class PlanoDAO implements DAO<Plano> {
 //                Retornando plano encontrado:
                 return new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco"));
             }
+            return null;
 
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return null;
+        } finally {
+            Conexao.desconectar(conn);
         }
-        return null;
     }
 
     @Override

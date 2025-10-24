@@ -1,13 +1,14 @@
 <%@ page import="com.example.servletfluxar.model.Plano" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
+<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listar planos</title>
+  <title>Deletar plano</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
@@ -116,18 +117,37 @@
 <main>
   <p id="title">Deletar plano</p>
 
-  <form action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%= plano.getNome()%>">
-
+  <form action="${pageContext.request.contextPath}/RemoverPlanoServlet" method="post">
     <table>
-
+      <thead>
+        <tr>
+          <th colspan="2">Plano</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Id</td>
+          <td style="border-left: solid 1px"><%=plano.getId()%></td>
+        </tr>
+        <tr>
+          <td>Nome</td>
+          <td style="border-left: solid 1px"><%=plano.getNome()%></td>
+        </tr>
+        <tr>
+          <td>Duracao</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.duracao(plano.getTempo())%></td>
+        </tr>
+        <tr>
+          <td>Id</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.preco(plano.getPreco())%></td>
+        </tr>
+      </tbody>
     </table>
-
+    <input type="hidden" name="id" value="<%= plano.getId() %>">
     <div>
       <button type="submit">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
+      <a id="add" href="${pageContext.request.contextPath}/ListarPlanosServlet">Cancelar</a>
     </div>
   </form>
 </main>
