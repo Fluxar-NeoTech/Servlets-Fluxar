@@ -109,7 +109,7 @@
   </nav>
 
   <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}%>/index.html">Sair</a>
+    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>

@@ -1,21 +1,21 @@
+<%@ page import="com.example.servletfluxar.model.Plano" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
+<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Deletar plano</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
-  Integer paginaObjeto = (Integer) request.getAttribute("pagina");
-  int pagina = (paginaObjeto!=null) ? paginaObjeto: 1;
-  List<Empresa> empresas = (List<Empresa>) request.getAttribute("empresas");
+  Empresa empresa = (Empresa) request.getAttribute("empresa");
+  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -27,7 +27,6 @@
               ((Empresa) session.getAttribute("empresa")).getNome() :
               ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                       ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
-    </p>
   </div>
 </header>
 <aside>
@@ -41,7 +40,7 @@
     <ul class="linksServlet">
       <li>
         <a href="${pageContext.request.contextPath}/HomeServlet">
-          <div class="text" id="atual">
+          <div class="text">
             Home
           </div>
         </a>
@@ -59,7 +58,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
-          <div class="text">
+          <div class="text" id="atual">
             Planos
           </div>
         </a>
@@ -77,9 +76,9 @@
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
             <%if (tipoUsuario == "administrador") {%>
-              Empresas
+            Empresas
             <%} else {%>
-              Empresa
+            Empresa
             <%}%>
           </div>
         </a>
@@ -116,7 +115,45 @@
   </div>
 </aside>
 <main>
+  <p id="title">Deletar empresa</p>
 
+  <form action="${pageContext.request.contextPath}/RemoverEmpresaServlet" method="post">
+    <table style="--cols: 1;">
+      <thead>
+        <tr>
+          <th colspan="2">Empresa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Id</td>
+          <td style="border-left: solid 1px"><%=empresa.getId()%></td>
+        </tr>
+        <tr>
+          <td>Nome</td>
+          <td style="border-left: solid 1px"><%=empresa.getNome()%></td>
+        </tr>
+        <tr>
+          <td>Cnpj</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.cnpj(empresa.getCnpj())%></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td style="border-left: solid 1px"><%=empresa.getEmail()%></td>
+        </tr>
+        <tr>
+          <td>Data cadastro</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.data(empresa.getDtCadastro())%></td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="hidden" name="id" value="<%= empresa.getId() %>">
+    <div>
+      <button type="submit">Confirmar</button>
+
+      <a id="add" href="${pageContext.request.contextPath}/ListarPlanosServlet">Cancelar</a>
+    </div>
+  </form>
 </main>
 </body>
 

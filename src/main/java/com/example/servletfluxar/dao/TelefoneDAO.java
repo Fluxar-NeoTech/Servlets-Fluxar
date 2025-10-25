@@ -2,6 +2,7 @@ package com.example.servletfluxar.dao;
 
 import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DAO;
+import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Telefone;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TelefoneDAO implements DAO<Telefone> {
+public class TelefoneDAO implements DAO<Telefone>, DependeEmpresa<Telefone> {
 //    Declaração de atributos:
     private PreparedStatement pstmt;
     private Statement stmt;
@@ -44,12 +45,40 @@ public class TelefoneDAO implements DAO<Telefone> {
     }
 
     @Override
+    public List<Telefone> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
+//        Declaração de variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Telefone> telefones = new ArrayList<>();
+
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM telefone WHERE id_empresa = ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, idEmpresa);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                telefones.add(new Telefone(rs.getInt("id"), rs.getString("numero"), rs.getInt("id_empresa")));
+            }
+            return telefones;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return telefones;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
     public int contar(){
         Connection conn = null;
         try{
             conn = Conexao.conectar();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM telefone");
 
             if(rs.next()){
                 return rs.getInt("contador");
@@ -64,29 +93,23 @@ public class TelefoneDAO implements DAO<Telefone> {
         }
     }
 
-//    Método para listar telefones por empresa:
-    public List<Telefone> listarPorIdEmpresa(int idEmpresa) {
-//        Declaração de variáveis:
+    @Override
+    public int contarPorIdEmpresa(int idEmpresa){
         Connection conn = null;
-        List<Telefone> telefones = new ArrayList<>();
-
-//        Conectando ao banco:
-        try {
+        try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM telefone WHERE id_empresa = ? ORDER BY id");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM telefone WHERE id_empresa = ?");
             pstmt.setInt(1, idEmpresa);
             rs = pstmt.executeQuery();
 
-//            Adicionando os registros retornados no result set a lista de telefones:
-            while (rs.next()) {
-                telefones.add(new Telefone(rs.getInt("id"), rs.getString("numero"), rs.getInt("id_empresa")));
+            if(rs.next()){
+                return rs.getInt("contador");
             }
-//            Retornando a lista de telefones:
-            return telefones;
+            return -1;
 
         } catch (SQLException sqle) {
             sqle.printStackTrace();
-            return telefones;
+            return -1;
         } finally {
             Conexao.desconectar(conn);
         }
@@ -148,6 +171,7 @@ public class TelefoneDAO implements DAO<Telefone> {
     @Override
     public boolean inserir(Telefone telefone){
         Connection conn = null;
+
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -170,7 +194,6 @@ public class TelefoneDAO implements DAO<Telefone> {
     public boolean alterar(Telefone telefone){
 //        Declaração de variáveis:
         Connection conn = null;
-        PreparedStatement pstmt;
 
 //        Conectando ao banco de dados:
         try{
@@ -190,7 +213,6 @@ public class TelefoneDAO implements DAO<Telefone> {
             Conexao.desconectar(conn);
         }
     }
-
 
     @Override
     public boolean deletarPorId(int id){

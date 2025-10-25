@@ -96,7 +96,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet">
-          <div class="text" id="func">
+          <div class="text func">
             Funcionarios
           </div>
         </a>
@@ -105,7 +105,7 @@
   </nav>
 
   <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/index.html">Sair</a>
+    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -128,7 +128,7 @@
     <a href="/ListarAdminsServlet" id="ver">Ver todos</a>
   </section>
 
-  <table>
+  <table style="--cols: 4;">
     <thead>
     <tr>
       <th>Id</th>
