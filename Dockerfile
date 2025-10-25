@@ -1,7 +1,8 @@
 # Etapa 1: build com Maven
 FROM maven:3.9.4-eclipse-temurin-17 AS builder
 WORKDIR /app
-COPY . .
+COPY pom.xml .
+COPY src ./src
 RUN mvn clean package
 
 # Etapa 2: roda com Tomcat
