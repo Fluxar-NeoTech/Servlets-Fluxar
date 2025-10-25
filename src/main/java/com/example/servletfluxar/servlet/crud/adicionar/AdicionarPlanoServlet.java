@@ -82,7 +82,7 @@ public class AdicionarPlanoServlet extends HttpServlet {
                     continuar = false;
                 }
             } catch (NumberFormatException nfe){
-                request.setAttribute("erroPreco", "Preço deve ser um número");
+                request.setAttribute("erroPreco", "Preço deve ser um número real");
                 continuar = false;
             }
         }

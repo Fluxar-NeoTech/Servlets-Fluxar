@@ -157,7 +157,7 @@
                     <td><%=unidade.getNome()%></td>
                     <td><%=FormatoOutput.cnpj(unidade.getCnpj())%></td>
                     <td><%=unidade.getEmail()%></td>
-                    <td><%=unidade.getCep()%></td>
+                    <td><%=FormatoOutput.cep(unidade.getCep())%></td>
                     <td><%=unidade.getNumero()%></td>
                     <%
                         if (tipoUsuario.equals("empresa")){

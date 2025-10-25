@@ -75,4 +75,13 @@ public class FormatoOutput {
             return null;
         }
     }
+
+    /**
+     * Método para formatar cep que está salvo no banco para output:
+     * @param cep É o cep salvo no banco de dados
+     * @return    Retorna o cep no formato _____-___
+     */
+    public static String cep(String cep){
+        return cep.replaceAll("(\\d{5})(\\d{3})", "$1-$2");
+    }
 }

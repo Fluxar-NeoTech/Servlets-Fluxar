@@ -45,7 +45,7 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarAssinaturasServlet");
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -64,6 +64,7 @@ public class RemoverAssinaturaServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int id = 0;
         EmpresaDAO empresaDAO = new EmpresaDAO();
+        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
@@ -86,7 +87,8 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarAssinaturasServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -94,7 +96,7 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             return;
         }
 
-        empresaDAO.deletarPorId(id);
+        empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa());
 
         response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
     }
