@@ -52,4 +52,27 @@ public class FormatoOutput {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         return formatter.format(data);
     }
+
+    /**
+     * Método para formatar o telefone para output e visualização do usuário
+     * @param telefone É o telefone que veio do banco de dados, apenas com números
+     * @return         telefone com (__) _____-____ ou (__) ____-____
+     */
+    public static String telefone(String telefone){
+        if (telefone.length() == 11) {
+            // Celular com 9 dígitos: 11987654321 → (11) 98765-4321
+            return String.format("(%s) %s-%s",
+                    telefone.substring(0, 2),
+                    telefone.substring(2, 7),
+                    telefone.substring(7));
+        } else if (telefone.length() == 10) {
+            // Telefone fixo: 1134567890 → (11) 3456-7890
+            return String.format("(%s) %s-%s",
+                    telefone.substring(0, 2),
+                    telefone.substring(2, 6),
+                    telefone.substring(6));
+        } else {
+            return null;
+        }
+    }
 }

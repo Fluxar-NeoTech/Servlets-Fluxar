@@ -110,7 +110,7 @@
         </nav>
 
         <div class="maior" id="sair">
-            <a id="sairB" href="${pageContext.request.contextPath}/index.html">Sair</a>
+            <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
         </div>
     </aside>
     <main>
@@ -130,10 +130,10 @@
                 <button type="submit" id="buscar">Buscar</button>
             </form>
 
-            <a href="/ListarUnidadesServlet" id="ver">Ver todos</a>
+            <a href="${pageContext.request.contextPath}/ListarUnidadesServlet" id="ver">Ver todas</a>
         </section>
 
-        <table>
+        <table style=<%=tipoUsuario.equals("administrador") ? "--cols:6;" : "--cols:7;"%>>
             <thead>
                 <tr>
                     <th>Id</th>

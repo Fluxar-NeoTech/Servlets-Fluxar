@@ -1,37 +1,25 @@
 package com.example.servletfluxar.servlet.crud.remover;
 
-import com.example.servletfluxar.dao.PlanoDAO;
+import com.example.servletfluxar.dao.AssinaturaDAO;
+import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.model.Administrador;
-import com.example.servletfluxar.model.Plano;
+import com.example.servletfluxar.model.Assinatura;
+import com.example.servletfluxar.model.Empresa;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "RemoverPlanoServlet", value = "/RemoverPlanoServlet")
-public class RemoverPlanoServlet extends HttpServlet {
+@WebServlet(name = "RemoverAssinaturaServlet", value = "/RemoverAssinaturaServlet")
+public class RemoverAssinaturaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        PlanoDAO planoDAO = new PlanoDAO();
-        Plano plano = null;
-
-        try {
-            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-            } else {
-                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
-                return;
-            }
-        } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
-            return;
-        }
+        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
+        Assinatura assinatura = null;
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
@@ -49,16 +37,25 @@ public class RemoverPlanoServlet extends HttpServlet {
             return;
         }
 
-        plano = planoDAO.buscarPorId(id);
+        assinatura = assinaturaDAO.buscarPorId(id);
 
-        if (planoDAO.contar() > 1){
-            request.setAttribute("plano", plano);
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
-                    .forward(request, response);
-        } else {
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
-                    .forward(request, response);
+
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
         }
+
+        request.setAttribute("assinatura", assinatura);
+        request.getRequestDispatcher("WEB-INF/pages/empresa/confirmarDelecao.jsp")
+                .forward(request, response);
     }
 
     @Override
@@ -66,21 +63,7 @@ public class RemoverPlanoServlet extends HttpServlet {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        PlanoDAO planoDAO = new PlanoDAO();
-
-        try {
-            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-            } else {
-                response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
-                return;
-            }
-        } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
-            return;
-        }
+        EmpresaDAO empresaDAO = new EmpresaDAO();
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
@@ -98,8 +81,21 @@ public class RemoverPlanoServlet extends HttpServlet {
             return;
         }
 
-        planoDAO.deletarPorId(id);
+        try {
+            request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+            }
+        } catch (NullPointerException npe){
+            request.setAttribute("erroLogin", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
+        }
 
-        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+        empresaDAO.deletarPorId(id);
+
+        response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
     }
 }

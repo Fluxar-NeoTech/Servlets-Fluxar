@@ -17,7 +17,7 @@ public class AlterarPlanoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = 0;
         PlanoDAO planoDAO = new PlanoDAO();
         Plano plano = planoDAO.buscarPorId(id);
         session.setAttribute("plano", plano);
@@ -27,11 +27,28 @@ public class AlterarPlanoServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            return;
+        }
+
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (NumberFormatException nfe){
+            request.setAttribute("erro", nfe.getMessage());
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+            return;
+        } catch (NullPointerException npe){
+            request.setAttribute("erro", npe.getMessage());
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
             return;
         }
 
@@ -58,7 +75,8 @@ public class AlterarPlanoServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");

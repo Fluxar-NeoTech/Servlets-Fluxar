@@ -35,7 +35,8 @@ public class ListarAdminsServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/HomeServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");

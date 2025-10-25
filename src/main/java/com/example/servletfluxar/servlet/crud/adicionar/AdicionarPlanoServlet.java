@@ -24,13 +24,16 @@ public class AdicionarPlanoServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
+        request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
+                .forward(request, response);
     }
 
     @Override
@@ -51,7 +54,8 @@ public class AdicionarPlanoServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                return;
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");

@@ -97,7 +97,7 @@
 
                 <li>
                     <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet">
-                        <div class="text" id="func">
+                        <div class="text func">
                             Funcionarios
                         </div>
                     </a>
@@ -106,7 +106,7 @@
         </nav>
 
         <div class="maior" id="sair">
-            <a id="sairB" href="${pageContext.request.contextPath}/index.html">Sair</a>
+            <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
         </div>
     </aside>
     <main>
@@ -126,10 +126,10 @@
                 <button type="submit" id="buscar">Buscar</button>
             </form>
 
-            <a href="/ListarSetoresServlet" id="ver">Ver todos</a>
+            <a href="${pageContext.request.contextPath}/ListarSetoresServlet" id="ver">Ver todos</a>
         </section>
 
-        <table>
+        <table style=<%= tipoUsuario.equals("administrador") ? "--cols:4;" : "--cols:5;"%>>
             <thead>
                 <tr>
                     <th>Id</th>
