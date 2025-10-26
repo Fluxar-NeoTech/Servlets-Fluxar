@@ -1,28 +1,30 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Administrador;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administrador> {
 //    Declaração de atributos:
-    private Connection conn;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Administrador> listar(int pagina, int limite) {
+    public List<Administrador> listar(int pagina, int limite) {
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         Administrador administrador;
-        Map<Integer, Administrador> administradores = new HashMap();
+        List<Administrador> administradores = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando comando sql:
         try {
@@ -37,11 +39,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
 //                Adicionando o administrador ao map de administradores:
-                administradores.put(rs.getInt("id"), administrador);
+                administradores.add(administrador);
             }
 
 //            Returnando o map de administrador
@@ -57,7 +59,9 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
 
@@ -77,6 +81,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorId(int id){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -91,8 +96,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
                 return administrador;
             }
@@ -109,6 +114,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorNome(String nome){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -123,8 +129,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
                 administrador.setNome(rs.getString("nome"));
-                administrador.setNome(rs.getString("sobrenome"));
-                administrador.setNome(rs.getString("email"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
 
                 return administrador;
             }
@@ -141,6 +147,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador buscarPorEmail(String email){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador;
 
 //        Conectando ao banco de dados:
@@ -173,6 +180,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public Administrador autenticar(String email, String senha){
 //        Declaração de variáveis:
+        Connection conn = null;
         Administrador administrador = null;
 
 //        Conectando ao banco de dados:
@@ -206,10 +214,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean inserir (Administrador administrador) {
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO administrador (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO administrador (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?)");
             pstmt.setString(1,administrador.getNome());
             pstmt.setString(2,administrador.getSobrenome());
             pstmt.setString(3,administrador.getEmail());
@@ -227,6 +236,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean alterar(Administrador administrador) {
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
@@ -252,6 +262,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try {
             // Obtenção da conexão com o banco de dados
@@ -275,6 +286,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
     @Override
     public boolean deletarPorId(int id){
+        Connection conn = null;
 //        Tentando conectar ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -285,6 +297,8 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
+        }finally {
+            Conexao.desconectar(conn);
         }
     }
 }

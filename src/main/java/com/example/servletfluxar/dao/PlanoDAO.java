@@ -1,23 +1,25 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
+import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Plano;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlanoDAO implements DAO<Plano> {
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
     @Override
-    public Map<Integer, Plano> listar(int pagina, int limite){
+    public List<Plano> listar(int pagina, int limite){
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
-        Map<Integer, Plano> planos = new HashMap<>();
+        List<Plano> planos = new ArrayList<>();
 
 //        Conectando ao banco de dados e enviando sql:
         try{
@@ -29,7 +31,7 @@ public class PlanoDAO implements DAO<Plano> {
 
 //            Adicionando registros do banco de dados a lista de planos:
             while (rs.next()){
-                planos.put(rs.getInt("id"), new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
             }
 
 //            Retornando a lista de planos:
@@ -44,7 +46,9 @@ public class PlanoDAO implements DAO<Plano> {
 
     @Override
     public int contar(){
+        Connection conn = null;
         try{
+            conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM plano");
 
@@ -63,6 +67,7 @@ public class PlanoDAO implements DAO<Plano> {
 
     @Override
     public Plano buscarPorId(int id){
+        Connection conn = null;
 //        Conectando ao banco de dados e enviando sql:
         try{
             conn = Conexao.conectar();
@@ -75,16 +80,19 @@ public class PlanoDAO implements DAO<Plano> {
 //                Retornando plano encontrado:
                 return new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco"));
             }
+            return null;
 
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return null;
+        } finally {
+            Conexao.desconectar(conn);
         }
-        return null;
     }
 
     @Override
     public boolean inserir(Plano plano){
+        Connection conn = null;
 //        Conectando ao banco de dados e dando o insert:
         try{
             conn = Conexao.conectar();
@@ -105,6 +113,7 @@ public class PlanoDAO implements DAO<Plano> {
 
     @Override
     public boolean alterar(Plano plano){
+        Connection conn = null;
         try {
             // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();

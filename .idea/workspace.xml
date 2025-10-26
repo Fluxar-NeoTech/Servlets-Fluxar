@@ -11,7 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/RegrasBanco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/RegrasBanco.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/conexao/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/conexao/Conexao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/EnvioEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/EnvioEmail.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +28,9 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="Jsp File" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -66,11 +68,13 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/caiomaciel-ieg/OneDrive - Instituto J&amp;F/Área de Trabalho/Interdisciplinar/Zalone/NeoTechSite/src/main/webapp/WEB-INF/pages/empresas&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -81,20 +85,34 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar\src\main\resources" />
-      <recent name="C:\Users\guilhermefmf-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\inter\Servlets-Fluxar" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\empresas" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\assinaturas" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\setores" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\administradores" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF\pages\funcionarios" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF" />
       <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\WEB-INF" />
+      <recent name="C:\Users\caiomaciel-ieg\OneDrive - Instituto J&amp;F\Área de Trabalho\Interdisciplinar\Zalone\NeoTechSite\src\main\webapp\lib" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.servletfluxar.servlet.esqueciSenha" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Tomcat 10.1.42" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+  <component name="RunDashboard">
+    <option name="excludedTypes">
+      <set>
+        <option value="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.14.10">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/NeoTechSite_war/index.html">
+      <method v="2" />
+    </configuration>
+    <configuration name="Tomcat 10.14.10" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.11" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="update-resources" />
       <deployment>
         <artifact name="NeoTechSite:war exploded">
           <settings>
@@ -174,12 +192,21 @@
         </SHUTDOWN>
       </ConfigurationWrapper>
       <method v="2">
-        <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
           <artifact name="NeoTechSite:war exploded" />
         </option>
+        <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="Tomcat Server.Tomcat 10.14.10" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -247,11 +274,26 @@
       <workItem from="1760026132528" duration="911000" />
       <workItem from="1760052967490" duration="8730000" />
       <workItem from="1760128324728" duration="7229000" />
-      <workItem from="1760353116913" duration="70000" />
-      <workItem from="1760365162728" duration="5000" />
-      <workItem from="1760436467495" duration="4731000" />
-      <workItem from="1760468701744" duration="49000" />
-      <workItem from="1760521915113" duration="2360000" />
+      <workItem from="1760571821901" duration="1007000" />
+      <workItem from="1760615772776" duration="1453000" />
+      <workItem from="1760622722246" duration="3011000" />
+      <workItem from="1760709953655" duration="4324000" />
+      <workItem from="1760747870072" duration="824000" />
+      <workItem from="1760891478318" duration="25824000" />
+      <workItem from="1760976796280" duration="820000" />
+      <workItem from="1761000714370" duration="10568000" />
+      <workItem from="1761072155760" duration="65000" />
+      <workItem from="1761072410207" duration="5000" />
+      <workItem from="1761090839270" duration="4910000" />
+      <workItem from="1761132094169" duration="52000" />
+      <workItem from="1761133031472" duration="5843000" />
+      <workItem from="1761175245821" duration="16304000" />
+      <workItem from="1761237199823" duration="37000" />
+      <workItem from="1761257241264" duration="5982000" />
+      <workItem from="1761299464602" duration="10152000" />
+      <workItem from="1761328140998" duration="596000" />
+      <workItem from="1761349418305" duration="19203000" />
+      <workItem from="1761407080648" duration="5240000" />
     </task>
     <servers />
   </component>
@@ -271,5 +313,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

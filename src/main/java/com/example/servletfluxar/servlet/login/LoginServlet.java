@@ -66,18 +66,30 @@ public class LoginServlet extends HttpServlet {
 
 //        Verificando se email está cadastrado:
         if (funcionario != null || empresa != null || administrador != null) {
+
+//            Verificando se está cadastrado como empresa
             if (empresa != null) {
+//                Buscando
                 assinatura = assinaturaDAO.buscarPorIdEmpresa(empresa.getId());
                 if (assinatura.getStatus() == 'A') {
                     if (assinatura.getDtFim().isAfter(LocalDate.now())) {
                         if (empresaDAO.autenticar(emailInput, senhaInput) != null) {
-                            request.getRequestDispatcher("/WEB-INF/paginasIniciais/PIAdminEmpresa/PIAdminEmpresa.jsp").forward(request, response);
+                            session.setAttribute("empresa", empresa);
+                            session.setAttribute("tipoUsuario", "empresa");
+//                            Definindo tempo de expiração para login da empresa para 1 hora:
+                            session.setMaxInactiveInterval(60 * 60);
+                            response.sendRedirect(request.getContextPath() + "/HomeServlet");
                         } else {
                             request.setAttribute("erroSenha", "Senha incorreta");
                             request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
                                     .forward(request, response);
                         }
                     } else {
+                        assinatura.setStatus('I');
+                        assinaturaDAO.alterar(assinatura);
+                        request.setAttribute("erroEmail", "Empresa inativa");
+                        request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
+                                .forward(request, response);
                     }
                 } else {
                     request.setAttribute("erroEmail", "Empresa inativa");
@@ -86,7 +98,11 @@ public class LoginServlet extends HttpServlet {
                 }
             } else if (administrador != null) {
                 if (administradorDAO.autenticar(emailInput, senhaInput) != null) {
-                    request.getRequestDispatcher("/WEB-INF/telasAdmin/escolhaTabela/escolhaTabela.jsp").forward(request, response);
+                    session.setAttribute("administrador", administrador);
+                    session.setAttribute("tipoUsuario", "administrador");
+//                   Definindo tempo de expiração para login de administrador para 1 hora:
+                    session.setMaxInactiveInterval(60 * 60);
+                    response.sendRedirect(request.getContextPath() + "/HomeServlet");
                 } else {
                     request.setAttribute("erroSenha", "Senha incorreta");
                     request.getRequestDispatcher("/fazerLogin/paginaLogin/login.jsp")
