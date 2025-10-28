@@ -256,7 +256,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             pstmt.setString(1, empresa.getCnpj());
             pstmt.setString(2, empresa.getNome());
             pstmt.setString(3, empresa.getEmail());
-            pstmt.setString(4, empresa.getSenha());
+            pstmt.setString(4, BCrypt.hashpw(empresa.getSenha(), BCrypt.gensalt()));
 
             return pstmt.executeUpdate()>0;
 

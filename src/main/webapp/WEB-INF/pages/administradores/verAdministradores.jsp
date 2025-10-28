@@ -9,7 +9,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Listar empresas</title>
+  <title>Listar administradores</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
@@ -171,7 +171,7 @@
 
   <%if (tipoUsuario.equals("administrador")) {%>
     <section id="footer">
-        <a id="add" href="${pageContext.request.contextPath}/AdicionarAdmin">Adicionar</a>
+        <a id="add" href="${pageContext.request.contextPath}/AdicionarAdminServlet">Adicionar</a>
       <div id="pages">
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet?pagina=<%=pagina - 1%>">
           <svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">

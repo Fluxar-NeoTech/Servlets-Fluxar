@@ -2,9 +2,11 @@ package com.example.servletfluxar.servlet.crud.adicionar;
 
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.PlanoDAO;
+import com.example.servletfluxar.dao.UnidadeDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Plano;
+import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -49,9 +51,11 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         String cnpj = request.getParameter("cnpj");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
+        int senhaValida;
         HttpSession session = request.getSession();
         EmpresaDAO empresaDAO = new EmpresaDAO();
-        Empresa empresa = new Empresa()
+        UnidadeDAO unidadeDAO = new UnidadeDAO();
+        Empresa empresa = new Empresa();
         boolean continuar = true;
 
         try {
@@ -59,7 +63,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
                 return;
             }
         } catch (NullPointerException npe){
@@ -68,38 +72,96 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             return;
         }
 
-//        Verificações do input:
+//        Validando se nome é válido:
         if (nome == null){
             request.setAttribute("erroNome", "Insira um nome para a empresa");
             continuar = false;
+        } else {
+            nome = RegrasBanco.nomeCapitalize(nome);
+            if (empresaDAO.buscarPorNome(nome) != null){
+                request.setAttribute("erroNome", "Nome já está sendo usado");
+                continuar = false;
+            }
         }
+
+//        Validando se CNPJ é válido:
         if (cnpj == null){
             request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
             continuar = false;
         } else {
             if (ValidacaoInput.validarCNPJ(cnpj)){
-                cnpj = Inser
+                cnpj = RegrasBanco.cnpj(cnpj);
+                if (empresaDAO.buscarPorCNPJ(cnpj) != null || unidadeDAO.buscarPorCnpj(cnpj) != null){
+                    request.setAttribute("erroCnpj", "Cnpj já está cadastrado");
+                    continuar = false;
+                }
             } else {
-                request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
+                request.setAttribute("erroCnpj", "Formato de cnpj inválido");
                 continuar = false;
             }
         }
 
-//        Adicinando nome e tempo:
-        plano.setNome(nome);
-        plano.setTempo(tempo);
+//        Vaidando se email é válido:
+        if (email == null){
+            request.setAttribute("erroEmail", "Insira um email para a empresa");
+            continuar = false;
+        } else {
+            if (ValidacaoInput.validarEmail(email)){
+                if (empresaDAO.buscarPorEmail(email) == null){
+
+                } else {
+                    request.setAttribute("erroEmail", "Email em uso");
+                    continuar = false;
+                }
+            } else {
+                request.setAttribute("erroEmail", "Formato de email inválido");
+                continuar = false;
+            }
+        }
+
+//        Validade se a senha é válida
+        if (senha == null){
+            request.setAttribute("erroSenha", "Defina uma senha para a empresa");
+            continuar = false;
+        } else {
+            senhaValida = ValidacaoInput.validarSenha(senha);
+            if (senhaValida != 0){
+                if (senhaValida == 1){
+                    request.setAttribute("erroSenha", "Senha deve ser menor do que 28 caracteres");
+                }
+                if (senhaValida == 2){
+                    request.setAttribute("erroSenha", "Senha deve ser maior do que 8 caracteres");
+                }
+                if (senhaValida == 3){
+                    request.setAttribute("erroSenha", "Senha deve ter letras maiúsculas");
+                }
+                if (senhaValida == 4){
+                    request.setAttribute("erroSenha", "Senha deve ter letras minúsculas");
+                }
+                if (senhaValida == 5){
+                    request.setAttribute("erroSenha", "Senha deve ter números");
+                }
+                continuar = false;
+            }
+        }
 
         if (!continuar){
-            request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/empresas/adicionarEmpresa.jsp")
                     .forward(request, response);
             return;
         }
 
+//        Setnando objeto empresa para adicionar:
+        empresa.setNome(nome);
+        empresa.setCnpj(cnpj);
+        empresa.setEmail(email);
+        empresa.setSenha(senha);
+
 //        Enviando e vendo se há um retorno:
-        if (planoDAO.inserir(plano)){
-            response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+        if (empresaDAO.inserir(empresa)){
+            response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
+            request.setAttribute("mensagem", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
             request.getRequestDispatcher("")
                     .forward(request, response);
         }

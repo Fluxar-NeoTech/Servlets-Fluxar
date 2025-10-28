@@ -304,7 +304,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
             pstmt.setString(3, funcionario.getEmail());
             pstmt.setString(4, funcionario.getCargo());
             pstmt.setInt(5, funcionario.getIdSetor());
-            pstmt.setString(6, funcionario.getSenha());
+            pstmt.setString(6, BCrypt.hashpw(funcionario.getSenha(), BCrypt.gensalt()));
 
             return pstmt.executeUpdate()>0;
 

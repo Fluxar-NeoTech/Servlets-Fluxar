@@ -50,6 +50,20 @@ public class ListarTelefonesServlet extends HttpServlet {
             return;
         }
 
+        try {
+            idEmpresa = Integer.parseInt(request.getParameter("id"));
+        } catch (NullPointerException npe){
+            request.setAttribute("mensagem", "Id empresa não pode ser nulo");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+            return;
+        } catch (NumberFormatException nfe){
+            request.setAttribute("mensagem", "Id empresa deve ser um número");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+            return;
+        }
+
 //                Verificando a página atual:
         if (request.getParameter("pagina") != null) {
             pagina = Integer.parseInt(request.getParameter("pagina"));

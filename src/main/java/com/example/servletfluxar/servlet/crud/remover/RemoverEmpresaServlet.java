@@ -1,10 +1,8 @@
 package com.example.servletfluxar.servlet.crud.remover;
 
 import com.example.servletfluxar.dao.EmpresaDAO;
-import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
-import com.example.servletfluxar.model.Plano;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -67,6 +65,7 @@ public class RemoverEmpresaServlet extends HttpServlet {
         EmpresaDAO empresaDAO = new EmpresaDAO();
         String tipoUsuario;
         Administrador administradorLogado = null;
+        Empresa empresaLogada = null;
 
         try {
             tipoUsuario = (String) session.getAttribute("tipoUsuario");
@@ -97,8 +96,13 @@ public class RemoverEmpresaServlet extends HttpServlet {
             return;
         }
 
-        empresaDAO.deletarPorId(id);
-
-        response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+        if (empresaDAO.deletarPorId(id)) {
+            response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+        } else {
+            request.setAttribute("mensagem", "Ocorreu um erro ao deletar essa empresa, " +
+                    "tente novamente mais tarde...");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+        }
     }
 }
