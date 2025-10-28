@@ -6,7 +6,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar unidades</title>
+    <title>Listar setores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
@@ -113,7 +113,7 @@
         <p id="title">Setores</p>
         <section id="topo">
 
-            <form action="">
+            <form action="" id="filtro">
                 <details>
                     <summary>Filtros</summary>
                     <button class="filtro">Id</button>

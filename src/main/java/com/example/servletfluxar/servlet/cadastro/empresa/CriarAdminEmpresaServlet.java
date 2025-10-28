@@ -21,7 +21,6 @@ public class CriarAdminEmpresaServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String senhaInput;
         String senhaConf;
-        String senhaCriptografada;
         int senhaValida;
 
 //        Pegando input do usuário:
@@ -55,11 +54,8 @@ public class CriarAdminEmpresaServlet extends HttpServlet {
             return;
         }
 
-//        Criptografando senha do admin:
-        senhaCriptografada = BCrypt.hashpw(senhaInput, BCrypt.gensalt());
-
 //        Salvando senha:
-        session.setAttribute("senhaAdmin",senhaCriptografada);
+        session.setAttribute("senhaAdmin",senhaInput);
 
 //        Redirecionando usuário:
         response.sendRedirect(request.getContextPath() +"/cadastro/pagamento/formaPagamento/pagamento.html");

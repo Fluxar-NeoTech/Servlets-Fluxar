@@ -1,8 +1,10 @@
 package com.example.servletfluxar.servlet.crud.remover;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
+import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.TelefoneDAO;
 import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Telefone;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -19,7 +21,9 @@ public class RemoverTelefoneServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int id = 0;
         TelefoneDAO telefoneDAO = new TelefoneDAO();
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         Telefone telefone;
+        Empresa empresa;
 
         try {
             id = Integer.parseInt(request.getParameter("id"));
@@ -51,6 +55,9 @@ public class RemoverTelefoneServlet extends HttpServlet {
             return;
         }
 
+        empresa = empresaDAO.buscarPorId(telefone.getId());
+
+        request.setAttribute("empresa", empresa);
         request.setAttribute("telefone", telefone);
         request.getRequestDispatcher("WEB-INF/pages/telefones/confirmarDelecao.jsp")
                 .forward(request, response);

@@ -84,4 +84,13 @@ public class FormatoOutput {
     public static String cep(String cep){
         return cep.replaceAll("(\\d{5})(\\d{3})", "$1-$2");
     }
+
+    /**
+     * Método estático para formatar status para a saída para o usuário
+     * @param status É o status A ou I salvo no banco de dados
+     * @return      Retorna Ativo ou Inativo a depender
+     */
+    public static String status(char status){
+        return status == 'A' ? "Ativo": "Inativo";
+    }
 }
