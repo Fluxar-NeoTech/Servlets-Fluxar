@@ -179,6 +179,32 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         }
     }
 
+    public Unidade buscarPorCnpj(String cnpj){
+        Connection conn = null;
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE cnpj = ?");
+            pstmt.setString(1, cnpj);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um retorno com um registro do banco de dados:
+            if(rs.next()){
+                return new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento"));
+            }
+            return null;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public boolean inserir (Unidade unidade){
         Connection conn = null;

@@ -222,7 +222,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setString(1,administrador.getNome());
             pstmt.setString(2,administrador.getSobrenome());
             pstmt.setString(3,administrador.getEmail());
-            pstmt.setString(4,administrador.getSenha());
+            pstmt.setString(4, BCrypt.hashpw(administrador.getSenha(), BCrypt.gensalt()));
 
             return pstmt.executeUpdate()>0;
 

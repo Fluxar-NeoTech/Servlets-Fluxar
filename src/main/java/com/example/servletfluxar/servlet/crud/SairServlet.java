@@ -20,7 +20,7 @@ public class SairServlet extends HttpServlet {
         }
 
 //        Redirecionando para a home, ou seja index.html:
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath()+"/index.html");
     }
 
     @Override

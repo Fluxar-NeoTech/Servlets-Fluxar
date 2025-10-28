@@ -115,7 +115,7 @@
     <p id="title">Telefones de <%=((Empresa) request.getAttribute("empresa")).getNome()%>
     </p>
 
-    <table style=<%= tipoUsuario.equals("administrador") ? "--cols: 2;" : "--cols: 3;"%>>
+    <table style=<%=tipoUsuario.equals("administrador")?"--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
             <th>Id</th>

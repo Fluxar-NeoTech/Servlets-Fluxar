@@ -1,60 +1,58 @@
 package com.example.servletfluxar.servlet.crud.remover;
 
-import com.example.servletfluxar.dao.AssinaturaDAO;
-import com.example.servletfluxar.dao.EmpresaDAO;
+import com.example.servletfluxar.dao.AdministradorDAO;
+import com.example.servletfluxar.dao.TelefoneDAO;
 import com.example.servletfluxar.model.Administrador;
-import com.example.servletfluxar.model.Assinatura;
-import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.model.Telefone;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "RemoverAssinaturaServlet", value = "/RemoverAssinaturaServlet")
-public class RemoverAssinaturaServlet extends HttpServlet {
+@WebServlet(name = "RemoverTelefoneServlet", value = "/RemoverTelefoneServlet")
+public class RemoverTelefoneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
-        Assinatura assinatura = null;
+        TelefoneDAO telefoneDAO = new TelefoneDAO();
+        Telefone telefone;
 
-        try{
+        try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Id deve conter apenas números");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse telefone");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         }
 
-        assinatura = assinaturaDAO.buscarPorId(id);
-
+        telefone = telefoneDAO.buscarPorId(id);
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-            } else {
-                response.sendRedirect(request.getContextPath()+"/ListarAssinaturasServlet");
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
+                response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
+                return;
             }
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
 
-        request.setAttribute("assinatura", assinatura);
-        request.getRequestDispatcher("WEB-INF/pages/empresa/confirmarDelecao.jsp")
+        request.setAttribute("telefone", telefone);
+        request.getRequestDispatcher("WEB-INF/pages/telefones/confirmarDelecao.jsp")
                 .forward(request, response);
     }
 
@@ -63,18 +61,18 @@ public class RemoverAssinaturaServlet extends HttpServlet {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        EmpresaDAO empresaDAO = new EmpresaDAO();
-        AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
+        TelefoneDAO telefoneDAO = new TelefoneDAO();
+        Telefone telefone = null;
 
-        try{
+        try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             request.setAttribute("erro", nfe.getMessage());
             request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erro", npe.getMessage());
             request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
             request.getRequestDispatcher("")
@@ -82,23 +80,26 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             return;
         }
 
+        telefone = telefoneDAO.buscarPorId(id);
+
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-            } else {
-                response.sendRedirect(request.getContextPath()+"/ListarAssinaturasServlet");
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
+                response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
                 return;
             }
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
 
-        empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa());
-        assinaturaDAO.deletarPorId(id);
-
-        response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+        if (telefoneDAO.deletarPorId(id)) {
+            response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
+        } else {
+            request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+        }
     }
 }

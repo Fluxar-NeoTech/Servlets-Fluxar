@@ -1,3 +1,4 @@
+<%@ page import="com.example.servletfluxar.model.Plano" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
@@ -7,13 +8,13 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar empresa</title>
+  <title>Alterar administrador</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
-  Empresa empresa = (Empresa) request.getAttribute("empresa");
+  Administrador administrador = (Administrador) request.getAttribute("administrador");
   request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
@@ -48,7 +49,7 @@
       <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-          <div class="text">
+          <div class="text" id="atual">
             Admins
           </div>
         </a>
@@ -73,11 +74,11 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
-          <div class="text" id="atual">
+          <div class="text">
             <%if (tipoUsuario == "administrador") {%>
-            Empresas
+              Empresas
             <%} else {%>
-            Empresa
+              Empresa
             <%}%>
           </div>
         </a>
@@ -114,43 +115,18 @@
   </div>
 </aside>
 <main>
-  <p id="title">Deletar empresa</p>
+  <p id="title">Alterar Administrador</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverEmpresaServlet" method="post">
-    <table style="--cols: 2;">
-      <thead>
-        <tr>
-          <th colspan="2">Empresa</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Id</td>
-          <td style="border-left: solid 1px"><%=empresa.getId()%></td>
-        </tr>
-        <tr>
-          <td>Nome</td>
-          <td style="border-left: solid 1px"><%=empresa.getNome()%></td>
-        </tr>
-        <tr>
-          <td>Cnpj</td>
-          <td style="border-left: solid 1px"><%=FormatoOutput.cnpj(empresa.getCnpj())%></td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td style="border-left: solid 1px"><%=empresa.getEmail()%></td>
-        </tr>
-        <tr>
-          <td>Data cadastro</td>
-          <td style="border-left: solid 1px"><%=FormatoOutput.data(empresa.getDtCadastro())%></td>
-        </tr>
-      </tbody>
-    </table>
-    <input type="hidden" name="id" value="<%= empresa.getId() %>">
+  <form action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
+    <label for="name">Nome:</label>
+    <input type="text" name="nomeCompleto" id="name" value=<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" value=<%=administrador.getEmail()%>>
+
     <div>
       <button type="submit">Confirmar</button>
-
-      <a id="add" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Cancelar</a>
+      <a id="add" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
     </div>
   </form>
 </main>

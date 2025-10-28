@@ -136,6 +136,7 @@
     <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet" id="ver">Ver todas</a>
   </section>
 
+  <%if (!assinaturas.isEmpty()){%>
   <table style="--cols: 7;">
     <thead>
     <tr>
@@ -149,7 +150,6 @@
     </tr>
     </thead>
     <tbody>
-      <%if (!assinaturas.isEmpty()){%>
         <%for(Assinatura assinatura: assinaturas){%>
           <tr>
             <td><%=assinatura.getId()%></td>
@@ -179,13 +179,11 @@
               </td>
           </tr>
         <%}%>
-      <%} else {%>
-        <tr>
-          <td colspan="6">Nenhuma assinatura foi encontrada!</td>
-        </tr>
-      <%}%>
     </tbody>
   </table>
+  <%} else {%>
+  <p>Nenhuma assinatura foi encontrada</p>
+  <%}%>
 
   <%if (tipoUsuario.equals("administrador")) {%>
     <section id="footer">

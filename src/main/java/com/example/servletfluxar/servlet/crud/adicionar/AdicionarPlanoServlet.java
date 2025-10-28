@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AdicionarPlanoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
 
@@ -41,7 +42,7 @@ public class AdicionarPlanoServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String nome = request.getParameter("nome");
-        int tempo = Integer.parseInt(request.getParameter("tempo"));
+        int tempo = 0;
         String precoInput = request.getParameter("preco");
         HttpSession session = request.getSession();
         Double preco = 0.0;
@@ -61,6 +62,13 @@ public class AdicionarPlanoServlet extends HttpServlet {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
+        }
+
+        try{
+            tempo = Integer.parseInt(request.getParameter("tempo"));
+        } catch (Exception e){
+            request.setAttribute("erroTempo", "Tempo inválido");
+            continuar = false;
         }
 
 //        Verificações do input:

@@ -1,31 +1,30 @@
 package com.example.servletfluxar.servlet.crud.remover;
 
-import com.example.servletfluxar.dao.PlanoDAO;
+import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.model.Administrador;
-import com.example.servletfluxar.model.Plano;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "RemoverPlanoServlet", value = "/RemoverPlanoServlet")
-public class RemoverPlanoServlet extends HttpServlet {
+@WebServlet(name = "RemoverAdminServlet", value = "/RemoverAdminServlet")
+public class RemoverAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        PlanoDAO planoDAO = new PlanoDAO();
-        Plano plano = null;
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+        Administrador administrador;
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
+                response.sendRedirect(request.getContextPath()+"/HomeServlet");
                 return;
             }
         } catch (NullPointerException npe){
@@ -38,26 +37,26 @@ public class RemoverPlanoServlet extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException nfe){
             request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Id deve conter apenas números");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         } catch (NullPointerException npe){
             request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         }
 
-        plano = planoDAO.buscarPorId(id);
+        administrador = administradorDAO.buscarPorId(id);
 
-        if (planoDAO.contar() > 1){
-            request.setAttribute("plano", plano);
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+        if (administradorDAO.contar() > 1){
+            request.setAttribute("administrador", administrador);
+            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
                     .forward(request, response);
         } else {
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
                     .forward(request, response);
         }
     }
@@ -67,14 +66,14 @@ public class RemoverPlanoServlet extends HttpServlet {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
-        PlanoDAO planoDAO = new PlanoDAO();
+        AdministradorDAO administradorDAO = new AdministradorDAO();
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
             } else {
-                response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+                response.sendRedirect(request.getContextPath() + "/HomeServlet");
                 return;
             }
         } catch (NullPointerException npe){
@@ -87,20 +86,24 @@ public class RemoverPlanoServlet extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException nfe){
             request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         } catch (NullPointerException npe){
             request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         }
 
-        planoDAO.deletarPorId(id);
-
-        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+        if (administradorDAO.deletarPorId(id)) {
+            response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
+        } else {
+            request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+        }
     }
 }

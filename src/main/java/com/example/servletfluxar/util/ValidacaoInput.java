@@ -1,20 +1,36 @@
 package com.example.servletfluxar.util;
 
+/**
+ * Classe feita para validar o formato dos inputs dos usuários
+ * por meio de REGEX e algumas funções do próprio java
+ */
 public class ValidacaoInput {
 
-/*
-*     Método estático para validar se o input
-*     corresponde ao formato do CNPJ,
-*/
+    /**
+     * Método estático que valida se o cnpj possui formato válido
+     * @param input É o cnpj digitado pelo usuário
+     * @return      true se o cnpj tiver formato válido
+     */
     public static boolean validarCNPJ(String input){
 //        Verifica se o formato do input equivale ao REGEX para CNPJ:
         return input.matches("^\\d{2}\\.?\\d{3}\\.?\\d{3}\\/\\d{4}-?\\d{2}$");
     }
 
-/*
-*    Método estático para verificar se o formato do
-*    telefone está correto
- */
+    /**
+     * Método estático que valida se o CEP possui um formato válido com REGEX
+     * @param input É o cep digitado pelo usuário
+     * @return      true se o cnpj é inteiro feito por números ou _____-___
+     */
+    public static boolean validarCEP(String input){
+//        Verificar se o formato do input de CEP equivale ao REGEX abaixo:
+        return input.matches("\\d{5}-?\\d{3}");
+    }
+
+    /**
+     * Método estático que valida se o telefone possui formato válido
+     * @param input É o telefone digitado pelo usuário
+     * @return      true se o telefone tiver formato válido
+     */
     public static boolean validarTelefone(String input){
 //        Verifica se o formato do input tem o formato do telefone:
         return input.matches("^\\(?\\d{2}\\)? ?\\d{4,5}[ -]?\\d{4}$");
@@ -61,8 +77,8 @@ public class ValidacaoInput {
     }
 
     /**
-     * Método para verificar se valor do plano é válido:
-     * @param input é o valor do plano colocado no input
+     * Método para verificar se preço é válido:
+     * @param input É o preço colocado no input
      * @return     true se o valor for maior que 0
      */
     public static boolean validarPreco(double input){
