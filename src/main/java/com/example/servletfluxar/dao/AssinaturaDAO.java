@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 public class AssinaturaDAO implements GenericoDAO<Assinatura> {
-//    Declaração de atributos:
+//    Declaração de atributos.
     private Connection conn = null;
     private PreparedStatement pstmt;
     private ResultSet rs;
 
     @Override
     public Map<Integer, Assinatura> listar(int pagina, int limite) {
-//        Declarando variáveis:
+//        Declarando variáveis.
         int offset = (pagina - 1) * limite;
         Map<Integer, Assinatura> assinaturas = new HashMap();
 
-//        Tentando conectar ao banco de dados e enviar o select do SQL:
+//        Tentando conectar ao banco de dados e enviar o select do SQL para selecionar a(s) assinatura(s).
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM assinatura ORDER BY id LIMIT ? OFFSET ?");
@@ -31,12 +31,12 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
             pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
-//            Pegando as assinaturas do banco e adicionando a lista de assinaturas:
+//            Pegando as assinaturas do banco e adicionando a lista de assinaturas.
             while (rs.next()) {
                 assinaturas.put(rs.getInt("id"), new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento")));
             }
 
-//            Retornando a lista de assinaturas:
+//            Retornando a lista de assinaturas.
             return assinaturas;
 
         } catch (Exception e) {
@@ -54,6 +54,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
             pstmt.setInt(1, idEmpresa);
             rs = pstmt.executeQuery();
 
+//          Retornando a tabela assinatura.
             if (rs.next()) {
                 return new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento"));
             }
@@ -92,7 +93,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
         try {
             conn = Conexao.conectar();
 
-            // Preparando comando SQL para cadastrar uma assinatura:
+//          Preparando comando SQL para cadastrar uma assinatura.
             pstmt = conn.prepareStatement("INSERT INTO assinatura (id_plano, id_empresa, status, dt_inicio, dt_fim, forma_pagamento) VALUES (?, ?, ?, to_date(?,\'DD\'), ?, ?)");
             pstmt.setInt(1, assinatura.getIdPlano());
             pstmt.setInt(2, assinatura.getIdEmpresa());
@@ -101,7 +102,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
             pstmt.setDate(5, Date.valueOf(assinatura.getDtFim()));
             pstmt.setString(6, assinatura.getFormaPagamento());
 
-            // Execução da atualização
+//          verifica o cadastro da assinatura com base no número de linhas afetadas.
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
@@ -117,7 +118,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
         try {
             conn = Conexao.conectar();
 
-            // Preparação do comando SQL para atualizar a senha do admin da empresa
+//          Preparação do comando SQL para alterar as informações do plano.
             pstmt = conn.prepareStatement("UPDATE assinatura SET id_plano = ?, dt_inicio = ?, dt_fim = ?, forma_pagamento = ?, " +
                     "status = ? WHERE id = ?");
             pstmt.setInt(1, assinatura.getIdPlano());
@@ -127,7 +128,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
             pstmt.setString(5, String.valueOf(assinatura.getStatus()));
             pstmt.setInt(5, assinatura.getId());
 
-            // Execução da atualização
+
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
