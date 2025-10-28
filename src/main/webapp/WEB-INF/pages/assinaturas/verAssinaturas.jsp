@@ -137,7 +137,7 @@
   </section>
 
   <%if (!assinaturas.isEmpty()){%>
-  <table style="--cols: 7;">
+  <table style="--cols: 8;">
     <thead>
     <tr>
       <th>Id</th>
@@ -145,6 +145,7 @@
       <th>Data de início</th>
       <th>Data de fim</th>
       <th>Id do plano</th>
+      <th>Status</th>
       <th>Forma pagamento</th>
       <th>Ações</th>
     </tr>
@@ -157,6 +158,7 @@
             <td><%=FormatoOutput.data(assinatura.getDtInicio())%></td>
             <td><%=FormatoOutput.data(assinatura.getDtFim())%></td>
             <td><%=assinatura.getIdPlano()%></td>
+            <td><%=FormatoOutput.status(assinatura.getStatus())%></td>
             <td><%=assinatura.getFormaPagamento()%></td>
               <td>
                 <div id="juntos">

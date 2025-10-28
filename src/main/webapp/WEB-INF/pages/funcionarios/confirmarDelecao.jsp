@@ -1,31 +1,28 @@
-<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page import="com.example.servletfluxar.model.*" %>
+<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar setor</title>
+  <title>Deletar telefone</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
+  Empresa empresa = (Empresa) request.getAttribute("empresa");
   Setor setor = (Setor) request.getAttribute("setor");
   Unidade unidade = (Unidade) request.getAttribute("unidade");
+  Funcionario funcionario = (Funcionario) request.getAttribute("funcionario");
   request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
-      <%= tipoUsuario == "empresa" ?
-              ((Empresa) session.getAttribute("empresa")).getNome() :
-              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
-                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=((Empresa) session.getAttribute("empresa")).getId()%>">
+      <%=((Empresa) session.getAttribute("empresa")).getNome()%></a>
   </div>
 </header>
 <aside>
@@ -45,16 +42,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
-      <li>
-        <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-          <div class="text">
-            Admins
-          </div>
-        </a>
-      </li>
-      <%}%>
-
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
           <div class="text">
@@ -66,9 +53,6 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
-            Assinaturas
-            <%} else {%>
             Assinatura
           </div>
         </a>
@@ -77,11 +61,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
-            Empresas
-            <%} else {%>
             Empresa
-            <%}%>
           </div>
         </a>
       </li>
@@ -96,7 +76,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarSetoresServlet">
-          <div class="text" id="atual">
+          <div class="text">
             Setores
           </div>
         </a>
@@ -104,7 +84,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet">
-          <div class="text func">
+          <div class="text func" id="atual">
             Funcionarios
           </div>
         </a>
@@ -117,46 +97,49 @@
   </div>
 </aside>
 <main>
-  <p id="title">Deletar setor</p>
+  <p id="title">Deletar funcionário</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverSetorServlet" method="post">
-    <table style="--cols: 4">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverTelefoneServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
-          <th colspan="2">Setor</th>
+          <th colspan="2">Funcionários</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Id</td>
-          <td style="border-left: solid 1px"><%=setor.getId()%></td>
+          <td>Nome da empresa</td>
+          <td style="border-left: solid 1px"><%=empresa.getNome()%></td>
         </tr>
         <tr>
-          <td>Nome</td>
-          <td style="border-left: solid 1px"><%=setor.getNome()%></td>
-        </tr>
-        <tr>
-          <td>Duracao</td>
-          <td style="border-left: solid 1px"><%=setor.getDescricao()%></td>
-        </tr>
-        <tr>
-          <td>Nome unidade</td>
+          <td>Nome da unidade</td>
           <td style="border-left: solid 1px"><%=unidade.getNome()%></td>
         </tr>
         <tr>
-          <td>Email unidade</td>
-          <td style="border-left: solid 1px"><%=unidade.getEmail()%></td>
+          <td>Nome do setor</td>
+          <td style="border-left: solid 1px"><%=setor.getNome()%></td>
+        </tr>
+        <tr>
+          <td>Nome</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td style="border-left: solid 1px"><%=funcionario.getEmail()%></td>
+        </tr>
+        <tr>
+          <td>Cargo</td>
+          <td style="border-left: solid 1px"><%=funcionario.getCargo()%></td>
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=setor.getId() %>">
+    <input type="hidden" name="id" value="<%=funcionario.getId()%>">
     <div>
       <button type="submit">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarSetoresServlet">Cancelar</a>
+      <a id="add" href="${pageContext.request.contextPath}/ListarFuncionariosServlet">Cancelar</a>
     </div>
   </form>
 </main>
 </body>
-
 </html>

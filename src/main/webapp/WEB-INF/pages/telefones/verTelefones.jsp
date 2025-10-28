@@ -16,6 +16,7 @@
     Integer paginaObjeto = (Integer) request.getAttribute("pagina");
     int pagina = (paginaObjeto != null) ? paginaObjeto : 1;
     List<Telefone> telefones = (List<Telefone>) request.getAttribute("telefones");
+    Empresa empresa = (Empresa) request.getAttribute("empresa");
     String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -115,10 +116,11 @@
     <p id="title">Telefones de <%=((Empresa) request.getAttribute("empresa")).getNome()%>
     </p>
 
+    <%if (!telefones.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador")?"--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Nome empresa</th>
             <th>Número</th>
             <%
                 if (tipoUsuario.equals("empresa")) {
@@ -128,10 +130,7 @@
         </tr>
         </thead>
         <tbody>
-        <%
-            if (!telefones.isEmpty()) {
-                for (Telefone telefone : telefones) {
-        %>
+        <%for (Telefone telefone : telefones) {%>
         <tr>
             <td><%=telefone.getId()%>
             </td>
@@ -153,16 +152,16 @@
             <%}%>
         </tr>
         <%}%>
-        <%} else {%>
-        <tr>
-            <td colspan="5">Não há telefones cadastrado</td>
-        </tr>
-        <%}%>
         </tbody>
     </table>
+    <%} else {%>
+        <p>Nenhum telefone está cadastrado</p>
+    <%}%>
 
     <section id="footer">
+        <%if (tipoUsuario=="empresa") {%>
         <a id="add" href="${pageContext.request.contextPath}/AdicionarTelefoneServlet">Adicionar</a>
+        <%}%>
 
         <div id="pages">
             <a href="${pageContext.request.contextPath}/ListarTelefonesServlet?pagina=<%=pagina - 1%>">
