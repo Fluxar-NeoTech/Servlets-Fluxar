@@ -192,7 +192,7 @@ public class AdministradorDAO implements GenericoDAO<Administrador>, ComLoginDAO
             pstmt.setString(3,administrador.getEmail());
             pstmt.setString(4,administrador.getSenha());
 
-//          Verifica se a atualização foi feita com base nas linhas afetadas.
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){

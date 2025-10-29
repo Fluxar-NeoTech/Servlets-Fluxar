@@ -23,7 +23,7 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
         int offset = (pagina - 1) * limite;
         Map<Integer, Unidade> unidades = new HashMap<>();
 
-//        Conectando ao banco de dados e enviando sql:
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela unidade.
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id LIMIT ? OFFSET ?");

@@ -102,7 +102,7 @@ public class AssinaturaDAO implements GenericoDAO<Assinatura> {
             pstmt.setDate(5, Date.valueOf(assinatura.getDtFim()));
             pstmt.setString(6, assinatura.getFormaPagamento());
 
-//          verifica o cadastro da assinatura com base no número de linhas afetadas.
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {

@@ -12,6 +12,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
     private Connection conn = null;
     private PreparedStatement pstmt;
     private ResultSet rs;
+
     @Override
     public Map<Integer, Setor> listar(int pagina, int limite) {
 //        Declarando variáveis:
@@ -19,7 +20,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
         Map<Integer, Setor> setores= new HashMap<>();
         Setor setor;
 
-//        Conectando ao banco de dados e enviando sql:
+//        Conectando ao banco de dados e enviando sql para ver os dados na tabela setor. 
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM setor ORDER BY id LIMIT ? OFFSET ?");
@@ -27,7 +28,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
             pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
-//            Criando objetos e adicionando a lista dos setores:
+//            Criando objetos
             while (rs.next()) {
                 setor = new Setor();
                 setor.setId(rs.getInt("id"));
@@ -35,6 +36,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
                 setor.setDescricao(rs.getString("descricao"));
                 setor.setIdUnidade(rs.getInt("id_unidade"));
 
+//             Adicionando o objeto no hashmap de setores, a chave é id e o valor um setor.
                 setores.put(rs.getInt("id"), setor);
             }
 
@@ -50,7 +52,6 @@ public class SetorDAO implements GenericoDAO<Setor> {
 
     @Override
     public Setor buscarPorId(int id){
-//        Conectando ao banco de dados e enviando sql:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM setor WHERE id = ?");
@@ -72,7 +73,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
 
     @Override
     public boolean inserir(Setor setor){
-//        Conectando ao banco de dados e dando o insert:
+//        Conectando ao banco de dados e inserindo um novo setor.
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("INSERT INTO setor (nome, descricao, id_unidade) VALUES (?, ?, ?)");
@@ -80,6 +81,7 @@ public class SetorDAO implements GenericoDAO<Setor> {
             pstmt.setString(2, setor.getDescricao());
             pstmt.setInt(3, setor.getIdUnidade());
 
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){
@@ -93,17 +95,15 @@ public class SetorDAO implements GenericoDAO<Setor> {
     @Override
     public boolean alterar(Setor setor){
         try {
-            // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();
 
-            // Preparando comando SQL para atualizar a senha do admin da empresa:
+//          Preparando comando SQL para atualizar informações do administrador da empresa.
             pstmt = conn.prepareStatement("UPDATE setor SET nome = ?, descricao = ?, id_unidade = ? WHERE id = ?");
             pstmt.setString(1,setor.getNome());
             pstmt.setString(2, setor.getDescricao());
             pstmt.setInt(3, setor.getIdUnidade());
             pstmt.setInt(4, setor.getId());
 
-            // Execução da atualização
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {

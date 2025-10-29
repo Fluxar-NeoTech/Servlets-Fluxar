@@ -16,13 +16,14 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
     private Connection conn = null;
     private PreparedStatement pstmt;
     private ResultSet rs;
+
     @Override
     public Map<Integer, Endereco> listar(int pagina, int limite) {
 //        Declarando variáveis:
         int offset = (pagina - 1) * limite;
         Map<Integer, Endereco> enderecos = new HashMap<>();
 
-//        Conectando ao banco de dados e enviando comando sql:
+//        Conectando ao banco de dados e enviando comando sql para ver os dados da tabela endereço.
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM endereco ORDER BY id LIMIT ? OFFSET ?");
@@ -47,7 +48,6 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
 
     @Override
     public Endereco buscarPorId(int id){
-//        Conectando ao banco de dados e executando sql:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM endereco WHERE id = ?");
@@ -68,7 +68,6 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
 
     @Override
     public boolean inserir(Endereco endereco){
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("INSERT INTO endereco (cep, numero, complemento) VALUES (?, ?, ?)");
@@ -76,7 +75,7 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
             pstmt.setInt(2,endereco.getNumero());
             pstmt.setString(3,endereco.getComplemento());
 
-//            Retornando se houve alteração, ou seja, pelo menos uma linha do banco foi adicionada:
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){
@@ -89,7 +88,6 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
 
     @Override
     public boolean alterar(Endereco endereco){
-//        Tentando conectar ao banco de dados:
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("UPDATE empresa SET cep = ?, numero = ?, complemento = ? WHERE id = ?");
@@ -98,7 +96,6 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
             pstmt.setString(3, endereco.getComplemento());
             pstmt.setInt(4, endereco.getId());
 
-//            Retornando se houve um retono na alteração:
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle){
@@ -111,17 +108,14 @@ public class EnderecoDAO implements GenericoDAO<Endereco> {
 
     @Override
     public boolean deletarPorId(int id){
-//        Declaração de variáveis:
         Connection conn = null;
         PreparedStatement pstmt;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE * FROM endereco WHERE id = ?");
             pstmt.setInt(1, id);
 
-//            Retornando se houve alteração, ou seja, pelo menos uma linha do banco foi removida:
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){
