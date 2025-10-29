@@ -116,7 +116,7 @@
 <main>
   <p id="title">Alterar Plano</p>
 
-  <form action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
+  <form id="form" action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
     <label for="nome">Nome:</label>
     <input type="text" name="nome" id="name" value="<%= plano.getNome()%>">
 

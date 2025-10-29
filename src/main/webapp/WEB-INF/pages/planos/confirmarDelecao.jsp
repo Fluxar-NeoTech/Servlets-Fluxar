@@ -15,7 +15,6 @@
 <body>
 <%
   Plano plano = (Plano) request.getAttribute("plano");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -117,8 +116,8 @@
 <main>
   <p id="title">Deletar plano</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverPlanoServlet" method="post">
-    <table>
+  <form id="form" action="${pageContext.request.contextPath}/RemoverPlanoServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
           <th colspan="2">Plano</th>

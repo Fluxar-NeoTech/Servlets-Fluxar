@@ -87,6 +87,39 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         }
     }
 
+    public List<Unidade> listarNomesPorIdEmpresa(int idEmpresa){
+        //        Declaração de variáveis:
+        Connection conn = null;
+        Unidade unidade;
+        List<Unidade> unidades = new ArrayList<>();
+
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT DISTINCT id, nome FROM unidade WHERE id_empresa = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+//            Coletando dados:
+            while (rs.next()) {
+                unidade = new Unidade();
+                unidade.setNome(rs.getString("nome"));
+                unidade.setId(rs.getInt("id"));
+                unidades.add(unidade);
+            }
+
+//        Retornando as unidades cadastradas por essa empresa:
+            return unidades;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return unidades;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+
+    }
+
     @Override
     public int contar(){
         Connection conn = null;

@@ -66,13 +66,15 @@ public class AlterarAdminServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String nomeInput = request.getParameter("nomeCompleto");
+        int id = Integer.parseInt(request.getParameter("id"));
         String[] nomeCompleto = new String[2];
         String email = request.getParameter("email");
-        int senhaValida;
         HttpSession session = request.getSession();
         Administrador administrador = new Administrador();
         AdministradorDAO administradorDAO = new AdministradorDAO();
         boolean continuar = true;
+
+        administrador.setId(id);
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
@@ -110,7 +112,6 @@ public class AlterarAdminServlet extends HttpServlet {
             }
         }
 
-
         if (!continuar) {
             request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
                     .forward(request, response);
@@ -122,7 +123,7 @@ public class AlterarAdminServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
         } else {
             request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.getRequestDispatcher("pages/erro.jsp")
                     .forward(request, response);
         }
     }

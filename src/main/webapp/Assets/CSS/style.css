@@ -370,16 +370,25 @@ a > div{
     min-width: 98px;
 }
 
-.confirmarDelecao{
-    display: table;
-}
-
 form:not[id="filtro"]{
     margin: auto;
 }
 
-.confirmarDelecao > thead, .confirmarDelecao> tbody, .confirmarDelecao{
+.confirmarDelecao{
+    width: 30vw;
+    display: table;
+}
+
+.confirmarDelecao tr {
+    display: table-row;
+}
+
+.confirmarDelecao > thead{
     display: table-header-group;
+}
+
+.confirmarDelecao > tbody{
+    display: table-row-group;
 }
 
 table {

@@ -14,7 +14,6 @@
 <body>
 <%
   Administrador administrador = (Administrador) request.getAttribute("administrador");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -120,11 +119,11 @@
 <main>
   <p id="title">Deletar administrador</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverAdminServlet" method="post">
-    <table>
+  <form id="form" action="${pageContext.request.contextPath}/RemoverAdminServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
-          <th colspan="2">Plano</th>
+          <th colspan="2">Administrador</th>
         </tr>
       </thead>
       <tbody>

@@ -14,7 +14,6 @@
 <%
   Setor setor = (Setor) request.getAttribute("setor");
   Unidade unidade = (Unidade) request.getAttribute("unidade");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -70,6 +69,7 @@
             Assinaturas
             <%} else {%>
             Assinatura
+            <%}%>
           </div>
         </a>
       </li>
@@ -119,8 +119,8 @@
 <main>
   <p id="title">Deletar setor</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverSetorServlet" method="post">
-    <table style="--cols: 4">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverSetorServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
           <th colspan="2">Setor</th>
@@ -136,7 +136,7 @@
           <td style="border-left: solid 1px"><%=setor.getNome()%></td>
         </tr>
         <tr>
-          <td>Duracao</td>
+          <td>Descrição</td>
           <td style="border-left: solid 1px"><%=setor.getDescricao()%></td>
         </tr>
         <tr>
@@ -149,7 +149,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=setor.getId() %>">
+    <input type="hidden" name="id" value="<%=setor.getId()%>">
     <div>
       <button type="submit">Confirmar</button>
 
@@ -158,5 +158,4 @@
   </form>
 </main>
 </body>
-
 </html>

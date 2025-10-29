@@ -323,6 +323,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM empresa WHERE id = ?");
             pstmt.setInt(1, id);
+
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){

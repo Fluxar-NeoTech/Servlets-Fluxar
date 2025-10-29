@@ -11,7 +11,6 @@ public interface DependeEmpresa<T> {
 
     /**
      * Lista os registros pertencentes a uma empresa com paginação.
-     *
      * @param pagina    número da página atual
      * @param limite    quantidade de itens por página
      * @param idEmpresa ID da empresa cujos registros devem ser listados
@@ -21,7 +20,6 @@ public interface DependeEmpresa<T> {
 
     /**
      * Conta o número total de registros vinculados a uma empresa.
-     *
      * @param idEmpresa ID da empresa
      * @return          quantidade total de registros
      */

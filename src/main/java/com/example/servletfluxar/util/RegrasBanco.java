@@ -30,10 +30,11 @@ public class RegrasBanco {
      * @param nome É o nome da empresa
      * @return      O nome da empresa com primeria letra maíuscula
      */
-    public static String nomeCapitalize (String nome){
-        char primeiraLetra = nome.charAt(0);
-        char primeiraLetraMaiuscula = Character.toUpperCase(primeiraLetra);
-        return nome.replace(primeiraLetra, primeiraLetraMaiuscula);
+    public static String nomeCapitalize(String nome) {
+        if (nome == null || nome.isEmpty()) {
+            return nome;
+        }
+        return nome.substring(0, 1).toUpperCase() + nome.substring(1);
     }
 
     /**

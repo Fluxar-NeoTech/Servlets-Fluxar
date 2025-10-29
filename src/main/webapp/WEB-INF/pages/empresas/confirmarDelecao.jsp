@@ -116,8 +116,8 @@
 <main>
   <p id="title">Deletar empresa</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverEmpresaServlet" method="post">
-    <table style="--cols: 2;">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverEmpresaServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
           <th colspan="2">Empresa</th>

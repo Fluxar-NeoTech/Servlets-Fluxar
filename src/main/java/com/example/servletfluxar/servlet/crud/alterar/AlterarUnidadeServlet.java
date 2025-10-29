@@ -1,28 +1,35 @@
-package com.example.servletfluxar.servlet.crud.adicionar;
+package com.example.servletfluxar.servlet.crud.alterar;
 
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
-import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Unidade;
 import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdicionarUnidadeServlet", value = "/AdicionarUnidadeServlet")
-public class AdicionarUnidadeServlet extends HttpServlet {
+@WebServlet(name = "AlterarUnidadeServlet", value = "/AlterarUnidadeServlet")
+public class AlterarUnidadeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 //        Declaração de variáveis:
+        int id = 0;
         HttpSession session = request.getSession();
+        UnidadeDAO unidadeDAO = new UnidadeDAO();
+        Unidade unidade = new Unidade();
+        Empresa empresaLogada;
 
 //        Setando atributo da request com o tipo do usuário
         try {
+            empresaLogada = (Empresa) session.getAttribute("empresa");
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
                 response.sendRedirect(request.getContextPath()+"/ListarUnidadesServlet");
@@ -37,8 +44,26 @@ public class AdicionarUnidadeServlet extends HttpServlet {
             return;
         }
 
-//        Redireciona para a página de adicionar empresa:
-        request.getRequestDispatcher("/WEB-INF/pages/unidades/adicionarUnidade.jsp")
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+            if (unidadeDAO.buscarPorId(id).getIdEmpresa() != empresaLogada.getId()){
+                response.sendRedirect("/ListarUnidadesServlet");
+                return;
+            }
+        } catch (NullPointerException | NumberFormatException e){
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+            return;
+        }
+
+        unidade = unidadeDAO.buscarPorId(id);
+
+        request.setAttribute("unidade", unidade);
+
+//        Redireciona para a página de alterar unidade:
+        request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
                 .forward(request, response);
     }
 
@@ -50,6 +75,7 @@ public class AdicionarUnidadeServlet extends HttpServlet {
         String cnpj = request.getParameter("cnpj");
         String cep = request.getParameter("cep");
         int numero = 0;
+        int id = 0;
         String complemento = request.getParameter("complemento");
         String email = request.getParameter("email");
         String confirmarSenha = request.getParameter("confirmarSenha");
@@ -58,10 +84,12 @@ public class AdicionarUnidadeServlet extends HttpServlet {
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         Unidade unidade = new Unidade();
         boolean continuar = true;
+        Empresa empresaLogada;
 
         try {
+            empresaLogada = (Empresa) session.getAttribute("empresa");
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
+            if (empresaLogada == null){
                 response.sendRedirect(request.getContextPath()+"/ListarUnidadesServlet");
                 return;
             } else {
@@ -73,12 +101,26 @@ public class AdicionarUnidadeServlet extends HttpServlet {
             return;
         }
 
+//        Validando se o id é passado:
+        try {
+            id = Integer.parseInt(request.getParameter("id"));
+            if (unidadeDAO.buscarPorId(id).getIdEmpresa() != empresaLogada.getId()){
+                response.sendRedirect("/ListarUnidadesServlet");
+                return;
+            }
+            unidade.setId(id);
+        } catch (NullPointerException | NumberFormatException e){
+            request.setAttribute("erroNumero", "Número do endereço deve conter apenas números");
+            continuar = false;
+        }
+
 //        Validando se nome é válido:
         if (nome == null){
             request.setAttribute("erroNome", "Insira um nome para a unidade");
             continuar = false;
         } else {
             nome = RegrasBanco.nomeCapitalize(nome);
+            unidade.setNome(nome);
         }
 
 //        Validando se CNPJ é válido:
@@ -86,6 +128,7 @@ public class AdicionarUnidadeServlet extends HttpServlet {
             request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
             continuar = false;
         } else {
+            System.out.println(cnpj);
             if (ValidacaoInput.validarCNPJ(cnpj)){
                 cnpj = RegrasBanco.cnpj(cnpj);
                 if (empresaDAO.buscarPorCNPJ(cnpj) != null || unidadeDAO.buscarPorCnpj(cnpj) != null){
@@ -98,7 +141,7 @@ public class AdicionarUnidadeServlet extends HttpServlet {
             }
         }
 
-//        Vaidando se email é válido:
+//        Validando se email é válido:
         if (email == null){
             request.setAttribute("erroEmail", "Insira um email para a unidade");
             continuar = false;
@@ -143,7 +186,7 @@ public class AdicionarUnidadeServlet extends HttpServlet {
         }
 
         if (!continuar){
-            request.getRequestDispatcher("/WEB-INF/pages/unidades/adicionarUnidade.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
                     .forward(request, response);
             return;
         }
@@ -158,7 +201,7 @@ public class AdicionarUnidadeServlet extends HttpServlet {
         unidade.setIdEmpresa(((Empresa) request.getAttribute("empresa")).getId());
 
 //        Enviando e vendo se há um retorno:
-        if (unidadeDAO.inserir(unidade)){
+        if (unidadeDAO.alterar(unidade)){
             response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
         }else {
             request.setAttribute("mensagem", "Não foi possível inserir uma unidade no momento. Tente novamente mais tarde...");

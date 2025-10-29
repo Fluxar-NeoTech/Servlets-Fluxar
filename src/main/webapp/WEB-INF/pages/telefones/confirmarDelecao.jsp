@@ -14,7 +14,6 @@
 <%
   Telefone telefone = (Telefone) request.getAttribute("telefone");
   Empresa empresa = (Empresa) request.getAttribute("empresa");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>

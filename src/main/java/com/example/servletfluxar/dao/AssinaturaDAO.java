@@ -195,6 +195,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM assinatura WHERE id = ?");
+            pstmt.setInt(1, id);
 
 //            Retornando se houve um registro foi deletado:
             return pstmt.executeUpdate() > 0;
