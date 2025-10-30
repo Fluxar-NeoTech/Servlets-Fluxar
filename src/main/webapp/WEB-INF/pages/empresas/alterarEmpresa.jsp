@@ -1,6 +1,5 @@
-<%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
-<%@ page import="com.example.servletfluxar.model.Unidade" %>
+<%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -8,15 +7,14 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alterar unidade</title>
+  <title>Alterar empresa</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
-  Unidade unidade = (Unidade) request.getAttribute("unidade");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
+  Empresa empresa = (Empresa) request.getAttribute("empresa");
 %>
 <header>
   <div id="nome">
@@ -70,7 +68,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
-          <div class="text">
+          <div class="text" id="atual">
               Empresas
           </div>
         </a>
@@ -78,7 +76,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarUnidadesServlet">
-          <div class="text" id="atual">
+          <div class="text">
             Unidades
           </div>
         </a>
@@ -107,36 +105,24 @@
   </div>
 </aside>
 <main>
-  <p id="title">Alterar unidade</p>
+  <p id="title">Alterar empresa</p>
 
-  <form action="${pageContext.request.contextPath}/AlterarUnidadeServlet" method="post">
+  <form action="${pageContext.request.contextPath}/AlterarEmpresaServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%=unidade.getNome()%>">
+    <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>">
     <p><%=request.getAttribute("erroNome")%></p>
 
     <label for="cnpj">CNPJ:</label>
-    <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(unidade.getCnpj())%>">
+    <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(empresa.getCnpj())%>">
     <p><%=request.getAttribute("erroCnpj")%></p>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email" value="<%=unidade.getEmail()%>">
+    <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>">
     <p><%=request.getAttribute("erroEmail")%></p>
 
-    <label for="cep">CEP:</label>
-    <input type="text" name="cep" id="cep" value="<%=unidade.getCep()%>">
-    <p><%=request.getAttribute("erroCep")%></p>
-
-    <label for="numero">Número:</label>
-    <input type="text" name="numero" id="numero" value="<%=unidade.getNumero()%>">
-    <p><%=request.getAttribute("erroNumero")%></p>
-
-    <label for="complemento">Complemento:</label>
-    <textarea id="complemento" name="complemento" rows="4" cols="50" placeholder="Digite o complemento"><%=unidade.getComplemento()%></textarea>
-
-    <input type="hidden" id="id" name="id" value="<%=unidade.getId()%>">
     <div>
       <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+      <a id="add" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
     </div>
   </form>
 </main>

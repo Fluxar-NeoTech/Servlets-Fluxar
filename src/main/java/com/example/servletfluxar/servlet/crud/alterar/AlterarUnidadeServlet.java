@@ -128,7 +128,6 @@ public class AlterarUnidadeServlet extends HttpServlet {
             request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
             continuar = false;
         } else {
-            System.out.println(cnpj);
             if (ValidacaoInput.validarCNPJ(cnpj)){
                 cnpj = RegrasBanco.cnpj(cnpj);
                 if (empresaDAO.buscarPorCNPJ(cnpj) != null || unidadeDAO.buscarPorCnpj(cnpj) != null){

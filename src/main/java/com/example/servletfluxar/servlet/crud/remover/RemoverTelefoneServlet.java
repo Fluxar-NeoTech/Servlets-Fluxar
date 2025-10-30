@@ -48,6 +48,8 @@ public class RemoverTelefoneServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
                 response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
                 return;
+            } else {
+                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -55,9 +57,6 @@ public class RemoverTelefoneServlet extends HttpServlet {
             return;
         }
 
-        empresa = empresaDAO.buscarPorId(telefone.getId());
-
-        request.setAttribute("empresa", empresa);
         request.setAttribute("telefone", telefone);
         request.getRequestDispatcher("WEB-INF/pages/telefones/confirmarDelecao.jsp")
                 .forward(request, response);
@@ -70,6 +69,7 @@ public class RemoverTelefoneServlet extends HttpServlet {
         int id = 0;
         TelefoneDAO telefoneDAO = new TelefoneDAO();
         Telefone telefone = null;
+        Empresa empresaLogada;
 
         try {
             id = Integer.parseInt(request.getParameter("id"));
@@ -94,6 +94,9 @@ public class RemoverTelefoneServlet extends HttpServlet {
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
                 response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
                 return;
+            } else {
+                empresaLogada = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -101,10 +104,16 @@ public class RemoverTelefoneServlet extends HttpServlet {
             return;
         }
 
-        if (telefoneDAO.deletarPorId(id)) {
-            response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id="+telefone.getIdEmpresa());
+        if (empresaLogada.getId() == telefone.getIdEmpresa()) {
+            if (telefoneDAO.deletarPorId(id)) {
+                response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet");
+            } else {
+                request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse telefone, tente novamente mais tarde...");
+                request.getRequestDispatcher("")
+                        .forward(request, response);
+            }
         } else {
-            request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
+            request.setAttribute("mensagem", "Você não pode deletar esse telefone...");
             request.getRequestDispatcher("")
                     .forward(request, response);
         }
