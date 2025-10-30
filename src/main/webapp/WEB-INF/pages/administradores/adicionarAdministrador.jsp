@@ -1,5 +1,3 @@
-<%@ page import="com.example.servletfluxar.model.Plano" %>
-<%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -7,7 +5,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alterar administrador</title>
+  <title>Adicionar administrador</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
@@ -18,12 +16,8 @@
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
-      <%= tipoUsuario == "empresa" ?
-              ((Empresa) session.getAttribute("empresa")).getNome() :
-              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=((Administrador) session.getAttribute("administrador")).getId()%>">
+      <%= ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                       ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
   </div>
 </header>

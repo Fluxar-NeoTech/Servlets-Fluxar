@@ -94,7 +94,7 @@ public class AdicionarAdminServlet extends HttpServlet {
         }
 
         if (senha == null){
-            request.setAttribute("erroSenha", "Defina uma senha para a empresa");
+            request.setAttribute("erroSenha", "Defina uma senha para o administrador");
             continuar = false;
         } else {
             senhaValida = ValidacaoInput.validarSenha(senha);

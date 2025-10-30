@@ -36,7 +36,6 @@ public class ListarTelefonesServlet extends HttpServlet {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
             if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
                 request.setAttribute("administrador", (Administrador) session.getAttribute("administrador"));
-                idEmpresa = Integer.parseInt(request.getParameter("id"));
             } else {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
@@ -53,13 +52,8 @@ public class ListarTelefonesServlet extends HttpServlet {
         if (request.getAttribute("tipoUsuario").equals("administrador")) {
             try {
                 idEmpresa = Integer.parseInt(request.getParameter("id"));
-            } catch (NullPointerException npe) {
-                request.setAttribute("mensagem", "Id empresa não pode ser nulo");
-                request.getRequestDispatcher("")
-                        .forward(request, response);
-                return;
-            } catch (NumberFormatException nfe) {
-                request.setAttribute("mensagem", "Id empresa deve ser um número");
+            } catch (NullPointerException | NumberFormatException e) {
+                request.setAttribute("mensagem", "Id empresa deve ser um número real");
                 request.getRequestDispatcher("")
                         .forward(request, response);
                 return;

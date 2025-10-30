@@ -51,6 +51,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         String cnpj = request.getParameter("cnpj");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
+        String confirmarSenha = request.getParameter("confirmarSenha");
         int senhaValida;
         HttpSession session = request.getSession();
         EmpresaDAO empresaDAO = new EmpresaDAO();
@@ -142,6 +143,11 @@ public class AdicionarEmpresaServlet extends HttpServlet {
                     request.setAttribute("erroSenha", "Senha deve ter números");
                 }
                 continuar = false;
+            } else {
+                if (!senha.equals(confirmarSenha)){
+                    request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
+                    continuar = false;
+                }
             }
         }
 

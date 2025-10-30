@@ -182,7 +182,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
 
     @Override
     public boolean inserir(Setor setor){
-        Connection conn = null;
+       Connection conn = null;
 //        Conectando ao banco de dados e dando o insert:
         try{
             conn = Conexao.conectar();

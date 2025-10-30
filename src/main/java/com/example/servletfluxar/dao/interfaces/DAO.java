@@ -32,11 +32,23 @@ public interface DAO<T> {
     T buscarPorId(int id);
 
     /**
-     * Inseri um registro no banco de dados
+     * Método que insere um registro no banco de dados
      * @param objeto Objeto que representa o que será inserido no banco de dados
      * @return       true se a inserção ocorrer
      */
     boolean inserir(T objeto);
+
+    /**
+     * Método que altera um registro, sendo alterado todo o objeto de uma só vez
+     * @param objeto Objeto com os novos valores
+     * @return       true se a alteração ser feita com sucesso
+     */
     boolean alterar(T objeto);
+
+    /**
+     * Método que deleta um registro pelo id
+     * @param id Id do registro
+     * @return   true se a deleção ocorrer
+     */
     boolean deletarPorId(int id);
 }

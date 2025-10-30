@@ -16,7 +16,6 @@
 <%
   Empresa empresa = (Empresa) request.getAttribute("empresa");
   Unidade unidade = (Unidade) request.getAttribute("unidade");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -106,15 +105,15 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
   <p id="title">Deletar empresa</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverUnidadeServlet" method="post">
-    <table style="--cols: 2;">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverUnidadeServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
           <th colspan="2">Unidade</th>
@@ -153,9 +152,9 @@
     </table>
     <input type="hidden" name="id" value="<%=unidade.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Cancelar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Cancelar</a>
     </div>
   </form>
 </main>

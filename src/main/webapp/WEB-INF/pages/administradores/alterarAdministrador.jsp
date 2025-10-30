@@ -117,13 +117,14 @@
 <main>
   <p id="title">Alterar Administrador</p>
 
-  <form action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
-    <label for="name">Nome:</label>
-    <input type="text" name="nomeCompleto" id="name" value=<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>>
+  <form id="form" action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
+    <label for="name">Nome completo:</label>
+    <input type="text" name="nomeCompleto" id="name" value="<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>">
 
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" value=<%=administrador.getEmail()%>>
 
+    <input name="id" value="<%=administrador.getId()%>" type="hidden">
     <div>
       <button type="submit">Confirmar</button>
       <a id="add" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>

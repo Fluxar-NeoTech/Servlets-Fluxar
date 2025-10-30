@@ -110,8 +110,8 @@
             </ul>
         </nav>
 
-        <div class="maior" id="sair">
-            <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+        <div>
+            <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
         </div>
     </aside>
     <main>
@@ -128,10 +128,10 @@
                 
                 <input type="text" id="search" name="valorFiltro" placeholder="Valor do filtro...">
 
-                <button type="submit" id="buscar">Buscar</button>
+                <button type="submit" class="botaoPrimario">Buscar</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet" id="ver">Ver todos</a>
+            <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet" class="botaoSecundario">Ver todos</a>
         </section>
 
         <table style=<%=tipoUsuario.equals("administrador")? "--cols:4;" : "--cols:5;"%>>
@@ -188,7 +188,7 @@
         </table>
 
         <section id="footer">
-            <a id="add" href="${pageContext.request.contextPath}/AdicionarPlanoServlet">Adicionar</a>
+            <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarPlanoServlet">Adicionar</a>
 
             <div id="pages">
                 <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet?pagina=<%=pagina - 1%>">

@@ -277,9 +277,11 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             conn = Conexao.conectar();
 
             // Preparação do comando SQL para atualizar o nome da empresa:
-            pstmt = conn.prepareStatement("UPDATE empresa SET nome =? WHERE id = ?");
+            pstmt = conn.prepareStatement("UPDATE empresa SET nome = ?, cnpj = ?, email = ? WHERE id = ?");
             pstmt.setString(1, empresa.getNome());
-            pstmt.setInt(2,empresa.getId());
+            pstmt.setString(2, empresa.getCnpj());
+            pstmt.setString(3, empresa.getEmail());
+            pstmt.setInt(4,empresa.getId());
 
             // Execução da atualização e retorno:
             return pstmt.executeUpdate()>0;
@@ -323,6 +325,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM empresa WHERE id = ?");
             pstmt.setInt(1, id);
+
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){

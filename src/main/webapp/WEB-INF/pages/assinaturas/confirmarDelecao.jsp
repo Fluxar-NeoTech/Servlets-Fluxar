@@ -8,14 +8,14 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar administrador</title>
+  <title>Deletar assinatura</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
 </head>
 
 <body>
 <%
+  Empresa empresa = (Empresa) request.getAttribute("empresa");
   Assinatura assinatura = (Assinatura) request.getAttribute("assinatura");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -49,7 +49,7 @@
       <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-          <div class="text" id="atual">
+          <div class="text">
             Admins
           </div>
         </a>
@@ -66,7 +66,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
-          <div class="text">
+          <div class="text" id="atual">
             <%if (tipoUsuario == "administrador") {%>
             Assinaturas
             <%} else {%>
@@ -119,13 +119,13 @@
   </div>
 </aside>
 <main>
-  <p id="title">Deletar administrador</p>
+  <p id="title">Deletar assinatura</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverAdminServlet" method="post">
-    <table>
+  <form id="form" action="${pageContext.request.contextPath}/RemoverAssinaturaServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
-          <th colspan="2">Plano</th>
+          <th colspan="2">Assinatura</th>
         </tr>
       </thead>
       <tbody>
@@ -138,16 +138,20 @@
           <td style="border-left: solid 1px"><%=assinatura.getFormaPagamento()%></td>
         </tr>
         <tr>
-          <td>Email</td>
-          <td style="border-left: solid 1px"><%=administrador.getEmail()%></td>
+          <td>Nome empresa</td>
+          <td style="border-left: solid 1px"><%=empresa.getNome()%></td>
+        </tr>
+        <tr>
+          <td>CNPJ</td>
+          <td style="border-left: solid 1px"><%=FormatoOutput.cnpj(empresa.getCnpj())%></td>
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=administrador.getId()%>">
+    <input type="hidden" name="id" value="<%=assinatura.getId()%>">
     <div>
       <button type="submit">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarAdminsServlet">Cancelar</a>
+      <a id="add" href="${pageContext.request.contextPath}/ListarAssinaturasServlet">Cancelar</a>
     </div>
   </form>
 </main>

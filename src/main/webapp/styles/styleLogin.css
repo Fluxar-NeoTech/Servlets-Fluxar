@@ -1,0 +1,279 @@
+:root {
+    --bg-1: #FBF7FF;
+    --bg-2: #F5EEFF;
+    --purple-600: #7A3FF2;
+    --purple-700: #6F1FB9;
+    --purple-800: #47005B;
+    --muted: #6b7280;
+    --card-bg: #ffffff;
+    --accent: linear-gradient(90deg, var(--purple-800), var(--purple-700));
+    --glass: rgba(111, 27, 185, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', system-ui, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background: radial-gradient(1200px 600px at 10% 10%, #ff965d, transparent),
+        radial-gradient(1000px 500px at 90% 90%, #ff70a7, transparent),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+/* Caixa central (card) */
+.caixa {
+    width: min(520px, 94vw);
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 12px 40px rgba(70, 0, 90, 0.06), 0 4px 12px rgba(15, 15, 20, 0.04);
+    border: 1px solid rgba(111, 27, 185, 0.06);
+    position: relative;
+    top: 220px;
+    left: 150px;
+}
+
+/* Topo com logo e título */
+.caixa__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.caixa__logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(111, 27, 185, 0.12);
+}
+
+.caixa__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--purple-800);
+    margin: 0;
+}
+
+.caixa__sub {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.form-grid {
+    display: grid;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.FluxarLogoSECTION {
+    width: 50%;
+}
+
+#logoFluxarAPP {
+    height: 150px;
+    width: auto;
+    position: relative;
+    top: 340px;
+    left: 210px;
+}
+
+#logo-container {
+    background-color: var(--purple-800);
+    height: 864px;
+    padding-right: 220px;
+    margin-left: -267px;
+    padding-right: 100px;
+}
+
+.formSECTION {
+    width: 50%;
+}
+
+
+/* input wrapper com label animado */
+.inputs {
+    position: relative;
+    background: linear-gradient(180deg, rgba(250, 250, 255, 0.6), rgba(250, 250, 255, 0.4));
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid rgba(111, 27, 185, 0.06);
+    transition: box-shadow .18s ease, border-color .18s ease;
+}
+
+.inputs:focus-within {
+    box-shadow: 0 8px 20px rgba(111, 27, 185, 0.06);
+    border-color: rgba(122, 63, 242, 0.22);
+}
+
+.inputUser {
+    width: 100%;
+    font-size: 15px;
+    color: #111;
+    background: transparent;
+    border: 0;
+    outline: none;
+    padding: 6px 0 2px 0;
+}
+
+/* label animado (floating) */
+.labelinput {
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    pointer-events: none;
+    transition: transform .22s cubic-bezier(.2, .9, .25, 1), color .18s ease, font-size .18s ease;
+    color: var(--muted);
+    font-weight: 600;
+    transform-origin: left top;
+    font-size: 0.95rem;
+}
+
+.inputUser:focus+.labelinput,
+.inputUser:not(:placeholder-shown)+.labelinput,
+.inputUser:valid+.labelinput {
+    transform: translateY(-22px) scale(.86);
+    color: var(--purple-700);
+}
+
+/* senha: mostra ícone eye (opcional) */
+.inputs--with-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-toggle {
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: rgba(111, 27, 185, 0.04);
+    color: var(--purple-700);
+    cursor: pointer;
+    border: none;
+}
+
+/* botão principal */
+#submit {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.98rem;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(122, 63, 242, 0.14);
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    margin-top: 6px;
+}
+
+#submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(111, 27, 185, 0.14);
+}
+
+#submit:active {
+    transform: translateY(0) scale(.995);
+}
+
+/* link/pequenas informações */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.row a {
+    color: var(--purple-700);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.row a:hover {
+    text-decoration: underline;
+}
+
+/* legenda estilo pill */
+legend {
+    display: inline-block;
+    padding: 8px 12px;
+    background: linear-gradient(90deg, rgba(111, 27, 185, 0.12), rgba(122, 63, 242, 0.08));
+    color: var(--purple-800);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .9rem;
+    border: none;
+    margin-bottom: 8px;
+}
+
+/* responsividade */
+@media (max-width:480px) {
+    .caixa {
+        padding: 18px;
+    }
+
+    .caixa__logo {
+        width: 44px;
+        height: 44px;
+        font-size: .95rem;
+    }
+
+    .labelinput {
+        left: 12px;
+        top: 10px;
+        font-size: .9rem;
+    }
+
+    .inputs {
+        padding: 10px 12px;
+        border-radius: 10px;
+    }
+
+    #submit {
+        padding: 12px;
+        border-radius: 10px;
+        font-size: .95rem;
+    }
+}

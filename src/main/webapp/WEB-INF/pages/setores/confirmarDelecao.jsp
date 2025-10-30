@@ -14,7 +14,6 @@
 <%
   Setor setor = (Setor) request.getAttribute("setor");
   Unidade unidade = (Unidade) request.getAttribute("unidade");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -70,6 +69,7 @@
             Assinaturas
             <%} else {%>
             Assinatura
+            <%}%>
           </div>
         </a>
       </li>
@@ -112,15 +112,15 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
   <p id="title">Deletar setor</p>
 
-  <form action="${pageContext.request.contextPath}/RemoverSetorServlet" method="post">
-    <table style="--cols: 4">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverSetorServlet" method="post">
+    <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
           <th colspan="2">Setor</th>
@@ -136,7 +136,7 @@
           <td style="border-left: solid 1px"><%=setor.getNome()%></td>
         </tr>
         <tr>
-          <td>Duracao</td>
+          <td>Descrição</td>
           <td style="border-left: solid 1px"><%=setor.getDescricao()%></td>
         </tr>
         <tr>
@@ -149,14 +149,13 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=setor.getId() %>">
+    <input type="hidden" name="id" value="<%=setor.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarSetoresServlet">Cancelar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarSetoresServlet">Cancelar</a>
     </div>
   </form>
 </main>
 </body>
-
 </html>

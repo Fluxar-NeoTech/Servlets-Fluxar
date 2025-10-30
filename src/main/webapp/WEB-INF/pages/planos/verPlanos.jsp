@@ -131,10 +131,10 @@
                 
                 <input type="text" id="search" name="vaorFiltro" placeholder="Valor do filtro...">
 
-                <button type="submit" id="buscar">Buscar</button>
+                <button type="submit" class="botaoPrimario">Buscar</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/ListarPlanosServlet" id="ver">Ver todos</a>
+            <a href="${pageContext.request.contextPath}/ListarPlanosServlet" class="botaoSecundario">Ver todos</a>
         </section>
 
         <table style=<%=tipoUsuario.equals("administrador") ? "--cols:5;" : "--cols:4;"%>>
@@ -192,7 +192,7 @@
 
         <section id="footer">
             <%if (tipoUsuario.equals("administrador")) {%>
-                <a id="add" href="${pageContext.request.contextPath}/AdicionarPlanoServlet">Adicionar</a>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarPlanoServlet">Adicionar</a>
             <%}%>
 
             <div id="pages">

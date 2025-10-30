@@ -108,8 +108,8 @@
         </ul>
     </nav>
 
-    <div class="maior" id="sair">
-        <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+    <div>
+        <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
     </div>
 </aside>
 <main>
@@ -160,7 +160,7 @@
 
     <section id="footer">
         <%if (tipoUsuario=="empresa") {%>
-        <a id="add" href="${pageContext.request.contextPath}/AdicionarTelefoneServlet">Adicionar</a>
+        <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarTelefoneServlet">Adicionar</a>
         <%}%>
 
         <div id="pages">

@@ -95,7 +95,8 @@ public class RemoverSetorServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
                 return;
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                empresaLogada = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -108,13 +109,13 @@ public class RemoverSetorServlet extends HttpServlet {
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException nfe){
             request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         } catch (NullPointerException npe){
             request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
+            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
@@ -125,7 +126,7 @@ public class RemoverSetorServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
             return;
         } else {
-            unidadeDAO.deletarPorId(id);
+            setorDAO.deletarPorId(id);
         }
 
         response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");

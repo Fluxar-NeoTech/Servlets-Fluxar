@@ -39,8 +39,12 @@ public class FormatoOutput {
      * @param sobrenome Sobrenome do usuário
      * @return         nome + espaço + sobrenome
      */
-    public static String nome(String nome, String sobrenome){
-        return nome + " " + sobrenome;
+    public static String nome(String nome, String sobrenome) {
+        if (nome == null) nome = "";
+        if (sobrenome == null) sobrenome = "";
+
+        String nomeCompleto = (nome + " " + sobrenome).trim();
+        return nomeCompleto.isEmpty() ? "—" : nomeCompleto;
     }
 
     /**

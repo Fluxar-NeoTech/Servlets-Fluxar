@@ -13,7 +13,7 @@ public class ValidacaoInput {
      */
     public static boolean validarCNPJ(String input){
 //        Verifica se o formato do input equivale ao REGEX para CNPJ:
-        return input.matches("^\\d{2}\\.?\\d{3}\\.?\\d{3}\\/\\d{4}-?\\d{2}$");
+        return input.matches("^\\d{2}\\.?\\d{3}\\.?\\d{3}\\/?\\d{4}-?\\d{2}$");
     }
 
     /**

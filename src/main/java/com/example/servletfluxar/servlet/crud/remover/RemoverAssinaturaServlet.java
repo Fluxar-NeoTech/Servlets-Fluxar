@@ -18,7 +18,9 @@ public class RemoverAssinaturaServlet extends HttpServlet {
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
         int id = 0;
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
+        Empresa empresa = null;
         Assinatura assinatura = null;
 
         try{
@@ -53,8 +55,11 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             return;
         }
 
+        empresa = empresaDAO.buscarPorId(assinatura.getIdEmpresa());
+
+        request.setAttribute("empresa", empresa);
         request.setAttribute("assinatura", assinatura);
-        request.getRequestDispatcher("WEB-INF/pages/empresa/confirmarDelecao.jsp")
+        request.getRequestDispatcher("WEB-INF/pages/assinaturas/confirmarDelecao.jsp")
                 .forward(request, response);
     }
 
@@ -68,14 +73,8 @@ public class RemoverAssinaturaServlet extends HttpServlet {
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", e.getMessage());
             request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
             request.getRequestDispatcher("")
                     .forward(request, response);
@@ -96,9 +95,10 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             return;
         }
 
-        empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa());
-        assinaturaDAO.deletarPorId(id);
+        if (assinaturaDAO.deletarPorId(id) && empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa())) {
+            response.sendRedirect(request.getContextPath() + "/ListarAssinaturasServlet");
+        } else {
 
-        response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+        }
     }
 }

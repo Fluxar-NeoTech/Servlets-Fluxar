@@ -248,11 +248,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setString(3, administrador.getEmail());
             pstmt.setInt(4, administrador.getId());
 
-
             // Execução da atualização
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
+            System.out.println("Erro");
             sqle.printStackTrace();
             return false;
         }finally {
