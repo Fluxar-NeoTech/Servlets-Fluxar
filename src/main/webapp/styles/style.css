@@ -35,21 +35,21 @@
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-LightItalic.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-LightItalic.otf') format('opentype');
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-Regular.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-Italic.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-Italic.otf') format('opentype');
     font-weight: 400;
     font-style: italic;
 }
@@ -70,7 +70,7 @@
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-SemiBold.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-SemiBold.otf') format('opentype');
     font-weight: 600;
     font-style: normal;
 }
@@ -84,7 +84,7 @@
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-Bold.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-Bold.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
 }
@@ -112,7 +112,7 @@
 
 @font-face {
     font-family: 'Montserrat';
-    src: url('../font/Montserrat-Black.otf') format('opentype');
+    src: url('../Assets/font/Montserrat-Black.otf') format('opentype');
     font-weight: 900;
     font-style: normal;
 }
@@ -137,17 +137,7 @@ html, body{
 
 body {
     min-height: 100vh;
-    background:
-        radial-gradient(circle at 10% 10%,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.8) 25%,
-            rgba(255, 255, 255, 0) 40%),
-        linear-gradient(135deg,
-            rgba(255, 250, 248, 1) 0%,
-            rgba(255, 230, 220, 1) 20%,
-            rgba(255, 155, 130, 1) 48%,
-            rgba(235, 120, 215, 1) 72%,
-            rgba(175, 95, 255, 1) 100%);
+    background: linear-gradient(0, #650082 0%, #9000B9 50%, #650082 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -230,24 +220,9 @@ aside {
     border-color: rgba(0, 0, 0, 0.5);
 }
 
-#sair {
-    padding-top: 15px;
-}
-
 a {
     text-decoration: none;
     color: var(--cor-primaria);
-}
-
-#sairB {
-    border: none;
-    border-radius: 10px;
-    color: aliceblue;
-    font-weight: 550;
-    background-color: var(--cor-primaria);
-    font-size: 20px;
-    margin-top: 10px;
-    padding: 10px;
 }
 
 main {
@@ -260,7 +235,8 @@ main {
 
 #title {
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 600;
+    color: white;
 }
 
 #topo {
@@ -342,32 +318,42 @@ details button:hover{
     padding: 7px;
 }
 
-#buscar {
+.botaoPrimario {
     border: none;
     border-radius: 10px;
     color: aliceblue;
     font-weight: 550;
     background-color: var(--cor-primaria);
     font-size: inherit;
-    padding: 7px;
-    width: 95px;
+    padding: 8px;
     height: 37px;
+    min-width: 100px;
 }
 
-a > div{
-    color: var(--cor-primaria);
+.botaoPrimario:hover{
+    cursor: pointer;
+    background-color: color-mix(in srgb, var(--cor-primaria) 80%, white);
 }
 
-#ver{
+.botaoSecundario{
+    cursor: pointer;
     border: solid var(--cor-primaria) 2.4px;
     border-radius: 10px;
     color: var(--cor-primaria);
     font-weight: 550;
-    background-color: transparent;
+    background-color: var(--cor-secundaria);
     font-size: inherit;
-    padding: 7px;
+    padding: 8px;
     height: 37px;
-    min-width: 98px;
+    min-width: 100px;
+}
+
+.botaoSecundario:hover{
+    background-color: color-mix(in srgb, var(--cor-secundaria) 90%, black);
+}
+
+a > div{
+    color: var(--cor-primaria);
 }
 
 form:not[id="filtro"]{
@@ -443,18 +429,6 @@ tbody td {
 #pages > a{
     display: flex;
     align-items: center;
-}
-
-#add{
-    border: none;
-    border-radius: 10px;
-    color: aliceblue;
-    font-weight: 550;
-    text-align: center;
-    vertical-align: center;
-    background-color: var(--cor-primaria);
-    font-size: inherit;
-    padding: 8px 11px;
 }
 
 #num{

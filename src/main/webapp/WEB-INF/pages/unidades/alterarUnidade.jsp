@@ -15,7 +15,6 @@
 <body>
 <%
   Unidade unidade = (Unidade) request.getAttribute("unidade");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -135,8 +134,8 @@
 
     <input type="hidden" id="id" name="id" value="<%=unidade.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
     </div>
   </form>
 </main>

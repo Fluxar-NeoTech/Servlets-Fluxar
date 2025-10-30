@@ -51,7 +51,6 @@ public class AlterarEmpresaServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String nome = request.getParameter("nome").trim();
-        String cnpj = request.getParameter("cnpj").trim();
         String email = request.getParameter("email").trim();
         HttpSession session = request.getSession();
         EmpresaDAO empresaDAO = new EmpresaDAO();
@@ -85,26 +84,6 @@ public class AlterarEmpresaServlet extends HttpServlet {
                 continuar = false;
             }
             empresa.setNome(nome);
-        }
-
-        request.setAttribute("cnpj", cnpj);
-//        Validando se CNPJ é válido:
-        if (cnpj == null && cnpj.isEmpty()){
-            request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
-            continuar = false;
-        } else {
-            if (ValidacaoInput.validarCNPJ(cnpj)){
-                cnpj = RegrasBanco.cnpj(cnpj);
-                if ((empresaDAO.buscarPorCNPJ(cnpj) == null && unidadeDAO.buscarPorCnpj(cnpj) == null) || empresa.getCnpj().equals(cnpj)){
-                    empresa.setCnpj(cnpj);
-                } else {
-                    request.setAttribute("erroCnpj", "Cnpj já está cadastrado");
-                    continuar = false;
-                }
-            } else {
-                request.setAttribute("erroCnpj", "Formato de cnpj inválido");
-                continuar = false;
-            }
         }
 
         request.setAttribute("email", email);

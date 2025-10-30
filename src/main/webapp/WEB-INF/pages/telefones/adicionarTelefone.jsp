@@ -100,8 +100,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -113,8 +113,8 @@
     <p><%=request.getAttribute("erroTelefone")%></p>
 
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Voltar</a>
     </div>
   </form>
 </main>

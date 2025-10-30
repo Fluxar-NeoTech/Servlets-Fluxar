@@ -105,8 +105,8 @@
             </ul>
         </nav>
 
-        <div class="maior" id="sair">
-            <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+        <div>
+            <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
         </div>
     </aside>
     <main>
@@ -123,10 +123,10 @@
                 
                 <input type="text" id="search" name="valorFiltro" placeholder="Valor do filtro...">
 
-                <button type="submit" id="buscar">Buscar</button>
+                <button type="submit" class="botaoPrimario">Buscar</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/ListarSetoresServlet" id="ver">Ver todos</a>
+            <a href="${pageContext.request.contextPath}/ListarSetoresServlet" class="botaoSecundario">Ver todos</a>
         </section>
 
         <%if (!setores.isEmpty()){%>
@@ -181,7 +181,7 @@
         <%}%>
 
         <section id="footer">
-            <a id="add" href="${pageContext.request.contextPath}/AdicionarSetorServlet">Adicionar</a>
+            <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarSetorServlet">Adicionar</a>
 
             <div id="pages">
                 <a href="${pageContext.request.contextPath}/ListarSetoresServlet?pagina=<%=pagina - 1%>">

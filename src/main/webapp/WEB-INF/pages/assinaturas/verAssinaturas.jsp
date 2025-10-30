@@ -113,7 +113,7 @@
   </nav>
 
   <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -130,10 +130,10 @@
 
       <input type="text" id="search" name="vaorFiltro" placeholder="Valor do filtro...">
 
-      <button type="submit" id="buscar">Buscar</button>
+      <button type="submit" class="botaoPrimario">Buscar</button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet" id="ver">Ver todas</a>
+    <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet" class="botaoSecundario">Ver todas</a>
   </section>
 
   <%if (!assinaturas.isEmpty()){%>
@@ -190,7 +190,7 @@
 
   <%if (tipoUsuario.equals("administrador")) {%>
     <section id="footer">
-        <a id="add" href="${pageContext.request.contextPath}/AdicionarAssinaturaServlet">Adicionar</a>
+        <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarAssinaturaServlet">Adicionar</a>
       <div id="pages">
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet?pagina=<%=pagina - 1%>">
           <svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">

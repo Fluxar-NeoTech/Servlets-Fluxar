@@ -109,8 +109,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -131,8 +131,8 @@
     <input type="text" name="preco" id="preco" value="<%= plano.getPreco()%>">
 
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
     </div>
   </form>
 </main>

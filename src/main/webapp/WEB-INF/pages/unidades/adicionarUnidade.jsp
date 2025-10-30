@@ -98,8 +98,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -130,8 +130,8 @@
     <textarea id="complemento" name="complemento" rows="4" cols="50" placeholder="Digite o complemento"></textarea>
 
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
     </div>
   </form>
 </main>

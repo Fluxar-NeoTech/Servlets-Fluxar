@@ -112,10 +112,6 @@
     <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>">
     <p><%=request.getAttribute("erroNome")%></p>
 
-    <label for="cnpj">CNPJ:</label>
-    <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(empresa.getCnpj())%>">
-    <p><%=request.getAttribute("erroCnpj")%></p>
-
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>">
     <p><%=request.getAttribute("erroEmail")%></p>

@@ -89,8 +89,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -116,9 +116,9 @@
     </table>
     <input type="hidden" name="id" value="<%=telefone.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Cancelar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Cancelar</a>
     </div>
   </form>
 </main>

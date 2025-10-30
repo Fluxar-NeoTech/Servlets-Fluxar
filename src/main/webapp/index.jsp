@@ -5,20 +5,13 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="<%= request.getContextPath() %>/css/login.css">
-        <title>Login</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css">
+        <title>Entrar</title>
     </head>
 
     <body>
         <header>
-            <a href="<%= request.getContextPath() %>/index.html" class="icon-back">
-            </a>
-            <h1>Acesso ao fluxar</h1>
-            <nav class="nav-header">
-                <ul>
-                    <li class="botaoPrimario"><a href="${pageContext.request.contextPath}/cadastro/cnpjNomeEmpresa/cadastro.jsp" class="botaoPrimario">CADASTRAR EMPRESA</a></li>
-                </ul>
-            </nav>
+
         </header>
         <main>
             <article>
@@ -58,12 +51,12 @@
                                         </div>
                                         <%}%>
 
-                                            <button type="submit" class="botaoPrimario">ENTRAR</button>
+                                            <button type="submit" class="botaoPrimario">Entrar</button>
                 </form>
             </article>
             <nav class="nav-login">
                 <ul>
-                    <li class="botaoSecundariob"><a class="botaoSecundariob" href="${pageContext.request.contextPath}/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp">ESQUECI MINHA SENHA</a></li>
+                    <li class="botaoSecundariob"><a class="botaoSecundariob" href="${pageContext.request.contextPath}/pages/esqueciSenha/inputEmail/recuperarSenha.jsp">ESQUECI MINHA SENHA</a></li>
                 </ul>
             </nav>
         </main>

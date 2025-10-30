@@ -124,8 +124,8 @@
     <p><%=request.getAttribute("erroDescricao")%></p>
 
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
     </div>
   </form>
 </main>
