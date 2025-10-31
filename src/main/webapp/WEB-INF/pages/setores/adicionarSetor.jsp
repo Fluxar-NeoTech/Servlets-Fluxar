@@ -8,12 +8,11 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adicionar setor</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
 <%
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
   List<Unidade> unidades = (List<Unidade>) request.getAttribute("unidades");
 %>
 <header>
@@ -40,16 +39,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
-      <li>
-        <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-          <div class="text">
-            Admins
-          </div>
-        </a>
-      </li>
-      <%}%>
-
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
           <div class="text">
@@ -61,7 +50,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text">
-            Assinaturas
+            Assinatura
           </div>
         </a>
       </li>
@@ -69,7 +58,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-              Empresas
+              Empresa
           </div>
         </a>
       </li>
@@ -100,8 +89,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>

@@ -6,8 +6,8 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar telefone</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <title>Deletar funcionário</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -16,13 +16,11 @@
   Setor setor = (Setor) request.getAttribute("setor");
   Unidade unidade = (Unidade) request.getAttribute("unidade");
   Funcionario funcionario = (Funcionario) request.getAttribute("funcionario");
-  request.setAttribute("ativo", true);
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=((Empresa) session.getAttribute("empresa")).getId()%>">
-      <%=((Empresa) session.getAttribute("empresa")).getNome()%></a>
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=empresa.getId()%>">
+      <%=empresa.getNome()%></a>
   </div>
 </header>
 <aside>
@@ -92,8 +90,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -135,9 +133,9 @@
     </table>
     <input type="hidden" name="id" value="<%=funcionario.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarFuncionariosServlet">Cancelar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarFuncionariosServlet">Cancelar</a>
     </div>
   </form>
 </main>

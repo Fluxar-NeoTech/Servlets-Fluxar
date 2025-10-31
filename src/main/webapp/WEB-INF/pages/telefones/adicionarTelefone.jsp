@@ -8,7 +8,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adicionar telefone</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -19,8 +19,8 @@
 <header>
   <div id="nome">
     <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
-                    ((Empresa) session.getAttribute("empresa")).getId()%>">
-      <%=((Empresa) session.getAttribute("empresa")).getNome()%></a>
+                    empresaLogada.getId()%>">
+      <%=empresaLogada.getNome()%></a>
   </div>
 </header>
 <aside>

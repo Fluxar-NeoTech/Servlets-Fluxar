@@ -11,7 +11,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Listar empresas</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -70,7 +70,11 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text">
-            Assinaturas
+            <%if (tipoUsuario.equals("administrador")) {%>
+              Assinaturas
+            <%} else {%>
+              Assinatura
+            <%}%>
           </div>
         </a>
       </li>

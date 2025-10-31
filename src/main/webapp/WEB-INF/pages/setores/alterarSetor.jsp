@@ -1,21 +1,21 @@
-<%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Unidade" %>
-<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.servletfluxar.model.Setor" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alterar unidade</title>
+  <title>Alterar setor</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
 <%
-  Unidade unidade = (Unidade) request.getAttribute("unidade");
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
+  List<Unidade> unidades = (List<Unidade>) request.getAttribute("unidades");
+  Setor setor = (Setor) request.getAttribute("setor");
 %>
 <header>
   <div id="nome">
@@ -41,16 +41,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
-      <li>
-        <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-          <div class="text">
-            Admins
-          </div>
-        </a>
-      </li>
-      <%}%>
-
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
           <div class="text">
@@ -62,7 +52,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text">
-            Assinaturas
+            Assinatura
           </div>
         </a>
       </li>
@@ -70,14 +60,14 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-              Empresas
+              Empresa
           </div>
         </a>
       </li>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarUnidadesServlet">
-          <div class="text" id="atual">
+          <div class="text">
             Unidades
           </div>
         </a>
@@ -85,7 +75,7 @@
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarSetoresServlet">
-          <div class="text">
+          <div class="text" id="atual">
             Setores
           </div>
         </a>
@@ -106,33 +96,29 @@
   </div>
 </aside>
 <main>
-  <p id="title">Alterar unidade</p>
+  <p id="title">Alterar setor</p>
 
-  <form action="${pageContext.request.contextPath}/AlterarUnidadeServlet" method="post">
+  <form action="${pageContext.request.contextPath}/AlterarSetorServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%=unidade.getNome()%>">
+    <input type="text" name="nome" id="name" value="<%=setor.getNome()%>">
     <p><%=request.getAttribute("erroNome")%></p>
 
-    <label for="cnpj">CNPJ:</label>
-    <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(unidade.getCnpj())%>">
-    <p><%=request.getAttribute("erroCnpj")%></p>
+    <select name = "idUnidade">
+        <%for (Unidade unidade: unidades) {
+          if(unidade.getId()!=setor.getIdUnidade()){%>
+            <option value="<%=unidade.getId()%>"><%=unidade.getNome()%></option>
+          <%} else {%>
+            <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%></option>
+          <%}%>
+        <%}%>
+    </select>
 
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" value="<%=unidade.getEmail()%>">
-    <p><%=request.getAttribute("erroEmail")%></p>
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao" rows="4" cols="50" placeholder="Digite a descricao"><%=setor.getDescricao()%></textarea>
+    <p><%=request.getAttribute("erroDescricao")%></p>
 
-    <label for="cep">CEP:</label>
-    <input type="text" name="cep" id="cep" value="<%=unidade.getCep()%>">
-    <p><%=request.getAttribute("erroCep")%></p>
+    <input type="hidden" name="id" value="<%=setor.getId()%>"></input>
 
-    <label for="numero">Número:</label>
-    <input type="text" name="numero" id="numero" value="<%=unidade.getNumero()%>">
-    <p><%=request.getAttribute("erroNumero")%></p>
-
-    <label for="complemento">Complemento:</label>
-    <textarea id="complemento" name="complemento" rows="4" cols="50" placeholder="Digite o complemento"><%=unidade.getComplemento()%></textarea>
-
-    <input type="hidden" id="id" name="id" value="<%=unidade.getId()%>">
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
       <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
