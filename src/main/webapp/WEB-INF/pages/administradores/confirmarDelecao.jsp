@@ -8,22 +8,18 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deletar administrador</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
 <%
   Administrador administrador = (Administrador) request.getAttribute("administrador");
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
                     ((Administrador) session.getAttribute("administrador")).getId()%>">
-      <%= tipoUsuario == "empresa" ?
-              ((Empresa) session.getAttribute("empresa")).getNome() :
-              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+      <%= ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                       ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
   </div>
 </header>
@@ -44,7 +40,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
           <div class="text" id="atual">
@@ -52,7 +47,6 @@
           </div>
         </a>
       </li>
-      <%}%>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
@@ -65,11 +59,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
             Assinaturas
-            <%} else {%>
-            Assinatura
-            <%}%>
           </div>
         </a>
       </li>
@@ -77,11 +67,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
             Empresas
-            <%} else {%>
-            Empresa
-            <%}%>
           </div>
         </a>
       </li>
@@ -112,8 +98,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -143,9 +129,9 @@
     </table>
     <input type="hidden" name="id" value="<%=administrador.getId()%>">
     <div>
-      <button type="submit">Confirmar</button>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
 
-      <a id="add" href="${pageContext.request.contextPath}/ListarAdminsServlet">Cancelar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Cancelar</a>
     </div>
   </form>
 </main>

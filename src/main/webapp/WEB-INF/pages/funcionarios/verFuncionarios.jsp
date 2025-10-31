@@ -8,7 +8,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar funcionários</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -134,6 +134,7 @@
             <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet" class="botaoSecundario">Ver todos</a>
         </section>
 
+        <%if (!funcionarios.isEmpty()){%>
         <table style=<%=tipoUsuario.equals("administrador")? "--cols:4;" : "--cols:5;"%>>
             <thead>
                 <tr>
@@ -149,8 +150,7 @@
                 </tr>
             </thead>
             <tbody>
-                <%if (!funcionarios.isEmpty()){
-                    for(Funcionario funcionario: funcionarios){%>
+                <%for(Funcionario funcionario: funcionarios){%>
                 <tr>
                     <td><%=funcionario.getId()%></td>
                     <td><%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%></td>
@@ -178,17 +178,17 @@
                         </td>
                     <%}%>
                 </tr>
-                    <%}%>
-                <%} else {%>
-                <tr>
-                    <td colspan="5">Nenhum funcionário foi encontrado!</td>
-                </tr>
                 <%}%>
             </tbody>
         </table>
+        <%} else {%>
+            <p>Nenhum funcionário está cadastrado</p>
+        <%}%>
 
         <section id="footer">
+            <%if (tipoUsuario.equals("empresa")){%>
             <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarPlanoServlet">Adicionar</a>
+            <%}%>
 
             <div id="pages">
                 <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet?pagina=<%=pagina - 1%>">

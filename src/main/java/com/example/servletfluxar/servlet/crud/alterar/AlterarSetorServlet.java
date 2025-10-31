@@ -1,4 +1,4 @@
-package com.example.servletfluxar.servlet.crud.adicionar;
+package com.example.servletfluxar.servlet.crud.alterar;
 
 import com.example.servletfluxar.dao.SetorDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
@@ -6,16 +6,19 @@ import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Setor;
 import com.example.servletfluxar.model.Unidade;
 import com.example.servletfluxar.util.RegrasBanco;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "AdicionarSetorServlet", value = "/AdicionarSetorServlet")
-public class AdicionarSetorServlet extends HttpServlet {
+@WebServlet(name = "AlterarSetorServlet", value = "/AlterarSetorServlet")
+public class AlterarSetorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -23,6 +26,10 @@ public class AdicionarSetorServlet extends HttpServlet {
         HttpSession session = request.getSession();
         List<Unidade> unidades = new ArrayList<>();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
+        Empresa empresaLogada;
+        SetorDAO setorDAO = new SetorDAO();
+        Setor setor = new Setor();
+        int id = 0;
 
 //        Setando atributo da request com o tipo do usuário
         try {
@@ -31,7 +38,8 @@ public class AdicionarSetorServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
                 return;
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                empresaLogada = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresaLogada);
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
@@ -40,8 +48,25 @@ public class AdicionarSetorServlet extends HttpServlet {
             return;
         }
 
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException e){
+            System.out.println(e.getMessage());
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            return;
+        }
+
+        setor = setorDAO.buscarPorId(id);
+
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
+        if (unidades.get(1).getIdEmpresa() == empresaLogada.getId() || setor == null){
+            response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
+            return;
+        }
+
+        request.setAttribute("setor", setor);
         request.setAttribute("unidades", unidades);
 //        Redireciona para a página de adicionar setor:
         request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
@@ -55,9 +80,12 @@ public class AdicionarSetorServlet extends HttpServlet {
         String nome = request.getParameter("nome").trim();
         String descricao = request.getParameter("descricao").trim();
         HttpSession session = request.getSession();
+        Empresa empresaLogada;
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         SetorDAO setorDAO = new SetorDAO();
-        List<Unidade> unidades;
+        Unidade unidade;
+        int id = 0;
+        int idUnidade = 0;
         Setor setor = new Setor();
         boolean continuar = true;
 
@@ -67,12 +95,27 @@ public class AdicionarSetorServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/ListarUnidadesServlet");
                 return;
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                empresaLogada = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe){
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
+        }
+
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException e){
+            System.out.println(e.getMessage());
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            return;
+        }
+
+        setor = setorDAO.buscarPorId(id);
+        if(setor==null){
+            setor = new Setor();
         }
 
 //        Validando se nome é válido:
@@ -85,14 +128,14 @@ public class AdicionarSetorServlet extends HttpServlet {
         }else if (nome.length()<3) {
             request.setAttribute("erroNome", "Nome deve ter mais do que 3 caracteres");
             continuar = false;
-        } else {
-            nome = nome.toLowerCase();
-            setor.setNome(RegrasBanco.nomeCapitalize(nome));
         }
+        nome = nome.toLowerCase();
+        setor.setNome(RegrasBanco.nomeCapitalize(nome));
 
 //        Validando id da unidade:
         try {
-            setor.setIdUnidade(Integer.parseInt(request.getParameter("idUnidade")));
+            idUnidade = Integer.parseInt(request.getParameter("idUnidade"));
+            setor.setIdUnidade(idUnidade);
         } catch (NullPointerException | NumberFormatException e){
             request.setAttribute("erroNumero", "Id da unidade deve ser um número");
             continuar = false;
@@ -110,19 +153,26 @@ public class AdicionarSetorServlet extends HttpServlet {
         if (!continuar){
             request.setAttribute("setor", setor);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.getRequestDispatcher("/WEB-INF/pages/setores/adicionarSetor.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
                     .forward(request, response);
             return;
         }
 
+        unidade = unidadeDAO.buscarPorId(setor.getIdUnidade());
+
+        if (unidade.getIdEmpresa() == empresaLogada.getId()){
+            response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
+            return;
+        }
+
 //        Enviando e vendo se há um retorno:
-        if (setorDAO.inserir(setor)) {
+        if (setorDAO.alterar(setor)) {
             response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
         } else {
             System.out.println("erro");
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
             request.setAttribute("mensagem", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("/WEB-INF/pages/setores/adicionarSetor.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
                     .forward(request, response);
         }
     }

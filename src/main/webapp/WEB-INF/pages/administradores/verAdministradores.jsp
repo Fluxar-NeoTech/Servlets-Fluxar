@@ -10,7 +10,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Listar administradores</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -18,7 +18,6 @@
   Integer paginaObjeto = (Integer) request.getAttribute("pagina");
   int pagina = (paginaObjeto!=null) ? paginaObjeto: 1;
   List<Administrador> administradores = (List<Administrador>) request.getAttribute("administradores");
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
@@ -44,15 +43,13 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
-        <li>
-          <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
-            <div class="text" id="atual">
-              Admins
-            </div>
-          </a>
-        </li>
-      <%}%>
+      <li>
+        <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
+          <div class="text" id="atual">
+            Admins
+          </div>
+        </a>
+      </li>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
@@ -168,9 +165,7 @@
       <%}%>
     </tbody>
   </table>
-
-  <%if (tipoUsuario.equals("administrador")) {%>
-    <section id="footer">
+   <section id="footer">
         <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarAdminServlet">Adicionar</a>
       <div id="pages">
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet?pagina=<%=pagina - 1%>">
@@ -194,7 +189,6 @@
         </a>
       </div>
     </section>
-  <%}%>
 </main>
 </body>
 

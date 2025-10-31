@@ -95,7 +95,7 @@ public class RemoverAssinaturaServlet extends HttpServlet {
             return;
         }
 
-        if (assinaturaDAO.deletarPorId(id) && empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa())) {
+        if (empresaDAO.deletarPorId(assinaturaDAO.buscarPorId(id).getIdEmpresa()) && assinaturaDAO.deletarPorId(id)) {
             response.sendRedirect(request.getContextPath() + "/ListarAssinaturasServlet");
         } else {
 

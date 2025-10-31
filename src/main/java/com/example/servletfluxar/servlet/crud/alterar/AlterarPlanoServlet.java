@@ -19,8 +19,7 @@ public class AlterarPlanoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         int id = 0;
         PlanoDAO planoDAO = new PlanoDAO();
-        Plano plano = planoDAO.buscarPorId(id);
-        session.setAttribute("plano", plano);
+        Plano plano;
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
@@ -38,21 +37,19 @@ public class AlterarPlanoServlet extends HttpServlet {
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mensagem", "O id do plano deve ser um número");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;
         }
 
+        plano = planoDAO.buscarPorId(id);
+
+//        Setando um atributo plano com o registro plano encontrado:
         request.setAttribute("plano", plano);
+
         request.getRequestDispatcher("/WEB-INF/pages/planos/alterarPlano.jsp")
                 .forward(request, response);
     }
@@ -66,6 +63,7 @@ public class AlterarPlanoServlet extends HttpServlet {
         int tempo = Integer.parseInt(request.getParameter("tempo"));
         String precoInput = request.getParameter("preco");
         Double preco = 0.0;
+        int id;
         PlanoDAO planoDAO = new PlanoDAO();
         Plano plano = new Plano();
         boolean continuar = true;
@@ -84,6 +82,18 @@ public class AlterarPlanoServlet extends HttpServlet {
             return;
         }
 
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mensagem", "O id do plano deve ser um número");
+            request.getRequestDispatcher("")
+                    .forward(request, response);
+            return;
+        }
+
+        plano = planoDAO.buscarPorId(id);
+
 //        Criando um objeto plano:
         plano.setNome(nome);
         plano.setTempo(tempo);
@@ -97,14 +107,13 @@ public class AlterarPlanoServlet extends HttpServlet {
             request.setAttribute("erroNome", "Insira um nome para o plano");
             continuar = false;
         } else {
-            preco = Double.parseDouble(precoInput);
             try {
                 preco = Double.parseDouble(precoInput);
-                plano.setPreco(preco);
                 if (!ValidacaoInput.validarPreco(preco)){
                     request.setAttribute("erroPreco", "Preço deve ser maior do que 0");
                     continuar = false;
                 }
+                plano.setPreco(preco);
             } catch (NumberFormatException nfe){
                 request.setAttribute("erroPreco", "Preço deve ser um número");
                 continuar = false;

@@ -14,17 +14,13 @@
 <body>
 <%
   Plano plano = (Plano) request.getAttribute("plano");
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
-      <%= tipoUsuario == "empresa" ?
-              ((Empresa) session.getAttribute("empresa")).getNome() :
-              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
+    ((Administrador) session.getAttribute("administrador")).getId()%>">
+      <%=((Administrador) session.getAttribute("administrador")).getNome() + " " +
                       ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
   </div>
 </header>
@@ -45,7 +41,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
           <div class="text">
@@ -53,7 +48,6 @@
           </div>
         </a>
       </li>
-      <%}%>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
@@ -74,11 +68,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
-              Empresas
-            <%} else {%>
-              Empresa
-            <%}%>
+            Empresas
           </div>
         </a>
       </li>
@@ -118,17 +108,19 @@
 
   <form id="form" action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
     <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%= plano.getNome()%>">
+    <input type="text" name="nome" id="name" value="<%=plano.getNome()%>">
 
     <div>
-      <input type="radio" id="anual" name="tempo" value="12" <%= plano.getTempo()==12? "checked": ""%>>
+      <input type="radio" id="anual" name="tempo" value="12" <%=plano.getTempo()==12? "checked": ""%>>
       <label for="anual">Anual</label>
-      <input type="radio" id="mensal" name="tempo" value="1" <%= plano.getTempo()==1? "checked": ""%>>
+      <input type="radio" id="mensal" name="tempo" value="1" <%=plano.getTempo()==1? "checked": ""%>>
       <label for="mensal">Mensal</label>
     </div>
 
     <label for="preco">Preço:</label>
-    <input type="text" name="preco" id="preco" value="<%= plano.getPreco()%>">
+    <input type="text" name="preco" id="preco" value="<%=plano.getPreco()%>">
+
+    <input type="hidden" name="id" value="<%=plano.getId()%>">
 
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>

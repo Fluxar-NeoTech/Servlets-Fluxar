@@ -7,14 +7,10 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adicionar empresa</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
-<%
-  request.setAttribute("ativo", true);
-  String tipoUsuario = (String) request.getAttribute("tipoUsuario");
-%>
 <header>
   <div id="nome">
     <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
@@ -40,7 +36,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
           <div class="text">
@@ -48,7 +43,6 @@
           </div>
         </a>
       </li>
-      <%}%>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
@@ -100,8 +94,8 @@
     </ul>
   </nav>
 
-  <div class="maior" id="sair">
-    <a id="sairB" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
+  <div>
+    <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
   </div>
 </aside>
 <main>
@@ -129,8 +123,8 @@
     <p><%=request.getAttribute("erroConfirmarSenha")%></p>
 
     <div>
-      <button type="submit">Confirmar</button>
-      <a id="add" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
+      <button type="submit" class="botaoPrimario">Confirmar</button>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
     </div>
   </form>
 </main>

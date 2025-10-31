@@ -7,7 +7,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar setores</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -181,7 +181,9 @@
         <%}%>
 
         <section id="footer">
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarSetorServlet">Adicionar</a>
+            <%if (tipoUsuario.equals("empresa")) {%>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarSetorServlet">Adicionar</a>
+            <%}%>
 
             <div id="pages">
                 <a href="${pageContext.request.contextPath}/ListarSetoresServlet?pagina=<%=pagina - 1%>">

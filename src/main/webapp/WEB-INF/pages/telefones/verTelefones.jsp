@@ -8,7 +8,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar telefones</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/Assets/CSS/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
 <body>
@@ -16,7 +16,6 @@
     Integer paginaObjeto = (Integer) request.getAttribute("pagina");
     int pagina = (paginaObjeto != null) ? paginaObjeto : 1;
     List<Telefone> telefones = (List<Telefone>) request.getAttribute("telefones");
-    Empresa empresa = (Empresa) request.getAttribute("empresa");
     String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>

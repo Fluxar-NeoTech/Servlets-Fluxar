@@ -44,16 +44,12 @@ public class RemoverSetorServlet extends HttpServlet {
             return;
         }
 
-        try {
+        try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe) {
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe) {
-            response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
+        } catch (NullPointerException | NumberFormatException e){
+            System.out.println(e.getMessage());
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
             return;
         }
 
