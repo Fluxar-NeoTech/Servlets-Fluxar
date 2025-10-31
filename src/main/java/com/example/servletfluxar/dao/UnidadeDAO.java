@@ -117,7 +117,6 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         }finally {
             Conexao.desconectar(conn);
         }
-
     }
 
     @Override

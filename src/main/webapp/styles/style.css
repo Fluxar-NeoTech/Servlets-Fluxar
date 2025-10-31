@@ -229,6 +229,7 @@ main {
     margin-left: 23vw;
     margin-top: 20px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
     gap: 4vh;
 }

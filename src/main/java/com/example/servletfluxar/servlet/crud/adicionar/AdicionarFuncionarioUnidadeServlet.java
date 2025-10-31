@@ -1,10 +1,9 @@
 package com.example.servletfluxar.servlet.crud.adicionar;
 
-import com.example.servletfluxar.dao.AssinaturaDAO;
-import com.example.servletfluxar.dao.SetorDAO;
-import com.example.servletfluxar.dao.UnidadeDAO;
+import com.example.servletfluxar.dao.*;
 import com.example.servletfluxar.model.*;
 import com.example.servletfluxar.util.RegrasBanco;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -13,8 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "AdicionarFuncionarioServlet", value = "/AdicionarFuncionarioServlet")
-public class AdicionarFuncionarioServlet extends HttpServlet {
+@WebServlet(name = "AdicionarFuncionarioUnidadeServlet", value = "/AdicionarFuncionarioUnidadeServlet")
+public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -22,10 +21,13 @@ public class AdicionarFuncionarioServlet extends HttpServlet {
         HttpSession session = request.getSession();
         List<Unidade> unidades = new ArrayList<>();
         AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
-        int idPlano = 0;
-        Plano plano
         UnidadeDAO unidadeDAO = new UnidadeDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        PlanoDAO planoDAO = new PlanoDAO();
+        int idPlano = 0;
+        Plano plano;
         Empresa empresaLogada;
+        boolean continuar = true;
 
 //        Setando atributo da request com o tipo do usuário
         try {
@@ -46,13 +48,32 @@ public class AdicionarFuncionarioServlet extends HttpServlet {
 
         idPlano = assinaturaDAO.buscarPorIdEmpresa(empresaLogada.getId()).getIdPlano();
 
-        if ()
+        plano = planoDAO.buscarPorId(idPlano);
+
+        if (plano.getNome().equals("Essential")){
+            if (funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 3){
+                continuar = false;
+            }
+        } else if (plano.getNome().equals("Profissional")) {
+            if (funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 10){
+                continuar = false;
+            }
+        } else if (plano.getNome().equals("Enterprise")){
+            continuar = true;
+        }
+
+        if(!continuar){
+            request.setAttribute("mensagem", "Número de funcionários no seu plano atingido");
+            request.getRequestDispatcher("/")
+                    .forward(request, response);
+            return;
+        }
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
         request.setAttribute("unidades", unidades);
 //        Redireciona para a página de adicionar setor:
-        request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionario.jsp")
+        request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                 .forward(request, response);
     }
 
@@ -61,10 +82,13 @@ public class AdicionarFuncionarioServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String[] nomeCompleto = new String[2];
-        String nomeInput = request.getParameter("nomeCompleto");
-        String email;
+        String nomeInput = request.getParameter("nomeCompleto").trim();
+        String email = request.getParameter("email").trim();
+        String cargo = request.getParameter("cargo").trim();
+        int idUnidade = 0;
         HttpSession session = request.getSession();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
+        SetorDAO setorDAO = new SetorDAO();
         List<Unidade> unidades;
         Funcionario funcionario = new Funcionario();
         boolean continuar = true;
@@ -85,7 +109,7 @@ public class AdicionarFuncionarioServlet extends HttpServlet {
 
 //        Validando se nome é válido:
         if (nomeInput == null){
-            request.setAttribute("erroNome", "Insira um nome para o setor");
+            request.setAttribute("erroNome", "Insira um nome para o funcionário");
             continuar = false;
         } else if (nomeInput.length()>200) {
             request.setAttribute("erroNome", "Nome deve ter menos do que 200 caracteres");
@@ -97,30 +121,52 @@ public class AdicionarFuncionarioServlet extends HttpServlet {
             nomeInput = nomeInput.toLowerCase();
             nomeCompleto = RegrasBanco.separarNomeCompleto(nomeInput);
         }
+        funcionario.setNome(nomeCompleto[0]);
+        funcionario.setSobrenome(nomeCompleto[1]);
+
+//        Validando email do usuário:
+        if (email == null){
+            request.setAttribute("erroEmail", "Insira um email para o administrador");
+            continuar = false;
+        } else {
+            if (!ValidacaoInput.validarEmail(email)) {
+                request.setAttribute("erroEmail", "Formato de email inválido");
+                continuar = false;
+            }
+        }
+        funcionario.setEmail(email);
+
+//        Validando cargo:
+        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
+            request.setAttribute("erroCargo", "Cargo inválido");
+            continuar = false;
+        }
+        funcionario.setCargo(cargo);
 
 //        Validando id da unidade:
         try {
-            setor.setIdUnidade(Integer.parseInt(request.getParameter("idUnidade")));
+            idUnidade = Integer.parseInt(request.getParameter("idUnidade"));
         } catch (NullPointerException | NumberFormatException e){
-            request.setAttribute("erroNumero", "Id da unidade deve ser um número");
+            request.setAttribute("erroIdUnidade", "Id da unidade deve ser um número");
             continuar = false;
         }
 
-//        Validando descrição:
-        if (descricao == null || descricao.equals("")){
-            descricao = "Sem descrição";
-        } else if (descricao.length() < 3){
-            request.setAttribute("erroDescricao", "Descrição deve ser maior do que 3 caracteres");
+        if (setorDAO.listarNomesPorIdUnidade(idUnidade).isEmpty()){
+            request.setAttribute("erroIdUnidade", "Essa unidade não possui setores");
             continuar = false;
         }
-        setor.setDescricao(descricao.trim());
 
         if (!continuar){
-            request.setAttribute("setor", setor);
+            request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.getRequestDispatcher("/WEB-INF/pages/setores/adicionarSetor.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;
         }
+
+        session.setAttribute("funcionario", funcionario);
+        session.setAttribute("continuar", continuar);
+
+        response.sendRedirect(request.getContextPath() + "/AdicionarFuncionarioSetorServlet?idUnidade="+idUnidade);
     }
 }

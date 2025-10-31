@@ -4,6 +4,8 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Setor;
+import com.example.servletfluxar.model.Unidade;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,6 +87,70 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
             return setores;
 
         } catch (Exception e) {
+            return setores;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Setor> listarNomesPorIdUnidade(int idUnidade){
+        //        Declaração de variáveis:
+        Connection conn = null;
+        Setor setor;
+        List<Setor> setores = new ArrayList<>();
+
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT DISTINCT id, nome FROM setor WHERE id_unidade = ?");
+            pstmt.setInt(1, idUnidade);
+            rs = pstmt.executeQuery();
+
+//            Coletando dados:
+            while (rs.next()) {
+                setor = new Setor();
+                setor.setNome(rs.getString("nome"));
+                setor.setId(rs.getInt("id"));
+                setores.add(setor);
+            }
+
+//        Retornando as unidades cadastradas por essa empresa:
+            return setores;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return setores;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Setor> listarNomesPorIdEmpresa(int idEmpresa){
+        //        Declaração de variáveis:
+        Connection conn = null;
+        Setor setor;
+        List<Setor> setores = new ArrayList<>();
+
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT DISTINCT s.id, s.nome FROM setor s JOIN unidade u ON s.id_unidade = u.id WHERE u.id_empresa = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+//            Coletando dados:
+            while (rs.next()) {
+                setor = new Setor();
+                setor.setNome(rs.getString("nome"));
+                setor.setId(rs.getInt("id"));
+                setores.add(setor);
+            }
+
+//        Retornando as unidades cadastradas por essa empresa:
+            return setores;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
             return setores;
         }finally {
             Conexao.desconectar(conn);

@@ -1,15 +1,19 @@
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
-<%@ page import="com.example.servletfluxar.model.Administrador" %>
+<%@ page import="com.example.servletfluxar.model.Setor" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alterar funcionário</title>
+  <title>Adicionar funcionário</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 <body>
+<%
+  List<Setor> setores = (List<Setor>) request.getAttribute("setores");
+%>
 <header>
   <div id="nome">
     <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
@@ -98,24 +102,24 @@
   </div>
 </aside>
 <main>
-  <p id="title">Adicionar administrador</p>
+  <p id="title">Adicionar funcionário</p>
 
-  <form action="${pageContext.request.contextPath}/AdicionarAdminServlet" method="post">
-    <label for="name">Nome:</label>
-    <input type="text" name="nomeCompleto" id="name">
-
-    <select>
-      <option></option>
+  <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
+    <select name = "idSetor">
+      <option selected hidden>Setor</option>
+      <%for (Setor setor: setores) {%>
+        <option value="<%=setor.getId()%>"><%=setor.getNome()%></option>
+      <%}%>
     </select>
-
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
+    <p><%= request.getAttribute("erroNome")%></p>
 
     <label for="senha">Senha:</label>
     <input type="text" name="senha" id="senha">
+    <p><%= request.getAttribute("erroSenha")%></p>
 
     <label for="confirmarSenha">Confirmar senha:</label>
     <input type="password" name="confirmarSenha" id="confirmarSenha">
+    <p><%= request.getAttribute("erroConfimarSenha")%></p>
 
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
