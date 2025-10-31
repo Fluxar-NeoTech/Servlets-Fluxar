@@ -44,7 +44,7 @@ public class AdicionarSetorServlet extends HttpServlet {
 
         request.setAttribute("unidades", unidades);
 //        Redireciona para a página de adicionar setor:
-        request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
+        request.getRequestDispatcher("/WEB-INF/pages/setores/adicionarSetor.jsp")
                 .forward(request, response);
     }
 
