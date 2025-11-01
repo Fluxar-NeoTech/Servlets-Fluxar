@@ -75,7 +75,7 @@ public class RemoverFuncionarioServlet extends HttpServlet {
         }
 
         request.setAttribute("empresa", empresa);
-        request.setAttribute("funcionarios",funcionario);
+        request.setAttribute("funcionario",funcionario);
         request.setAttribute("unidade", unidade);
         request.setAttribute("setor", setor);
         request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
@@ -101,7 +101,8 @@ public class RemoverFuncionarioServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
                 return;
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                empresaLogada = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
             request.setAttribute("erroLogin", "É necessário fazer login novamente");
@@ -112,15 +113,9 @@ public class RemoverFuncionarioServlet extends HttpServlet {
 //        Verificando se o id foi passado corretamente:
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mensagem", "Id deve ser um número");
             request.getRequestDispatcher("")
                     .forward(request, response);
             return;

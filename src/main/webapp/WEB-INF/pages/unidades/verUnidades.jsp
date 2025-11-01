@@ -70,7 +70,11 @@
                 <li>
                     <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
                         <div class="text">
+                            <%if (tipoUsuario == "administrador") {%>
                             Assinaturas
+                            <%} else {%>
+                            Assinatura
+                            <%}%>
                         </div>
                     </a>
                 </li>
@@ -78,7 +82,11 @@
                 <li>
                     <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
                         <div class="text">
+                            <%if (tipoUsuario == "administrador") {%>
                             Empresas
+                            <%} else {%>
+                            Empresa
+                            <%}%>
                         </div>
                     </a>
                 </li>
@@ -186,7 +194,7 @@
             </tbody>
         </table>
         <%} else {%>
-            <p>Nenhuma unidade foi encontrada</p>
+        <p style="color: white">Não há nenhuma unidade cadastrada</p>
         <%}%>
 
         <section id="footer">

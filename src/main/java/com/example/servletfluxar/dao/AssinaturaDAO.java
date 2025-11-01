@@ -21,7 +21,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
         int offset = (pagina - 1) * limite;
         List<Assinatura> assinaturas = new ArrayList<>();
 
-//        Tentando conectar ao banco de dados e enviar o select do SQL:
+//        Tentando conectar ao banco de dados e enviar o select do SQL para selecionar a(s) assinatura(s).
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM assinatura ORDER BY id LIMIT ? OFFSET ?");
@@ -29,12 +29,12 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
-//            Pegando as assinaturas do banco e adicionando a lista de assinaturas:
+//            Pegando as assinaturas do banco e adicionando a lista de assinaturas.
             while (rs.next()) {
                 assinaturas.add(new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento")));
             }
 
-//            Retornando a lista de assinaturas:
+//            Retornando a lista de assinaturas.
             return assinaturas;
 
         } catch (Exception e) {
@@ -90,13 +90,14 @@ public class AssinaturaDAO implements DAO<Assinatura>{
 
     public Assinatura buscarPorIdEmpresa(int idEmpresa) {
         Connection conn = null;
-//        Conectando ao banco de dados e enviando o select no SQL:
+        
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM assinatura WHERE id_empresa = ?");
             pstmt.setInt(1, idEmpresa);
             rs = pstmt.executeQuery();
 
+//          Retornando a tabela assinatura.
             if (rs.next()) {
                 return new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento"));
             }
@@ -113,7 +114,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     @Override
     public Assinatura buscarPorId(int id) {
         Connection conn = null;
-//        Conectando ao banco de dados e enviando select do SQL:
+        
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM assinatura WHERE id = ?");
@@ -135,9 +136,8 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     @Override
     public boolean inserir (Assinatura assinatura) {
         Connection conn = null;
-//        Conectando ao banco de dados:
+
         try {
-            // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();
 
             // Preparando comando SQL para cadastrar uma assinatura:
@@ -149,7 +149,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             pstmt.setDate(5, Date.valueOf(assinatura.getDtFim()));
             pstmt.setString(6, assinatura.getFormaPagamento());
 
-            // Execução da atualização
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException sqle) {
@@ -164,10 +164,9 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     public boolean alterar(Assinatura assinatura) {
         Connection conn = null;
         try {
-            // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
 
-            // Preparação do comando SQL para atualizar a senha do admin da empresa
+//          Preparação do comando SQL para alterar as informações do plano.
             pstmt = conn.prepareStatement("UPDATE assinatura SET id_plano = ?, dt_inicio = ?, dt_fim = ?, forma_pagamento = ?, " +
                     "status = ? WHERE id = ?");
             pstmt.setInt(1, assinatura.getIdPlano());
@@ -177,7 +176,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             pstmt.setString(5, String.valueOf(assinatura.getStatus()));
             pstmt.setInt(5, assinatura.getId());
 
-            // Execução da atualização
+
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
@@ -191,13 +190,13 @@ public class AssinaturaDAO implements DAO<Assinatura>{
     @Override
     public boolean deletarPorId(int id){
         Connection conn = null;
-//        Tenatando conectar ao banco de dados:
+        
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM assinatura WHERE id = ?");
             pstmt.setInt(1, id);
 
-//            Retornando se houve um registro foi deletado:
+//            Retornando se houve um registro que foi deletado:
             return pstmt.executeUpdate() > 0;
 
         }catch (SQLException sqle){

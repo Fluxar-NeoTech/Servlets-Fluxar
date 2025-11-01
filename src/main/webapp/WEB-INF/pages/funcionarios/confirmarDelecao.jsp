@@ -97,11 +97,11 @@
 <main>
   <p id="title">Deletar funcionário</p>
 
-  <form id="form" action="${pageContext.request.contextPath}/RemoverTelefoneServlet" method="post">
+  <form id="form" action="${pageContext.request.contextPath}/RemoverFuncionarioServlet" method="post">
     <table class="confirmarDelecao" style="border-radius: 20px">
       <thead>
         <tr>
-          <th colspan="2">Funcionários</th>
+          <th colspan="2">Funcionário</th>
         </tr>
       </thead>
       <tbody>
