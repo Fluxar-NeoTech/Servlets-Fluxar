@@ -22,19 +22,19 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         HttpSession session = request.getSession();
-        List<Unidade> unidades = new ArrayList<>();
         AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         SetorDAO setorDAO = new SetorDAO();
         PlanoDAO planoDAO = new PlanoDAO();
-        List<Funcionario> funcionarios = new ArrayList<>();
-        List<Setor> setores = new ArrayList<>();
-        int idPlano = 0;
-        int idFuncionario = 0;
+        List<Unidade> unidades;
+        List<Setor> setores;
+        List<Funcionario> funcionarios;
         Funcionario funcionario;
         Plano plano;
         Empresa empresaLogada;
+        int idPlano = 0;
+        int idFuncionario = 0;
         boolean continuar = true;
 
 //        Setando atributo da request com o tipo do usuário
@@ -71,23 +71,14 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         plano = planoDAO.buscarPorId(idPlano);
 
-        if (plano.getNome().equals("Essential")){
-            if (funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 3){
-                continuar = false;
-            }
-        } else if (plano.getNome().equals("Profissional")) {
-            if (funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 10){
-                continuar = false;
-            }
+        if (plano.getNome().equals("Essential") && funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 3){
+            request.setAttribute("mensagem", "Limite de usuários atingido");
+            continuar = false;
+        } else if (plano.getNome().equals("Profissional") && funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()) >= 10) {
+            request.setAttribute("mensagem", "Limite de usuários atingido");
+            continuar = false;
         } else if (plano.getNome().equals("Enterprise")){
             continuar = true;
-        }
-
-        funcionarios = funcionarioDAO.listarPorIdEmpresa(1, funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()), empresaLogada.getId());
-
-        if(!funcionarios.contains(funcionario)){
-            request.setAttribute("mensagem", "Você não possui acesso a esse funcionário");
-            continuar = false;
         }
 
         if(!continuar){
@@ -95,6 +86,8 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
                     .forward(request, response);
             return;
         }
+
+        funcionarios = funcionarioDAO.listarPorIdEmpresa(1, funcionarioDAO.contarPorIdEmpresa(empresaLogada.getId()), empresaLogada.getId());
 
         continuar = false;
 
@@ -107,17 +100,16 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         if (!continuar){
             request.setAttribute("mensagem", "Você não tem acesso a esse funcionário");
-            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
+            request.getRequestDispatcher("error.jsp")
                     .forward(request, response);
             return;
         }
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
-        setores = setorDAO.listarNomesPorIdEmpresa(((Empresa)session.getAttribute("empresa")).getId());
 
         request.setAttribute("unidades", unidades);
-        request.setAttribute("setores", setores);
         request.setAttribute("funcionario", funcionario);
+        request.setAttribute("setor", setorDAO.buscarPorId(funcionario.getIdSetor()));
 
 //        Redireciona para a página de adicionar setor:
         request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
@@ -131,13 +123,14 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         String[] nomeCompleto = new String[2];
         String nomeInput = request.getParameter("nomeCompleto").trim();
         String email = request.getParameter("email").trim();
-        String cargo = request.getParameter("cargo").trim();
         int idUnidade = 0;
+        int idFuncionario = 0;
         HttpSession session = request.getSession();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         SetorDAO setorDAO = new SetorDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         List<Unidade> unidades;
-        Funcionario funcionario = new Funcionario();
+        Funcionario funcionario;
         boolean continuar = true;
 
         try {
@@ -153,6 +146,19 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
+
+        try {
+            idFuncionario = Integer.parseInt(request.getParameter("id"));
+        } catch (NullPointerException | NumberFormatException e){
+            System.out.println(e.getMessage());
+            request.setAttribute("erro", e.getMessage());
+            request.setAttribute("mensagem", "Id deve ser um número postivo");
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
+                    .forward(request, response);
+            return;
+        }
+
+        funcionario = funcionarioDAO.buscarPorId(idFuncionario);
 
 //        Validando se nome é válido:
         if (nomeInput == null){
@@ -182,13 +188,6 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             }
         }
         funcionario.setEmail(email);
-
-//        Validando cargo:
-        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
-            request.setAttribute("erroCargo", "Cargo inválido");
-            continuar = false;
-        }
-        funcionario.setCargo(cargo);
 
 //        Validando id da unidade:
         try {

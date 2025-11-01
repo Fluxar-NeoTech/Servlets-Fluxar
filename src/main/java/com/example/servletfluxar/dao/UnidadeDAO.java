@@ -7,9 +7,7 @@ import com.example.servletfluxar.model.Unidade;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 //    Declaração de atributos:
@@ -24,7 +22,7 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         int offset = (pagina - 1) * limite;
         List<Unidade> unidades = new ArrayList<>();
 
-//        Conectando ao banco de dados e enviando sql:
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela unidade.
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id LIMIT ? OFFSET ?");

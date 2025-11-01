@@ -1,4 +1,3 @@
-<%@ page import="com.example.servletfluxar.model.Plano" %>
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

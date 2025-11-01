@@ -31,6 +31,7 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         PlanoDAO planoDAO = new PlanoDAO();
         int idUnidade = Integer.parseInt(request.getParameter("idUnidade"));
         Empresa empresaLogada;
+        Funcionario funcionario;
         boolean continuar = true;
 
 //        Setando atributo da request com o tipo do usuário
@@ -63,6 +64,12 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
             return;
         }
 
+        try{
+            funcionario = (Funcionario) session.getAttribute("funcionario");
+        } catch (NullPointerException npe){
+            response.sendRedirect(request.getContextPath()+"/ListarFuncionariosServlet");
+            return;
+        }
         setores = setorDAO.listarNomesPorIdUnidade(idUnidade);
 
         if (setores.isEmpty()){
@@ -73,7 +80,7 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         }
 
         request.setAttribute("setores", setores);
-        request.setAttribute("funcionario", session.getAttribute("funcionario"));
+        request.setAttribute("funcionario", funcionario);
 
 //        Redireciona para a página de adicionar setor:
         request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp")
@@ -84,15 +91,14 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 //        Declaração de variáveis:
-        String senha = request.getParameter("senha");
-        String confirmarSenha = request.getParameter("confirmarSenha");
         int idSetor = 0;
-        int senhaValida;
+        String cargo = request.getParameter("cargo");
         HttpSession session = request.getSession();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
-        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        List<Unidade> unidades;
         Funcionario funcionario = (Funcionario) session.getAttribute("funcionario");
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        SetorDAO setorDAO = new SetorDAO();
+        List<Setor> setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
         boolean continuar = true;
 
         try {
@@ -109,8 +115,6 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
             return;
         }
 
-
-
 //        Validando id da unidade:
         try {
             idSetor = Integer.parseInt(request.getParameter("idSetor"));
@@ -119,38 +123,20 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
             continuar = false;
         }
 
-//        Validando senha:
-        if (senha == null){
-            request.setAttribute("erroSenha", "Defina uma senha para o administrador");
+//        Validando cargo:
+        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
+            request.setAttribute("erroCargo", "Cargo inválido");
             continuar = false;
         } else {
-            senhaValida = ValidacaoInput.validarSenha(senha);
-            if (senhaValida != 0){
-                if (senhaValida == 1){
-                    request.setAttribute("erroSenha", "Senha deve ser menor do que 28 caracteres");
-                }
-                if (senhaValida == 2){
-                    request.setAttribute("erroSenha", "Senha deve ser maior do que 8 caracteres");
-                }
-                if (senhaValida == 3){
-                    request.setAttribute("erroSenha", "Senha deve ter letras maiúsculas");
-                }
-                if (senhaValida == 4){
-                    request.setAttribute("erroSenha", "Senha deve ter letras minúsculas");
-                }
-                if (senhaValida == 5){
-                    request.setAttribute("erroSenha", "Senha deve ter números");
-                }
-                continuar = false;
-            } else {
-                if (!senha.equals(confirmarSenha)){
-                    request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
-                    continuar = false;
-                }
-            }
+            funcionario.setCargo(cargo);
+        }
+
+        for (Setor setor: setores){
+            System.out.println(setor.getNome());
         }
 
         if (!continuar){
+            request.setAttribute("setores", setores);
             request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp")
@@ -159,9 +145,8 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         }
 
         funcionario.setIdSetor(idSetor);
-        funcionario.setSenha(senha);
 
-       if (funcionarioDAO.inserir(funcionario)){
+       if (funcionarioDAO.alterar(funcionario)){
            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
        } else {
            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));

@@ -61,7 +61,7 @@ public class AlterarSetorServlet extends HttpServlet {
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
-        if (unidades.get(1).getIdEmpresa() == empresaLogada.getId() || setor == null){
+        if (unidades.get(0).getIdEmpresa() == empresaLogada.getId() || setor == null){
             response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
             return;
         }

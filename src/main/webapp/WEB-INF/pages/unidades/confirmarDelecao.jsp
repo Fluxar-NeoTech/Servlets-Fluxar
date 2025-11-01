@@ -8,7 +8,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deletar empresa</title>
+  <title>Deletar unidade</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 
@@ -112,7 +112,7 @@
   </div>
 </aside>
 <main>
-  <p id="title">Deletar empresa</p>
+  <p id="title">Deletar unidade</p>
 
   <form id="form" action="${pageContext.request.contextPath}/RemoverUnidadeServlet" method="post">
     <table class="confirmarDelecao" style="border-radius: 20px">

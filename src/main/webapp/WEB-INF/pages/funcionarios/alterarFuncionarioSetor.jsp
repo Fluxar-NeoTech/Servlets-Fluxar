@@ -1,18 +1,20 @@
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Setor" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.servletfluxar.model.Funcionario" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adicionar funcionário</title>
+  <title>Alterar funcionário</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
 </head>
 <body>
 <%
   List<Setor> setores = (List<Setor>) request.getAttribute("setores");
+  Funcionario funcionario = (Funcionario) request.getAttribute("funcionario");
 %>
 <header>
   <div id="nome">
@@ -102,28 +104,32 @@
   </div>
 </aside>
 <main>
-  <p id="title">Adicionar funcionário</p>
+  <p id="title">Alterar funcionário</p>
 
   <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
+
+    <div>
+      <input type="radio" id="analista" name="cargo" value="Analista" <%=funcionario.getCargo().equals("Analista")? "checked": ""%>>
+      <label for="analista">Analista</label>
+      <input type="radio" id="gestor" name="cargo" value="Gestor" <%=funcionario.getCargo().equals("Gestor")? "checked": ""%>>
+      <label for="gestor">Gestor</label>
+    </div>
+    <p><%= request.getAttribute("erroCargo")%>
+    </p>
+
     <select name = "idSetor">
-      <option selected hidden>Setor</option>
-      <%for (Setor setor: setores) {%>
-        <option value="<%=setor.getId()%>"><%=setor.getNome()%></option>
+      <%for (Setor setor: setores) {
+        if(setor.getId() != funcionario.getIdSetor()){%>
+          <option value="<%=setor.getId()%>"><%=setor.getNome()%></option>
+        <%} else {%>
+          <option value="<%=setor.getId()%>" selected><%=setor.getNome()%></option>
+        <%}%>
       <%}%>
     </select>
-    <p><%= request.getAttribute("erroNome")%></p>
-
-    <label for="senha">Senha:</label>
-    <input type="text" name="senha" id="senha">
-    <p><%= request.getAttribute("erroSenha")%></p>
-
-    <label for="confirmarSenha">Confirmar senha:</label>
-    <input type="password" name="confirmarSenha" id="confirmarSenha">
-    <p><%= request.getAttribute("erroConfimarSenha")%></p>
 
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
-      <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
+      <a class="botaoSecundario" href="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet?id=<%=funcionario.getId()%>">Voltar</a>
     </div>
   </form>
 </main>

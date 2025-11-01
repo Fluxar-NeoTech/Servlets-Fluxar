@@ -86,7 +86,9 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        SetorDAO setorDAO = new SetorDAO();
         List<Unidade> unidades;
+        List<Setor> setores;
         Funcionario funcionario = (Funcionario) session.getAttribute("funcionario");
         boolean continuar = true;
 
@@ -103,8 +105,6 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
             return;
         }
-
-
 
 //        Validando id da unidade:
         try {
@@ -146,6 +146,15 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         }
 
         if (!continuar){
+            setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+
+            if (setores.isEmpty()){
+                request.setAttribute("mensagem", "Não há nenhum setor cadastrado");
+                request.getRequestDispatcher("/ListarFuncionariosServlet")
+                        .forward(request, response);
+                return;
+            }
+
             request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")

@@ -8,9 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administrador> {
 //    Declaração de atributos:
@@ -26,7 +24,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Administrador administrador;
         List<Administrador> administradores = new ArrayList<>();
 
-//        Conectando ao banco de dados e enviando comando sql:
+//        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador ORDER BY id LIMIT ? OFFSET ?");
@@ -34,7 +32,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
-//            Criando objetos e adicionando a lista dos administradores:
+//            Criando objetos e adicionando a lista dos administradores.
             while (rs.next()) {
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
@@ -42,11 +40,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador.setSobrenome(rs.getString("sobrenome"));
                 administrador.setEmail(rs.getString("email"));
 
-//                Adicionando o administrador ao map de administradores:
+//                Adicionando o administrador a lista de administradores:
                 administradores.add(administrador);
             }
 
-//            Returnando o map de administrador
+//            Retornando o map de administrador.
             return administradores;
 
         } catch (SQLException sqle) {
@@ -84,14 +82,13 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         Administrador administrador;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE id = ?");
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
-//            Verificando se há um retorno com um registro do banco de dados:
+//            Verificando se há um retorno com um registro do banco de dados.
             if(rs.next()){
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
@@ -117,14 +114,14 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         Administrador administrador;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT id, nome+\' \'+sobrenome \"nome_completo\", email, senha  FROM administrador WHERE nome_completo LIKE ?");
+
+//          Busca o administrador pelo nome, concatenando as tabelas nome e sobrenome para achar quando o usuario digitar o nome completo.
+            pstmt = conn.prepareStatement("SELECT id, nome+\' \'+sobrenome \"nome_completo\", email, senha FROM administrador WHERE nome_completo LIKE ?");
             pstmt.setString(1, nome);
             rs = pstmt.executeQuery();
 
-//            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
@@ -150,14 +147,13 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         Administrador administrador;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email LIKE ?");
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 
-//            Verificando se há um retorno com um registro do banco de dados:
+//          Se achar o administrador, retorna os dados dele.
             if(rs.next()){
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
@@ -183,14 +179,12 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         Administrador administrador = null;
 
-//        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email = ?");
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 
-//            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
                 administrador = new Administrador();
                 administrador.setId(rs.getInt("id"));
@@ -198,6 +192,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador.setSobrenome(rs.getString("sobrenome"));
                 administrador.setEmail(rs.getString("email"));
 
+//              Verificando se a senha do usuario concede com a do banco de dados.
                 if (BCrypt.checkpw(senha, rs.getString("senha"))){
                     return administrador;
                 }
@@ -224,6 +219,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setString(3,administrador.getEmail());
             pstmt.setString(4, BCrypt.hashpw(administrador.getSenha(), BCrypt.gensalt()));
 
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){
@@ -238,17 +234,15 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     public boolean alterar(Administrador administrador) {
         Connection conn = null;
         try {
-            // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
 
-            // Preparação do comando SQL para atualizar a senha do admin da empresa
+//          Preparação do comando SQL para atualizar os dados do adminstrador da empresa.
             pstmt = conn.prepareStatement("UPDATE administrador SET nome = ?, sobrenome = ?, email = ? WHERE id = ?");
             pstmt.setString(1, administrador.getNome());
             pstmt.setString(2, administrador.getSobrenome());
             pstmt.setString(3, administrador.getEmail());
             pstmt.setInt(4, administrador.getId());
 
-            // Execução da atualização
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
@@ -263,17 +257,15 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
         Connection conn = null;
-//        Tentando conectar ao banco de dados:
+        
         try {
-            // Obtenção da conexão com o banco de dados
             conn = Conexao.conectar();
 
-            // Preparação do comando SQL para atualizar a senha do admin da empresa
+//          Preparação do comando SQL para atualizar a senha do adminstrador da empresa.
             pstmt = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
             pstmt.setString(1,novaSenha);
             pstmt.setString(2,email);
 
-            // Execução da atualização
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
@@ -287,9 +279,11 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public boolean deletarPorId(int id){
         Connection conn = null;
-//        Tentando conectar ao banco de dados:
+        
         try{
             conn = Conexao.conectar();
+
+//          Deleta um adminstrador.
             pstmt = conn.prepareStatement("DELETE FROM administrador WHERE id = ?");
             pstmt.setInt(1, id);
             return pstmt.executeUpdate()>0;

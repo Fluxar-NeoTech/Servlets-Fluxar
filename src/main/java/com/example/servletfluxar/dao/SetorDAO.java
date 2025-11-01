@@ -4,19 +4,17 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Setor;
-import com.example.servletfluxar.model.Unidade;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
 //    Declaração de atributos:
     private PreparedStatement pstmt;
     private Statement stmt;
     private ResultSet rs;
+
     @Override
     public List<Setor> listar(int pagina, int limite) {
 //        Declarando variáveis:
@@ -25,7 +23,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
         List<Setor> setores= new ArrayList<>();
         Setor setor;
 
-//        Conectando ao banco de dados e enviando sql:
+//        Conectando ao banco de dados e enviando sql para ver os dados na tabela setor. 
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM setor ORDER BY id LIMIT ? OFFSET ?");
@@ -33,7 +31,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
             pstmt.setInt(2, offset);
             rs = pstmt.executeQuery();
 
-//            Criando objetos e adicionando a lista dos setores:
+//            Criando objetos
             while (rs.next()) {
                 setor = new Setor();
                 setor.setId(rs.getInt("id"));
@@ -41,6 +39,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
                 setor.setDescricao(rs.getString("descricao"));
                 setor.setIdUnidade(rs.getInt("id_unidade"));
 
+//             Adicionando o objeto na lista de setores, a chave é id e o valor um setor.
                 setores.add(setor);
             }
 
@@ -223,6 +222,28 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
         }
     }
 
+    public int contarPorIdUnidade(int idUnidade){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(s.*)\"contador\" FROM setor s JOIN unidade u " +
+                    "ON s.id_unidade = u.id WHERE s.id_unidade = ?");
+            pstmt.setInt(1, idUnidade);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public Setor buscarPorId(int id){
         Connection conn = null;
@@ -249,7 +270,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
     @Override
     public boolean inserir(Setor setor){
        Connection conn = null;
-//        Conectando ao banco de dados e dando o insert:
+//        Conectando ao banco de dados e inserindo um novo setor.
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("INSERT INTO setor (nome, descricao, id_unidade) VALUES (?, ?, ?)");
@@ -257,6 +278,7 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
             pstmt.setString(2, setor.getDescricao());
             pstmt.setInt(3, setor.getIdUnidade());
 
+//          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
 
         }catch (SQLException sqle){
@@ -271,17 +293,15 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
     public boolean alterar(Setor setor){
         Connection conn = null;
         try {
-            // Obtenção da conexão com o banco de dados:
             conn = Conexao.conectar();
 
-            // Preparando comando SQL para atualizar a senha do admin da empresa:
+//          Preparando comando SQL para atualizar informações do administrador da empresa.
             pstmt = conn.prepareStatement("UPDATE setor SET nome = ?, descricao = ?, id_unidade = ? WHERE id = ?");
             pstmt.setString(1,setor.getNome());
             pstmt.setString(2, setor.getDescricao());
             pstmt.setInt(3, setor.getIdUnidade());
             pstmt.setInt(4, setor.getId());
 
-            // Execução da atualização
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {

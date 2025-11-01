@@ -141,6 +141,7 @@
     <a href="${pageContext.request.contextPath}/ListarEmpresasServlet" class="botaoSecundario">Ver todas</a>
   </section>
 
+  <%if (!empresas.isEmpty()) {%>
   <table style="--cols: 6;">
     <thead>
     <tr>
@@ -153,8 +154,7 @@
     </tr>
     </thead>
     <tbody>
-      <%if (!empresas.isEmpty()){%>
-        <%for(Empresa empresa: empresas){%>
+      <%for(Empresa empresa: empresas){%>
           <tr>
             <td><%=empresa.getId()%></td>
             <td><%=empresa.getNome()%></td>
@@ -182,13 +182,11 @@
               </td>
           </tr>
         <%}%>
-      <%} else {%>
-        <tr>
-          <td colspan="6">Nenhuma empresa foi encontrada!</td>
-        </tr>
-      <%}%>
     </tbody>
   </table>
+  <%} else {%>
+    <p style="color: white">Não há nenhuma empresa cadastrada</p>
+  <%}%>
 
   <%if (tipoUsuario.equals("administrador")) {%>
     <section id="footer">

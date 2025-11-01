@@ -72,6 +72,7 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
         request.setAttribute("unidades", unidades);
+
 //        Redireciona para a página de adicionar setor:
         request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                 .forward(request, response);
@@ -157,6 +158,9 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
         }
 
         if (!continuar){
+            unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
+
+            request.setAttribute("unidades", unidades);
             request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
