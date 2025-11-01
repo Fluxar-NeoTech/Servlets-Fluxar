@@ -26,7 +26,7 @@
             </ul>
         </nav>
         <form action="LoginServlet" method="post">
-            <div class="<%=request.getAttribute("erroEmail") != null?"floating-label-erro":"floating-label"%>">
+            <div class="<%=request.getAttribute("erroEmail") != null?"floating-label-erro":"floating-label"%>" style="width: 100%">
                 <input type="email" class="<%=request.getAttribute("erroEmail") != null ? "inputs-erro": "inputs"%> userEmail" name="emailUsuario"
                        id="userEmail" placeholder=" " required>
                 <label id="label" for="userEmail">Digite seu email aqui</label>

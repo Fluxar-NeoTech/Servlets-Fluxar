@@ -4,6 +4,7 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
+import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Funcionario;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -47,6 +48,69 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
         }
     }
 
+    public List<Funcionario> listarPorNomeCompleto(int pagina, int limite, String nome) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Funcionario> funcionarios = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela funcionario.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE CONCAT(nome, ' ', sobrenome) LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+nome+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos funcionários:
+            while (rs.next()) {
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha"), rs.getString("cargo"), rs.getInt("id_setor")));
+            }
+
+//        Retornando os funcionários cadastrados:
+            return funcionarios;
+
+        } catch (Exception e) {
+            return funcionarios;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Funcionario> listarPorEmail(int pagina, int limite, String email, int idEmpresa) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Funcionario> funcionarios = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela funcionario.
+        try {
+            conn = Conexao.conectar();
+            if (idEmpresa==0) {
+                pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            } else {
+                pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            }
+            pstmt.setString(1, "%"+email+"%");
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos funcionários:
+            while (rs.next()) {
+                funcionarios.add(new Funcionario(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("email"), rs.getString("senha"), rs.getString("cargo"), rs.getInt("id_setor")));
+            }
+
+//        Retornando os funcionários cadastrados:
+            return funcionarios;
+
+        } catch (Exception e) {
+            return funcionarios;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+
     @Override
     public List<Funcionario> listarPorIdEmpresa(int pagina, int limite, int idEmpresa) {
 //        Declarando variáveis:
@@ -86,6 +150,48 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
             conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM funcionario");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorNomeCompleto(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario WHERE CONCAT(nome, ' ', sobrenome) LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorEmail(String email){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario WHERE email LIKE ?");
+            pstmt.setString(1, "%"+email+"%");
+            rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return rs.getInt("contador");

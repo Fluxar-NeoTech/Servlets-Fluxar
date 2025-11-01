@@ -58,12 +58,20 @@ a {
     font-weight: bold;
 }
 
-form {
-    font-family: 'Roboto';
+.icon-toggle {
+    width: 36px;
+    height: 30px;
+    border-radius: 8px;
+    display: grid;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    place-items: center;
+    cursor: pointer;
+    border: none;
 }
 
 .inputs {
-    font-family: 'Roboto';
     border: 3px solid var(--purple-800);
     background-color: white;
     transition: all 0.3s ease;
@@ -91,32 +99,9 @@ form {
     background-color: white;
 }
 
-.userEmail:focus+.label2 {
-    background-color: white;
-    color: #834096;
-}
-
-.userPassword:focus+.label4 {
-    background-color: white;
-    color: #834096;
-}
-
 .floating-label {
     display: flex;
     position: relative;
-}
-
-.icon-toggle {
-    width: 36px;
-    height: 30px;
-    border-radius: 8px;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    border: none;
 }
 
 .floating-label input.inputs::placeholder {
@@ -164,16 +149,6 @@ form {
     color: var(--red-700);
 }
 
-.userEmail:focus+.label2 {
-    background-color: white;
-    color: var(--red-700);
-}
-
-.userPassword:focus+.label4 {
-    background-color: white;
-    color: var(--red-700);
-}
-
 .floating-label-erro {
     display: flex;
     position: relative;
@@ -181,6 +156,26 @@ form {
 
 .floating-label-erro input.inputs::placeholder {
     color: transparent;
+}
+
+.floating-label-erro label {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    color: var(--red-800);
+    pointer-events: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.erro {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    background-color: white;
+    color: var(--red-800);
+    padding: 0 5px;
 }
 
 .codigo-inputs {
@@ -217,26 +212,6 @@ form {
 
 .erroCodigo{
     color: var(--red-800);
-}
-
-.floating-label-erro label {
-    position: absolute;
-    top: 12px;
-    left: 15px;
-    color: var(--red-800);
-    pointer-events: none;
-    background-color: transparent;
-    transition: all 0.3s ease;
-    background-color: white;
-}
-
-.erro {
-    position: absolute;
-    top: 35px;
-    left: 10px;
-    background-color: white;
-    color: var(--red-800);
-    padding: 0 5px;
 }
 
 .floating-label-erro input:focus+label,
@@ -320,7 +295,7 @@ input[type="submit"] {
     color: var(--purple-750);
 }
 
-@media(min-width:450px) {
+@media(min-width:500px) {
     .celular {
         display: none;
     }
@@ -464,7 +439,7 @@ input[type="submit"] {
     }
 }
 
-@media(max-width: 450px) {
+@media(max-width: 500px) {
     .laptop {
         display: none;
     }

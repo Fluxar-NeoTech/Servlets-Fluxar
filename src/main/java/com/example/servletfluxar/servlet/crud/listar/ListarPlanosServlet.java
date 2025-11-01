@@ -4,6 +4,7 @@ import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Plano;
+import com.example.servletfluxar.util.RegrasBanco;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -22,12 +23,15 @@ public class ListarPlanosServlet extends HttpServlet {
         String tipoFiltro = request.getParameter("tipoFiltro");
         String valorFiltro = request.getParameter("valorFiltro");
         HttpSession session = request.getSession();
+        int id;
+        double preco;
         int pagina = 1;
         int limite = 6;
         int totalRegitros = 0;
         int totalPaginas = 0;
         PlanoDAO planoDAO = new PlanoDAO();
-        List<Plano> planos = null;
+        List<Plano> planos = new ArrayList<>();
+        Plano plano;
 
 //        Informando o tipo de usuário logado a fim de saber se pode ou não editar/adicionar dados;
         try {
@@ -50,9 +54,74 @@ public class ListarPlanosServlet extends HttpServlet {
 
 //        Vendo se há algum filtro definido:
         if (tipoFiltro !=  null) {
+            tipoFiltro = tipoFiltro.trim().toLowerCase();
 //            Verificando se há algum valor definido para o filtro:
             if (valorFiltro != null) {
+                valorFiltro = valorFiltro.trim().toLowerCase();
+//                Filtro de id
+                if (tipoFiltro.equals("id")){
+                    try {
+                        id = Integer.parseInt(valorFiltro);
+                        if (id>0) {
+                            plano = planoDAO.buscarPorId(id);
+                            if (plano != null) {
+                                planos.add(plano);
+                            }
+                        } else {
+                            request.setAttribute("erroValorFiltro", "Id do plano deve ser maior do que 0");
+                        }
+                    } catch (NumberFormatException | NullPointerException e){
+                        request.setAttribute("erroValorFiltro", "Id do plano deve ser um número");
+                    }
+//                   Indo para o filtro de nome:
+                } else if (tipoFiltro.equals("nome")) {
+                    totalRegitros = planoDAO.contarPorNome(RegrasBanco.nomeCapitalize(valorFiltro));
+                    totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                    pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
+                    planos = totalRegitros > 0 ? planoDAO.listarPorNome(pagina, limite, RegrasBanco.nomeCapitalize(valorFiltro)) : new ArrayList<>();
+                } else if (tipoFiltro.equals("duracao")){
+                    if (!valorFiltro.equals("anual") && !valorFiltro.equals("mensal")){
+                        request.setAttribute("erroValorFiltro", "Duração apenas anual ou mensal");
+                    } else {
+                        totalRegitros = planoDAO.contarPorTempo( valorFiltro.equals("anual")? 12 : 1);
+                        totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                        pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                        planos = totalRegitros > 0 ? planoDAO.listarPorTempo(pagina, limite,  valorFiltro.equals("anual")? 12 : 1) : new ArrayList<>();
+                    }
+                } else if (tipoFiltro.equals("minpreco")){
+                    try{
+                        preco = Double.parseDouble(valorFiltro);
+                        if (preco>0){
+                            totalRegitros = planoDAO.contarPorMinPreco(preco);
+                            totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                            pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                            planos = totalRegitros > 0 ? planoDAO.listarPorMinPreco(pagina, limite,  preco) : new ArrayList<>();
+                        } else {
+                            request.setAttribute("erroValorFiltro", "Preço deve ser positivo");
+                        }
+                    } catch (NullPointerException | NumberFormatException e){
+                        request.setAttribute("erroValorFiltro", "Preço deve ser um número real");
+                    }
+                } else if (tipoFiltro.equals("maxpreco")) {
+                    try {
+                        preco = Double.parseDouble(valorFiltro);
+                        if (preco > 0) {
+                            totalRegitros = planoDAO.contarPorMaxPreco(preco);
+                            totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                            pagina = Math.max(1, Math.min(pagina, totalPaginas));
+                            planos = totalRegitros > 0 ? planoDAO.listarPorMaxPreco(pagina, limite, preco) : new ArrayList<>();
+                        } else {
+                            request.setAttribute("erroValorFiltro", "Preço deve ser positivo");
+                        }
+                    } catch (NullPointerException | NumberFormatException e) {
+                        request.setAttribute("erroValorFiltro", "Preço deve ser um número real");
+                    }
+                } else {
+                    request.setAttribute("erroValorFiltro", "Filtro não disponível");
+                }
             } else {
                 request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                 request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")

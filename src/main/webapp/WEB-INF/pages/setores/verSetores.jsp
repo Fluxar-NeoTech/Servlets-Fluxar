@@ -223,6 +223,57 @@
         </div>
     </section>
 </main>
+<script>
+    function initDropdown(selectElement) {
+        const input = selectElement.querySelector('input[type="text"]');
+        const hiddenInput = selectElement.querySelector('input[type="hidden"]');
+        const options = selectElement.querySelector('.options');
+        const optionItems = selectElement.querySelectorAll('.options span');
+
+        // Toggle dropdown
+        input.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectElement.classList.toggle('active');
+            options.classList.toggle('show');
+        });
+
+        // Selecionar opção
+        optionItems.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const value = option.getAttribute('data-value');
+                const text = option.textContent;
+
+                // Atualiza input visível
+                input.value = text;
+
+                // Atualiza input hidden (valor enviado ao servlet)
+                if (hiddenInput) {
+                    hiddenInput.value = value;
+                }
+
+                // Fechar dropdown
+                selectElement.classList.remove('active');
+                options.classList.remove('show');
+            });
+        });
+
+        // Fechar ao clicar fora
+        document.addEventListener('click', () => {
+            selectElement.classList.remove('active');
+            options.classList.remove('show');
+        });
+
+        options.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Inicializar todos os dropdowns na página
+    document.querySelectorAll('.input-select').forEach(select => {
+        initDropdown(select);
+    });
+</script>
 </body>
 
 </html>

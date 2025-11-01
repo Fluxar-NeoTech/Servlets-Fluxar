@@ -109,21 +109,33 @@
 <main>
     <p id="title">Administradores</p>
     <section id="topo">
+        <form action="ListarAdminsServlet" id="filtro" method="get">
+            <div class="input-select">
+                <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
+                <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
 
-        <form action="" id="filtro">
-            <details>
-                <summary>Filtros</summary>
-                <button class="filtro">Id</button>
-                <button class="filtro">Preço</button>
-                <button class="filtro" id="filtroBottom">Duração</button>
-            </details>
+                <div class="options">
+                    <span data-value="id">Id</span>
+                    <span data-value="nome">Nome</span>
+                    <span data-value="email">Email</span>
+                </div>
+            </div>
 
-            <input type="text" id="search" name="vaorFiltro" placeholder="Valor do filtro...">
+            <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
+                <input type="text" class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                       name="valorFiltro" id="valorFiltro" placeholder=" " required>
+                <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
+                <% if (request.getAttribute("erroValorFiltro") != null) { %>
+                <p class="erro">
+                    <%= request.getAttribute("erroValorFiltro") %>
+                </p>
+                <%}%>
+            </div>
 
-            <button type="submit" class="botaoPrimario">Buscar</button>
+            <button type="submit" class="botaoPrimario">Filtrar</button>
         </form>
 
-        <a href="/ListarAdminsServlet" class="botaoSecundario">Ver todos</a>
+        <a href="${pageContext.request.contextPath}/ListarAdminsServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
     <%if (!administradores.isEmpty()) {%>
@@ -194,6 +206,57 @@
         </div>
     </section>
 </main>
+<script>
+    function initDropdown(selectElement) {
+        const input = selectElement.querySelector('input[type="text"]');
+        const hiddenInput = selectElement.querySelector('input[type="hidden"]');
+        const options = selectElement.querySelector('.options');
+        const optionItems = selectElement.querySelectorAll('.options span');
+
+        // Toggle dropdown
+        input.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectElement.classList.toggle('active');
+            options.classList.toggle('show');
+        });
+
+        // Selecionar opção
+        optionItems.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const value = option.getAttribute('data-value');
+                const text = option.textContent;
+
+                // Atualiza input visível
+                input.value = text;
+
+                // Atualiza input hidden (valor enviado ao servlet)
+                if (hiddenInput) {
+                    hiddenInput.value = value;
+                }
+
+                // Fechar dropdown
+                selectElement.classList.remove('active');
+                options.classList.remove('show');
+            });
+        });
+
+        // Fechar ao clicar fora
+        document.addEventListener('click', () => {
+            selectElement.classList.remove('active');
+            options.classList.remove('show');
+        });
+
+        options.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Inicializar todos os dropdowns na página
+    document.querySelectorAll('.input-select').forEach(select => {
+        initDropdown(select);
+    });
+</script>
 </body>
 
 </html>

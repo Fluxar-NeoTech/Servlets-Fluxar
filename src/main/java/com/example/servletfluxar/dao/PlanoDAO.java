@@ -36,12 +36,138 @@ public class PlanoDAO implements DAO<Plano> {
 //            Retornando a lista de planos:
             return planos;
 
-        }catch (Exception e){
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
             return planos;
         }finally {
             Conexao.desconectar(conn);
         }
     }
+
+    public List<Plano> listarPorNome(int pagina, int limite, String nome){
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Plano> planos = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela plano.
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE nome LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+nome+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Adicionando registros do banco de dados a lista de planos:
+            while (rs.next()){
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+            }
+
+//            Retornando a lista de planos:
+            return planos;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return planos;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Plano> listarPorTempo(int pagina, int limite, int tempo){
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Plano> planos = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela plano.
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE tempo = ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, tempo);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Adicionando registros do banco de dados a lista de planos:
+            while (rs.next()){
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+            }
+
+//            Retornando a lista de planos:
+            return planos;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return planos;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Plano> listarPorMinPreco(int pagina, int limite, double preco){
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Plano> planos = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela plano.
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE preco >= ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setDouble(1, preco);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Adicionando registros do banco de dados a lista de planos:
+            while (rs.next()){
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+            }
+
+//            Retornando a lista de planos:
+            return planos;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return planos;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Plano> listarPorMaxPreco(int pagina, int limite, double preco){
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Plano> planos = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela plano.
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE preco <= ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setDouble(1, preco);
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Adicionando registros do banco de dados a lista de planos:
+            while (rs.next()){
+                planos.add(new Plano(rs.getInt("id"), rs.getString("nome"), rs.getInt("tempo"), rs.getDouble("preco")));
+            }
+
+//            Retornando a lista de planos:
+            return planos;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return planos;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
 
     @Override
     public int contar(){
@@ -63,6 +189,91 @@ public class PlanoDAO implements DAO<Plano> {
             Conexao.desconectar(conn);
         }
     }
+
+    public int contarPorNome(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE nome LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorTempo(int tempo){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE tempo = ?");
+            pstmt.setInt(1, tempo);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorMinPreco(double preco){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE preco >= ?");
+            pstmt.setDouble(1, preco);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorMaxPreco(double preco){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE preco <= ?");
+            pstmt.setDouble(1, preco);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
 
     public Plano buscarPlanoMaisVendido() {
         Connection conn = null;
