@@ -44,7 +44,85 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administradores.add(administrador);
             }
 
-//            Retornando o map de administrador.
+//            Retornando a lista de administradores.
+            return administradores;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return administradores;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Administrador> listarPorNomeCompleto(int pagina, int limite, String nome) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        Administrador administrador;
+        List<Administrador> administradores = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+nome+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos administradores.
+            while (rs.next()) {
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+//                Adicionando o administrador a lista de administradores:
+                administradores.add(administrador);
+            }
+
+//            Retornando a lista de administradores.
+            return administradores;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return administradores;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Administrador> listarPorEmail(int pagina, int limite, String email) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        Administrador administrador;
+        List<Administrador> administradores = new ArrayList<>();
+
+//        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+email+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista dos administradores.
+            while (rs.next()) {
+                administrador = new Administrador();
+                administrador.setId(rs.getInt("id"));
+                administrador.setNome(rs.getString("nome"));
+                administrador.setSobrenome(rs.getString("sobrenome"));
+                administrador.setEmail(rs.getString("email"));
+
+//                Adicionando o administrador a lista de administradores:
+                administradores.add(administrador);
+            }
+
+//            Retornando a lista de administradores.
             return administradores;
 
         } catch (SQLException sqle) {
@@ -62,6 +140,48 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM administrador");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorNomeCompleto(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorEmail(String email){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE email LIKE ?");
+            pstmt.setString(1, "%"+email+"%");
+            rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return rs.getInt("contador");

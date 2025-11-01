@@ -138,6 +138,27 @@ public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
         }
     }
 
+    public int contarPorNome(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade WHERE nome LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public int contarPorIdEmpresa(int idEmpresa){
         Connection conn = null;

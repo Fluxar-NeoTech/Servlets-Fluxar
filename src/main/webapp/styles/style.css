@@ -131,7 +131,8 @@
     font-family: "Montserrat";
 }
 
-html, body{
+html,
+body {
     height: 100%;
 }
 
@@ -149,6 +150,10 @@ body {
     --cor-hover: #e5e5e5;
     --cor-secundaria: #ffffff;
     --cor-laranja: #FE791A;
+    --purple-750: #773789;
+    --purple-800: #47005B;
+    --red-700: #A90003;
+    --red-800: #660002;
 }
 
 header {
@@ -166,7 +171,7 @@ header {
     margin-right: 25px;
 }
 
-#nome > p{
+#nome>p {
     font-size: 18px;
 }
 
@@ -190,11 +195,12 @@ aside {
     z-index: 2;
 }
 
-.linksServlet{
+.linksServlet {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
+
 #logo {
     width: 12vw;
     min-width: 120px;
@@ -241,7 +247,7 @@ main {
     color: white;
 }
 
-#secao-dados{
+#secao-dados {
     width: 72vw;
     height: 70vh;
     padding: 16px;
@@ -265,7 +271,7 @@ main {
     height: 200px;
 }
 
-.dados > h2 {
+.dados>h2 {
     color: var(--cor-laranja);
     text-align: center;
     font-size: 30px;
@@ -273,7 +279,7 @@ main {
     margin: 0;
 }
 
-.dados > div {
+.dados>div {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -300,23 +306,26 @@ main {
     padding: 20px;
 }
 
-#topo > form {
+#topo>form {
     display: flex;
     height: 100%;
     gap: 16px;
-} 
+}
 
-select:focus{
+select:focus {
     border-radius: 20px;
 }
 
-details {
+.input-select {
     position: relative;
-    width: 100px;
+    width: 12vw;
+    min-width: 120px;
+    height: 40px;
     z-index: 1;
 }
 
-summary {
+.input-select input {
+    width: 100%;
     background: transparent;
     color: black;
     border: solid var(--cor-primaria) 2.4px;
@@ -324,9 +333,15 @@ summary {
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
+    font-family: inherit;
+    font-size: inherit;
 }
 
-details[open] summary{
+.input-select input:focus {
+    outline: none;
+}
+
+.input-select.active input {
     border-top: solid var(--cor-primaria) 2.4px;
     border-left: solid var(--cor-primaria) 2.4px;
     border-right: solid var(--cor-primaria) 2.4px;
@@ -335,7 +350,24 @@ details[open] summary{
     border-bottom-right-radius: 0px;
 }
 
-details button {
+.options {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: white;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.options.show {
+    max-height: 300px;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.options span {
     font-family: inherit;
     font-size: inherit;
     display: block;
@@ -350,17 +382,131 @@ details button {
     border-bottom: solid var(--cor-primaria) 0.4px;
 }
 
-details button:hover{
+.options span:hover {
     background-color: var(--cor-hover);
 }
 
-#filtroBottom{
+.options span:last-child {
     border-bottom: solid var(--cor-primaria) 2.4px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-#search{
+.inputs {
+    border: 3px solid var(--purple-800);
+    background-color: white;
+    transition: all 0.3s ease;
+    caret-color: #834096;
+    min-width: 235px;
+}
+
+.inputs:hover {
+    border-color: var(--purple-800);
+    background-color: white;
+}
+
+.inputs:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: var(--purple-800);
+}
+
+.inputs-erro:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: var(--red-800);
+}
+
+.inputs:focus {
+    outline: none;
+    border-color: var(--purple-750);
+    background-color: white;
+}
+
+.floating-label {
+    display: flex;
+    position: relative;
+}
+
+.floating-label input.inputs::placeholder {
+    color: transparent;
+}
+
+.floating-label label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #46005A;
+    background-color: white;
+    pointer-events: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.floating-label input:focus+label,
+.floating-label input:not(:placeholder-shown)+label {
+    color: #46005A;
+    background-color: white;
+}
+
+.inputs-erro {
+    border: 3px solid #660002;
+    background-color: white;
+    transition: all 0.3s ease;
+    caret-color: var(--red-700);
+    color: var(--red-800);
+}
+
+.inputs-erro:hover {
+    border-color: var(--red-800);
+    background-color: white;
+}
+
+.inputs-erro:focus {
+    outline: none;
+    border-color: var(--red-700);
+    background-color: white;
+}
+
+.inputs-erro:focus+.erro {
+    background-color: white;
+    color: var(--red-700);
+}
+
+.floating-label-erro {
+    display: flex;
+    position: relative;
+}
+
+.floating-label-erro input.inputs::placeholder {
+    color: transparent;
+}
+
+.floating-label-erro label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: var(--red-800);
+    pointer-events: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.erro {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    background-color: white;
+    color: var(--red-800);
+    padding: 0 5px;
+}
+
+#filtroBottom {
+    border-bottom: solid var(--cor-primaria) 2.4px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#search {
     border: solid var(--cor-primaria);
     font-size: inherit;
     border-radius: 10px;
@@ -379,12 +525,12 @@ details button:hover{
     min-width: 100px;
 }
 
-.botaoPrimario:hover{
+.botaoPrimario:hover {
     cursor: pointer;
     background-color: color-mix(in srgb, var(--cor-primaria) 80%, white);
 }
 
-.botaoSecundario{
+.botaoSecundario {
     cursor: pointer;
     border: solid var(--cor-primaria) 2.4px;
     border-radius: 10px;
@@ -397,19 +543,19 @@ details button:hover{
     min-width: 100px;
 }
 
-.botaoSecundario:hover{
+.botaoSecundario:hover {
     background-color: color-mix(in srgb, var(--cor-secundaria) 90%, black);
 }
 
-a > div{
+a>div {
     color: var(--cor-primaria);
 }
 
-form:not[id="filtro"]{
+form:not[id="filtro"] {
     margin: auto;
 }
 
-.confirmarDelecao{
+.confirmarDelecao {
     width: 30vw;
     display: table;
 }
@@ -418,11 +564,11 @@ form:not[id="filtro"]{
     display: table-row;
 }
 
-.confirmarDelecao > thead{
+.confirmarDelecao>thead {
     display: table-header-group;
 }
 
-.confirmarDelecao > tbody{
+.confirmarDelecao>tbody {
     display: table-row-group;
 }
 
@@ -436,7 +582,8 @@ table {
     grid-template-columns: repeat(var(--cols, 6), 1fr);
 }
 
-thead, tbody {
+thead,
+tbody {
     display: contents;
 }
 
@@ -444,7 +591,8 @@ tr {
     display: contents;
 }
 
-th, td {
+th,
+td {
     height: 50px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -457,7 +605,7 @@ tbody td {
     border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-#footer{
+#footer {
     width: 70vw;
     bottom: 30px;
     display: flex;
@@ -465,7 +613,7 @@ tbody td {
     align-items: center;
 }
 
-#pages{
+#pages {
     display: flex;
     background-color: var(--cor-secundaria);
     border-radius: 10px;
@@ -475,12 +623,12 @@ tbody td {
     align-items: center;
 }
 
-#pages > a{
+#pages>a {
     display: flex;
     align-items: center;
 }
 
-#num{
+#num {
     border-radius: 5px;
     padding: 3px;
     border: solid var(--cor-primaria);
@@ -490,17 +638,64 @@ tbody td {
     align-items: center;
 }
 
-svg{
+svg {
     margin: auto;
     cursor: pointer;
 }
 
-.alterar{
+.alterar {
     width: 35px;
     height: 25px;
     margin-right: -7px;
 }
 
-.alterar:hover{
+.alterar:hover {
     filter: brightness(70%);
+}
+
+@media (min-width: 500px){
+    .inputs {
+        width: 20vw;
+        padding: 15px;
+        font-size: 1em;
+        border-radius: 10px;
+    }
+
+    .floating-label {
+        position: relative;
+    }
+
+    .floating-label label {
+        font-size: 1em;
+    }
+
+    .floating-label input:focus+label,
+    .floating-label input:not(:placeholder-shown)+label {
+        top: -10px;
+        left: 10px;
+        padding: 0 5px;
+    }
+
+    .inputs-erro {
+        width: 100%;
+        padding: 15px;
+        height: 40px;
+        font-size: 1em;
+        border-radius: 10px;
+    }
+
+    .floating-label-erro {
+        position: relative;
+    }
+
+    .floating-label-erro label {
+        font-size: 1em;
+    }
+
+    .floating-label-erro input:focus+label,
+    .floating-label-erro input:not(:placeholder-shown)+label {
+        top: -10px;
+        left: 10px;
+        padding: 0 5px;
+    }
 }

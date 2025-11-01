@@ -7,6 +7,7 @@ import com.example.servletfluxar.model.Empresa;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,195 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         }
     }
 
+    public List<Empresa> listarPorNome(int pagina, int limite, String nome) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
+
+//        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+nome+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista das empresas.
+            while (rs.next()) {
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
+
+                empresas.add(empresa);
+            }
+
+//            Retornando a lista de empresas cadastradas.
+            return empresas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return empresas;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Empresa> listarPorEmail(int pagina, int limite, String email) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
+
+//        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+email+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista das empresas.
+            while (rs.next()) {
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
+
+                empresas.add(empresa);
+            }
+
+//            Retornando a lista de empresas cadastradas.
+            return empresas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return empresas;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Empresa> listarPorCNPJ(int pagina, int limite, String cnpj) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
+
+//        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setString(1, "%"+cnpj+"%");
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+            rs = pstmt.executeQuery();
+
+//            Criando objetos e adicionando a lista de empresas.
+            while (rs.next()) {
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
+
+                empresas.add(empresa);
+            }
+
+//            Retornando a lista de empresas cadastradas.
+            return empresas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return empresas;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Empresa> listarPorMinDataCadastro(int pagina, int limite, LocalDate data) {
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
+
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(
+                    "SELECT * FROM empresa WHERE dt_cadastro >= ? ORDER BY dt_cadastro ASC LIMIT ? OFFSET ?"
+            );
+            pstmt.setDate(1, java.sql.Date.valueOf(data));
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
+                empresas.add(empresa);
+            }
+
+            return empresas;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return empresas;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Empresa> listarPorMaxDataCadastro(int pagina, int limite, LocalDate data) {
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Empresa> empresas = new ArrayList<>();
+        Empresa empresa;
+
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement(
+                    "SELECT * FROM empresa WHERE dt_cadastro <= ? ORDER BY dt_cadastro DESC LIMIT ? OFFSET ?"
+            );
+            pstmt.setDate(1, java.sql.Date.valueOf(data));
+            pstmt.setInt(2, limite);
+            pstmt.setInt(3, offset);
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                empresa = new Empresa();
+                empresa.setId(rs.getInt("id"));
+                empresa.setNome(rs.getString("nome"));
+                empresa.setCnpj(rs.getString("cnpj"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
+                empresas.add(empresa);
+            }
+
+            return empresas;
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return empresas;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public int contar(){
         Connection conn = null;
@@ -61,6 +251,111 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             conn = Conexao.conectar();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM empresa");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorNome(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE nome LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorEmail(String email){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE email LIKE ?");
+            pstmt.setString(1, "%"+email+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorCNPJ(String cnpj){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE cnpj LIKE ?");
+            pstmt.setString(1, "%"+cnpj+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorMinDataCadastro(LocalDate data){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE dt_cadastro >= ?");
+            pstmt.setDate(1, java.sql.Date.valueOf(data));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorMaxDataCadastro(LocalDate data){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE dt_cadastro <= ?");
+            pstmt.setDate(1, java.sql.Date.valueOf(data));
+            rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return rs.getInt("contador");

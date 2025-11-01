@@ -5,6 +5,7 @@ import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Assinatura;
 import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.util.RegrasBanco;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -24,11 +25,13 @@ public class ListarAdminsServlet extends HttpServlet {
         String valorFiltro = request.getParameter("valorFiltro");
         int pagina = 1;
         int limite = 6;
+        int id = 0;
         int totalRegitros = 0;
         int totalPaginas = 0;
         HttpSession session = request.getSession(false);
         AdministradorDAO administradorDAO = new AdministradorDAO();
         List<Administrador> administradores = new ArrayList<>();
+        Administrador administrador;
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
@@ -49,9 +52,42 @@ public class ListarAdminsServlet extends HttpServlet {
             pagina = Integer.parseInt(request.getParameter("pagina"));
         }
         if (tipoFiltro != null) {
+            tipoFiltro = tipoFiltro.trim().toLowerCase();
 //                     Verificando se há algum valor definido para o filtro:
             if (valorFiltro != null) {
+                valorFiltro = valorFiltro.trim().toLowerCase();
+//                Filtro de id:
+                if (tipoFiltro.equals("id")){
+                    try {
+                        id = Integer.parseInt(valorFiltro);
+                        if (id>0) {
+                            administrador = administradorDAO.buscarPorId(id);
+                            if (administrador != null){
+                                administradores.add(administrador);
+                            }
+                        } else {
+                            request.setAttribute("erroValorFiltro", "Id do admin deve ser maior do que 0");
+                        }
+                    } catch (NumberFormatException | NullPointerException e){
+                        request.setAttribute("erroValorFiltro", "Id do admin deve ser um número");
+                    }
+//                   Indo para o filtro de nome:
+                } else if (tipoFiltro.equals("nome")) {
+                    totalRegitros = administradorDAO.contarPorNomeCompleto(RegrasBanco.nomeCapitalize(valorFiltro));
+                    totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                    pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
+                    administradores = totalRegitros > 0 ? administradorDAO.listarPorNomeCompleto(pagina, limite, RegrasBanco.nomeCapitalize(valorFiltro)) : new ArrayList<>();
+//                Filtro de email:
+                } else if (tipoFiltro.equals("email")) {
+                    totalRegitros = administradorDAO.contarPorEmail(valorFiltro);
+                    totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
+                    pagina = Math.max(1, Math.min(pagina, totalPaginas));
+
+                    administradores = totalRegitros > 0 ? administradorDAO.listarPorEmail(pagina, limite, valorFiltro) : new ArrayList<>();
+                } else {
+                    request.setAttribute("erroValorFiltro", "Filtro não disponível");
+                }
             } else {
                 request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                 request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")

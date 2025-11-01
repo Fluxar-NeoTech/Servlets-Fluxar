@@ -31,7 +31,7 @@
                         </p>
                     <%}%>
                 </div>
-            <div class="<%=request.getAttribute("erroConfSenha") != null?"floating-label-erro":"floating-label"%>">
+            <div class="<%=request.getAttribute("erroConfSenha") != null?"floating-label-erro":"floating-label"%>" style="width: 100%;">
                     <input type="password" class="<%=request.getAttribute("erroConfSenha") != null ? "inputs-erro": "inputs"%> userPassword" name="senhaConfirmada"
                            id="userConfSenha" placeholder=" " required>
                     <label for="userConfSenha">Confirme sua senha aqui</label>

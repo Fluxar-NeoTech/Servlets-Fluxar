@@ -177,6 +177,27 @@ public class SetorDAO implements DAO<Setor>, DependeEmpresa<Setor> {
         }
     }
 
+    public int contarPorNome(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM setor WHERE nome LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public int contarPorIdEmpresa(int idEmpresa){
         Connection conn = null;
