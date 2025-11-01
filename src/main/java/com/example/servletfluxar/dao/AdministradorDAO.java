@@ -263,7 +263,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 
 //          Preparação do comando SQL para atualizar a senha do adminstrador da empresa.
             pstmt = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
-            pstmt.setString(1,novaSenha);
+            pstmt.setString(1, BCrypt.hashpw(novaSenha, BCrypt.gensalt()));
             pstmt.setString(2,email);
 
             return pstmt.executeUpdate()>0;

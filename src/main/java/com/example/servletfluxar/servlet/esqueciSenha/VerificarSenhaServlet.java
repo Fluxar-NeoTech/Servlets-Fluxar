@@ -31,7 +31,6 @@ public class VerificarSenhaServlet extends HttpServlet {
         String email = (String) session.getAttribute("registroAlterar");
         String novaSenha = request.getParameter("novaSenha").trim();
         String senhaConfirmada = request.getParameter("senhaConfirmada").trim();
-        String senhaCriptografada;
         boolean temNumero = false;
         boolean temMaiuscula = false;
         boolean temMinuscula = false;
@@ -60,7 +59,7 @@ public class VerificarSenhaServlet extends HttpServlet {
                 request.setAttribute("erroSenha", "Senha deve ter um número");
             }
             if (request.getAttribute("erroSenha") != null) {
-                request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+                request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
                         .forward(request, response);
                 return;
             }
@@ -69,20 +68,17 @@ public class VerificarSenhaServlet extends HttpServlet {
         // Verificando se a senha e a senha confirmada são iguais:
         if (!senhaConfirmada.equals(novaSenha)) {
             request.setAttribute("erroConfSenha", "Senha incorreta");
-            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+            request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
                     .forward(request, response);
             return;
         }
 
-        // Criptografando a senha:
-        senhaCriptografada = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
-
 //        Atualizando banco de dados:
-        if(empresaDAO.alterarSenha(email,senhaCriptografada) || administradorDAO.alterarSenha(email, senhaCriptografada)){
-            response.sendRedirect(request.getContextPath() + "/fazerLogin/paginaLogin/login.jsp");
+        if(empresaDAO.alterarSenha(email, novaSenha) || administradorDAO.alterarSenha(email, novaSenha)){
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         }else{
             request.setAttribute("erroSenha","Não foi possível alterar a senha");
-            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
+            request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
                     .forward(request,response);
         }
     }

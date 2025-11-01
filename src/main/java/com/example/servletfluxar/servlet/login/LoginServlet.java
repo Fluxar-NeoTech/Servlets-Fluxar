@@ -122,7 +122,7 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         } else {
-            request.setAttribute("erroEmail", "Email inválido");
+            request.setAttribute("erroEmail", "Email não cadastrado");
             request.getRequestDispatcher("/index.jsp")
                     .forward(request, response);
         }
