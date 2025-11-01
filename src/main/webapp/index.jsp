@@ -11,62 +11,88 @@
 
 <body>
 <header class="laptop">
-
+    <img src="${pageContext.request.contextPath}/Assets/Icons/FluxarLogoBRANCA.png" alt="Logo do aplicativo fluxar branco">
 </header>
 <main>
     <article>
         <div>
+            <a href="#" class="btn-voltar">← Voltar</a>
             <h1 id="loginTitle" class="caixa__title">Entrar no Fluxar</h1>
             <div class="caixa__sub">Gerencie seu estoque com mais segurança e rapidez</div>
         </div>
+        <nav class="nav-login">
+            <ul>
+                <li>Não tem uma conta? <a href="">Crie agora!</a></li>
+            </ul>
+        </nav>
         <form action="LoginServlet" method="post">
-
-            <% if (request.getAttribute("erroEmail") != null) { %>
-            <div class="floating-label-erro">
-                <input type="text" class="inputs-erro userEmail" id="userEmail" name="emailUsuario"
-                       placeholder=" " required>
-                <label id="label1" for="userEmail">Digite seu email aqui</label>
+            <div class="<%=request.getAttribute("erroEmail") != null?"floating-label-erro":"floating-label"%>">
+                <input type="email" class="<%=request.getAttribute("erroEmail") != null ? "inputs-erro": "inputs"%> userEmail" name="emailUsuario"
+                       id="userEmail" placeholder=" " required>
+                <label id="label" for="userEmail">Digite seu email aqui</label>
+                <% if (request.getAttribute("erroEmail") != null) { %>
                 <p class="erro">
                     <%= request.getAttribute("erroEmail") %>
                 </p>
+                <%}%>
             </div>
-            <% } else { %>
-            <div class="floating-label">
-                <input type="text" class="inputs userEmail" id="emailUsuario" name="emailUsuario"
-                       placeholder=" " required>
-                <label id="label2" for="emailUsuario">Digite seu email aqui</label>
-            </div>
-            <% } %>
 
-            <% if (request.getAttribute("erroSenha") != null) { %>
-            <div class="floating-label-erro">
-                <input type="password" class="inputs-erro userPassword" name="senhaUsuario"
-                       id="userSenha" placeholder=" " required>
-                <label id="label3" for="userSenha">Digite sua senha aqui</label>
-                <p class="erro">
-                    <%= request.getAttribute("erroSenha") %>
-                </p>
+            <div id="senha">
+                <div class="<%=request.getAttribute("erroSenha") != null?"floating-label-erro":"floating-label"%>">
+                    <input type="password" class="<%=request.getAttribute("erroSenha") != null ? "inputs-erro": "inputs"%> userPassword" name="senhaUsuario"
+                           id="userSenha" placeholder=" " required>
+                    <label id="label2" for="userSenha">Digite sua senha aqui</label>
+                    <button type="button" class="icon-toggle" aria-label="Mostrar senha" id="togglePwd">👁️</button>
+                    <% if (request.getAttribute("erroSenha") != null) { %>
+                        <p class="erro">
+                            <%= request.getAttribute("erroSenha") %>
+                        </p>
+                    <%}%>
+                </div>
+
+                <nav class="nav-login">
+                    <ul>
+                        <li>Esqueceu sua senha? <a href="${pageContext.request.contextPath}/pages/esqueciSenha/digitarEmail.jsp">Clique aqui!</a></li>
+                    </ul>
+                </nav>
             </div>
-            <% } else {%>
-            <div class="floating-label">
-                <input type="password" class="inputs userPassword" name="senhaUsuario"
-                       id="userPassword" placeholder=" " required>
-                <label id="label4" for="userPassword">Digite sua senha aqui</label>
-            </div>
-            <%}%>
 
             <button type="submit" class="botaoPrimario">Entrar</button>
         </form>
-        <nav class="nav-login">
+        <nav class="nav-login" id="analista">
             <ul>
-                <li class="botaoSecundariob"><a class="botaoSecundariob"
-                                                href="../webapp/pages/esqueciSenha/inputEmail/recuperarSenha.jsp">ESQUECI
-                    MINHA SENHA</a></li>
+                <li><a href="">Entrar como analista</a></li>
             </ul>
         </nav>
     </article>
 </main>
+<script>
+// Toggle de visibilidade da senha
+const toggle = document.getElementById('togglePwd');
+const pwd = document.getElementById('userSenha');
 
+if (toggle && pwd) {
+  toggle.addEventListener('click', () => {
+    const show = pwd.getAttribute('type') === 'password';
+    pwd.setAttribute('type', show ? 'text' : 'password');
+    toggle.textContent = show ? '🙈' : '👁️';
+    toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+  });
+}
+
+// Animação de label para inputs já preenchidos
+document.querySelectorAll('.userPassword').forEach(input => {
+  if (input.value.trim() !== '') {
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  input.addEventListener('input', () => {
+    // força o navegador a aplicar :placeholder-shown fallback se necessário
+    // aqui você pode adicionar animação CSS se quiser
+  });
+});
+
+</script>
 </body>
 
 </html>

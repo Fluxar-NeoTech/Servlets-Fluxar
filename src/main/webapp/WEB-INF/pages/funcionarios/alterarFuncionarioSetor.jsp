@@ -106,18 +106,20 @@
 <main>
   <p id="title">Alterar funcionário</p>
 
-  <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
+  <form action="${pageContext.request.contextPath}/AlterarFuncionarioSetorServlet" method="post">
 
     <div>
-      <input type="radio" id="analista" name="cargo" value="Analista" <%=funcionario.getCargo().equals("Analista")? "checked": ""%>>
+      <input type="radio" id="analista" name="cargo" value="Analista"
+        <%=funcionario.getCargo().equals("Analista")? "checked": ""%> required>
       <label for="analista">Analista</label>
-      <input type="radio" id="gestor" name="cargo" value="Gestor" <%=funcionario.getCargo().equals("Gestor")? "checked": ""%>>
+      <input type="radio" id="gestor" name="cargo" value="Gestor"
+        <%=funcionario.getCargo().equals("Gestor")? "checked": ""%> required>
       <label for="gestor">Gestor</label>
     </div>
     <p><%= request.getAttribute("erroCargo")%>
     </p>
 
-    <select name = "idSetor">
+    <select name = "idSetor" required>
       <%for (Setor setor: setores) {
         if(setor.getId() != funcionario.getIdSetor()){%>
           <option value="<%=setor.getId()%>"><%=setor.getNome()%></option>

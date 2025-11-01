@@ -98,10 +98,10 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarSetorServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name">
+    <input type="text" name="nome" id="name" required>
     <p><%=request.getAttribute("erroNome")%></p>
 
-    <select name = "idUnidade">
+    <select name = "idUnidade" required>
         <option selected hidden>Unidade</option>
         <%for (Unidade unidade: unidades) {%>
           <option value="<%=unidade.getId()%>"><%=unidade.getNome()%></option>

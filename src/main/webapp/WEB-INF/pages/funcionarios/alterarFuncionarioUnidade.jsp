@@ -121,7 +121,7 @@
         </select>
         <p><%= request.getAttribute("erroIdUnidade")%></p>
 
-        <input type="hidden" name="id" value="<%=funcionario.getId()%>">
+        <input type="hidden" name="id" value="<%=funcionario.getId()%>" required>
 
         <div>
             <button type="submit" class="botaoPrimario">Confirmar</button>

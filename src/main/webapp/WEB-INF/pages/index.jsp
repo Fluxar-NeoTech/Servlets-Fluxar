@@ -1,6 +1,9 @@
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
+<%@ page import="com.example.servletfluxar.model.Plano" %>
+<%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -116,12 +119,74 @@
         </ul>
     </nav>
 
-    <div class="maior" id="sair">
+    <div>
         <a class="botaoPrimario" href="${pageContext.request.contextPath}/SairServlet">Sair</a>
     </div>
 </aside>
 <main>
-
+    <h1 id="title">Seja bem-vindo!</h1>
+    <section id="secao-dados">
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Empresas cadastradas</h2>
+                <p><%=request.getAttribute("numeroEmpresas")%></p>
+            <%} else {%>
+                <h2>Unidades</h2>
+                <p><%=request.getAttribute("numeroUnidades")%></p>
+            <%}%>
+        </section>
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Empresas ativas</h2>
+                <p><%=request.getAttribute("numeroEmpresasAtivas")%></p>
+            <%} else {%>
+                <h2>Setores</h2>
+                <p><%=request.getAttribute("numeroSetores")%></p>
+            <%}%>
+        </section>
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Unidades ativas</h2>
+                <p><%=request.getAttribute("numeroUnidadesAtivas")%></p>
+            <%} else {%>
+                <h2>Funcionários</h2>
+                <p><%=request.getAttribute("numeroFuncionarios")%></p>
+            <%}%>
+        </section>
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Setores ativos</h2>
+                <p><%=request.getAttribute("numeroSetoresAtivos")%></p>
+            <%} else {%>
+                <h2>Plano assinado</h2>
+                <div>
+                    <p><%=((Plano) request.getAttribute("planoAssinado")).getNome()%></p>
+                    <p style="font-size: 24px"><%=FormatoOutput.duracao(((Plano) request.getAttribute("planoAssinado")).getTempo())%></p>
+                </div>
+            <%}%>
+        </section>
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Funcionários ativos</h2>
+                <p><%=request.getAttribute("numeroFuncionariosAtivos")%></p>
+            <%} else {%>
+                <h2>Data de início</h2>
+                <p><%=FormatoOutput.data((LocalDate) request.getAttribute("dataInicio"))%></p>
+            <%}%>
+        </section>
+        <section class="dados">
+            <%if (tipoUsuario.equals("administrador")) {%>
+                <h2>Plano mais vendido</h2>
+                <div>
+                    <p><%=((Plano) request.getAttribute("planoMaisAssinado")).getNome()%></p>
+                    <p style="font-size: 24px"><%=FormatoOutput.duracao(((Plano) request.getAttribute("planoMaisAssinado")).getTempo())%></p>
+                </div>
+            <%} else {%>
+                <h2>Data de fim</h2>
+                <p><%=FormatoOutput.data((LocalDate) request.getAttribute("dataFim"))%></p>
+            <%}%>
+        </section>
+    </section>
 </main>
 </body>
 

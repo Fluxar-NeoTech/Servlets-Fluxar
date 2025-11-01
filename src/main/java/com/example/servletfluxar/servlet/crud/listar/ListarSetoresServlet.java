@@ -1,8 +1,6 @@
 package com.example.servletfluxar.servlet.crud.listar;
 
-import com.example.servletfluxar.dao.FuncionarioDAO;
 import com.example.servletfluxar.dao.SetorDAO;
-import com.example.servletfluxar.dao.UnidadeDAO;
 import com.example.servletfluxar.model.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -11,7 +9,6 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @WebServlet(name = "ListarSetoresServlet", value = "/ListarSetoresServlet")
 public class ListarSetoresServlet extends HttpServlet {

@@ -98,7 +98,7 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         Funcionario funcionario = (Funcionario) session.getAttribute("funcionario");
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         SetorDAO setorDAO = new SetorDAO();
-        List<Setor> setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+        List<Setor> setores;
         boolean continuar = true;
 
         try {
@@ -119,23 +119,27 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         try {
             idSetor = Integer.parseInt(request.getParameter("idSetor"));
         } catch (NullPointerException | NumberFormatException e){
-            request.setAttribute("erroNumero", "Id da unidade deve ser um número");
+            request.setAttribute("erroIdSetor", "Id do setor deve ser um número");
             continuar = false;
         }
 
 //        Validando cargo:
-        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
-            request.setAttribute("erroCargo", "Cargo inválido");
-            continuar = false;
+        if (cargo != null) {
+            cargo = cargo.trim();
+            if (!cargo.equals("Analista") && !cargo.equals("Gestor")) {
+                request.setAttribute("erroCargo", "Cargo inválido");
+                continuar = false;
+            } else {
+                funcionario.setCargo(cargo);
+            }
         } else {
-            funcionario.setCargo(cargo);
-        }
-
-        for (Setor setor: setores){
-            System.out.println(setor.getNome());
+            request.setAttribute("erroCargo", "Cargo deve ser escolhido");
+            continuar = false;
         }
 
         if (!continuar){
+            setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+
             request.setAttribute("setores", setores);
             request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
@@ -149,10 +153,12 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
        if (funcionarioDAO.alterar(funcionario)){
            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
        } else {
+           setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+           request.setAttribute("funcionario", funcionario);
+           request.setAttribute("setores", setores);
            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp")
                    .forward(request, response);
-           return;
        }
     }
 }

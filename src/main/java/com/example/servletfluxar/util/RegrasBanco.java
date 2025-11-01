@@ -43,28 +43,51 @@ public class RegrasBanco {
      * @return             Uma lista com os elementos sendo [nome, sobrenomes]
      */
     public static String[] separarNomeCompleto(String nomeCompleto) {
-//        Declaração de variáveis:
+        // Declaração de variáveis:
+        int primeiroEspaco;
         String nome;
         String sobrenomes;
-        int primeiroEspaco;
+        char[] chars;
+        boolean maiuscula;
+        int i;
 
-        nomeCompleto = nomeCompleto.trim();
-
-        // Encontra o índice do primeiro espaço
+        // Encontra o primeiro espaço
         primeiroEspaco = nomeCompleto.indexOf(" ");
 
+        // Caso só exista um nome
         if (primeiroEspaco == -1) {
-//      Se não houver espaço, o nome inteiro é o primeiro nome
             nome = nomeCapitalize(nomeCompleto);
             sobrenomes = "";
-        } else {
-//          Se houver espaço, separa o primeiro nome do restante
-            nome = nomeCapitalize(nomeCompleto.substring(0, primeiroEspaco));
-            sobrenomes = nomeCapitalize(nomeCompleto.substring(primeiroEspaco + 1));
+            return new String[]{nome, sobrenomes};
         }
 
+        // Primeiro nome capitalizado
+        nome = nomeCapitalize(nomeCompleto.substring(0, primeiroEspaco));
+
+        // Resto dos sobrenomes em minúsculo
+        sobrenomes = nomeCompleto.substring(primeiroEspaco + 1).toLowerCase();
+
+        // Transforma em array de caracteres
+        chars = sobrenomes.toCharArray();
+        maiuscula = true;
+
+        // Percorre e capitaliza após cada espaço
+        for (i = 0; i < chars.length; i++) {
+            if (maiuscula && Character.isLetter(chars[i])) {
+                chars[i] = Character.toUpperCase(chars[i]);
+                maiuscula = false;
+            } else if (chars[i] == ' ') {
+                maiuscula = true;
+            }
+        }
+
+        // Converte de volta para String
+        sobrenomes = new String(chars);
+
+        // Retorna nome e sobrenomes
         return new String[]{nome, sobrenomes};
     }
+
 
     /**
      * Método para transformar o cep inputado para apenas números:

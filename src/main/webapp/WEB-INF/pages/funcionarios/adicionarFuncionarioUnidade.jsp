@@ -100,23 +100,23 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarFuncionarioUnidadeServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nomeCompleto" id="name">
+    <input type="text" name="nomeCompleto" id="name" required>
     <p><%= request.getAttribute("erroNome")%></p>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
+    <input type="email" name="email" id="email" required>
     <p><%= request.getAttribute("erroEmail")%></p>
 
     <div>
-      <input type="radio" id="analista" name="cargo" value="Analista">
+      <input type="radio" id="analista" name="cargo" value="Analista" required>
       <label for="analista">Analista</label>
-      <input type="radio" id="gestor" name="cargo" value="Gestor">
+      <input type="radio" id="gestor" name="cargo" value="Gestor" required>
       <label for="gestor">Gestor</label>
     </div>
     <p><%= request.getAttribute("erroCargo")%></p>
 
-    <select name = "idUnidade">
-      <option selected hidden>Unidade</option>
+    <select name = "idUnidade" required>
+      <option selected hidden value="">Unidade</option>
       <%for (Unidade unidade: unidades) {%>
       <option value="<%=unidade.getId()%>"><%=unidade.getNome()%></option>
       <%}%>

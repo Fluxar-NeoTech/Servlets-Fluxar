@@ -78,6 +78,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             request.setAttribute("erroNome", "Insira um nome para a empresa");
             continuar = false;
         } else {
+            nome = nome.trim().toLowerCase();
             nome = RegrasBanco.nomeCapitalize(nome);
             if (empresaDAO.buscarPorNome(nome) != null){
                 request.setAttribute("erroNome", "Nome já está sendo usado");
@@ -90,6 +91,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             request.setAttribute("erroCnpj", "Insira um cnpj para a empresa");
             continuar = false;
         } else {
+            cnpj = cnpj.trim();
             if (ValidacaoInput.validarCNPJ(cnpj)){
                 cnpj = RegrasBanco.cnpj(cnpj);
                 if (empresaDAO.buscarPorCNPJ(cnpj) != null || unidadeDAO.buscarPorCnpj(cnpj) != null){
@@ -107,6 +109,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             request.setAttribute("erroEmail", "Insira um email para a empresa");
             continuar = false;
         } else {
+            email = email.trim().toLowerCase();
             if (ValidacaoInput.validarEmail(email)){
                 if (empresaDAO.buscarPorEmail(email) == null){
 
@@ -125,6 +128,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             request.setAttribute("erroSenha", "Defina uma senha para a empresa");
             continuar = false;
         } else {
+            senha = senha.trim();
             senhaValida = ValidacaoInput.validarSenha(senha);
             if (senhaValida != 0){
                 if (senhaValida == 1){
@@ -144,7 +148,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
                 }
                 continuar = false;
             } else {
-                if (!senha.equals(confirmarSenha)){
+                if (!senha.equals(confirmarSenha.trim())){
                     request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
                     continuar = false;
                 }

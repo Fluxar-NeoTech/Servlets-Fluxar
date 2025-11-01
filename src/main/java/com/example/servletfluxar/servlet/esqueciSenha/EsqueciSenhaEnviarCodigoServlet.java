@@ -17,7 +17,7 @@ import java.io.IOException;
 public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request, response);
     }
 
     @Override
@@ -25,8 +25,6 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String emailInput;
-        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        Funcionario funcionario;
         EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresa;
         AdministradorDAO administradorDAO = new AdministradorDAO();
@@ -35,12 +33,12 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
 //        Recebendo o input do usuário:
-        emailInput = request.getParameter("emailUsuario").trim();
+        emailInput = request.getParameter("emailUsuario").trim().toLowerCase();
 
 //        Verificando se o email possui formato válido:
         if (!ValidacaoInput.validarEmail(emailInput)){
             request.setAttribute("erroEmail", "Formato de email inválido");
-            request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+            request.getRequestDispatcher("/pages/esqueciSenha/digitarEmail.jsp")
                     .forward(request, response);
             return;
         }
@@ -58,19 +56,19 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
                 EnvioEmail.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);
-                response.sendRedirect(request.getContextPath() +"/fazerLogin/esqueciSenha/codigo/codigo.jsp");
+                response.sendRedirect(request.getContextPath() +"/pages/esqueciSenha/codigo.jsp");
 
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("erroEmail", e);
-                request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+                request.getRequestDispatcher("/pages/esqueciSenha/digitarEmail.jsp")
                         .forward(request, response);
             }
 
         }else{
 //            Comunicando email inválido
             request.setAttribute("erroEmail", "Email não cadastrado");
-            request.getRequestDispatcher("/fazerLogin/esqueciSenha/inputEmail/recuperarSenha.jsp")
+            request.getRequestDispatcher("/pages/esqueciSenha/digitarEmail.jsp")
                     .forward(request, response);
         }
     }

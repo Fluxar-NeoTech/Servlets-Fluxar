@@ -64,6 +64,36 @@ public class PlanoDAO implements DAO<Plano> {
         }
     }
 
+    public Plano buscarPlanoMaisVendido() {
+        Connection conn = null;
+        try {
+            conn = Conexao.conectar();
+
+            pstmt = conn.prepareStatement("SELECT p.id, p.nome, p.preco, p.tempo, COUNT(a.id) \"total_assinaturas\" " +
+                    "FROM plano p JOIN assinatura a ON p.id = a.id_plano " +
+                    "GROUP BY p.id, p.nome, p.preco, p.tempo " +
+                    "ORDER BY total_assinaturas DESC LIMIT 1");
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Plano plano = new Plano();
+                plano.setId(rs.getInt("id"));
+                plano.setNome(rs.getString("nome"));
+                plano.setPreco(rs.getDouble("preco"));
+                plano.setTempo(rs.getInt("tempo"));
+                return plano;
+            }
+
+            return null; // caso não haja assinaturas
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+
     @Override
     public Plano buscarPorId(int id){
         Connection conn = null;

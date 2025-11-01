@@ -68,6 +68,14 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         }
 
         request.setAttribute("setores", setores);
+
+        if (setores.isEmpty()){
+            request.setAttribute("mensagem", "Não há nenhum setor cadastrado para essa unidade");
+            request.getRequestDispatcher("/AdicionarFuncionarioUnidadeServlet")
+                    .forward(request, response);
+            return;
+        }
+
         request.setAttribute("funcionario", session.getAttribute("funcionario"));
 
 //        Redireciona para a página de adicionar setor:
@@ -119,6 +127,7 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
             request.setAttribute("erroSenha", "Defina uma senha para o administrador");
             continuar = false;
         } else {
+            senha = senha.trim();
             senhaValida = ValidacaoInput.validarSenha(senha);
             if (senhaValida != 0){
                 if (senhaValida == 1){
@@ -138,7 +147,7 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
                 }
                 continuar = false;
             } else {
-                if (!senha.equals(confirmarSenha)){
+                if (!senha.equals(confirmarSenha.trim())){
                     request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
                     continuar = false;
                 }

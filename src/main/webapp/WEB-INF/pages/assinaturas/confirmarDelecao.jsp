@@ -46,7 +46,6 @@
         </a>
       </li>
 
-      <%if (tipoUsuario.equals("administrador")) { %>
       <li>
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet">
           <div class="text">
@@ -54,7 +53,6 @@
           </div>
         </a>
       </li>
-      <%}%>
 
       <li>
         <a href="${pageContext.request.contextPath}/ListarPlanosServlet">
@@ -67,11 +65,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet">
           <div class="text" id="atual">
-            <%if (tipoUsuario == "administrador") {%>
             Assinaturas
-            <%} else {%>
-            Assinatura
-            <%}%>
           </div>
         </a>
       </li>
@@ -79,11 +73,7 @@
       <li>
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet">
           <div class="text">
-            <%if (tipoUsuario == "administrador") {%>
             Empresas
-            <%} else {%>
-            Empresa
-            <%}%>
           </div>
         </a>
       </li>
@@ -147,7 +137,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=assinatura.getId()%>">
+    <input type="hidden" name="id" value="<%=assinatura.getId()%>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 

@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "AlterarFuncionarioUnidadeServlet", value = "/AlterarFuncionarioUnidadeServlet")
@@ -107,6 +106,13 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
+        if (unidades.isEmpty()){
+            request.setAttribute("mensagem", "Não há nenhuma unidade cadastrada por sua empresa");
+            request.getRequestDispatcher("/ListarFuncionariosServlet")
+                    .forward(request, response);
+            return;
+        }
+
         request.setAttribute("unidades", unidades);
         request.setAttribute("funcionario", funcionario);
         request.setAttribute("setor", setorDAO.buscarPorId(funcionario.getIdSetor()));
@@ -121,8 +127,8 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String[] nomeCompleto = new String[2];
-        String nomeInput = request.getParameter("nomeCompleto").trim();
-        String email = request.getParameter("email").trim();
+        String nomeInput = request.getParameter("nomeCompleto");
+        String email = request.getParameter("email");
         int idUnidade = 0;
         int idFuncionario = 0;
         HttpSession session = request.getSession();
@@ -159,6 +165,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         }
 
         funcionario = funcionarioDAO.buscarPorId(idFuncionario);
+        funcionario.setId(idFuncionario);
 
 //        Validando se nome é válido:
         if (nomeInput == null){
@@ -171,7 +178,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             request.setAttribute("erroNome", "Nome deve ter mais do que 3 caracteres");
             continuar = false;
         } else {
-            nomeInput = nomeInput.toLowerCase();
+            nomeInput = nomeInput.trim().toLowerCase();
             nomeCompleto = RegrasBanco.separarNomeCompleto(nomeInput);
         }
         funcionario.setNome(nomeCompleto[0]);
@@ -182,6 +189,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             request.setAttribute("erroEmail", "Insira um email para o administrador");
             continuar = false;
         } else {
+            email = email.trim().toLowerCase();
             if (!ValidacaoInput.validarEmail(email)) {
                 request.setAttribute("erroEmail", "Formato de email inválido");
                 continuar = false;
@@ -203,8 +211,17 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         }
 
         if (!continuar){
+            unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
+
+            if (unidades.isEmpty()){
+                request.setAttribute("mensagem", "Não há nenhuma unidade cadastrada para essa empresa");
+                request.getRequestDispatcher("/ListarFuncionariosServlet")
+                        .forward(request, response);
+                return;
+            }
+
             request.setAttribute("funcionario", funcionario);
-            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
+            request.setAttribute("unidades",unidades);
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;

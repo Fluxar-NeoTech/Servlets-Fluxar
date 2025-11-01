@@ -109,7 +109,7 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarTelefoneServlet" method="post">
     <label for="telefone">Telefone:</label>
-    <input type="text" name="telefone" id="telefone">
+    <input type="text" name="telefone" id="telefone" required>
     <p><%=request.getAttribute("erroTelefone")%></p>
 
     <div>

@@ -135,7 +135,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%= empresa.getId() %>">
+    <input type="hidden" name="id" value="<%=empresa.getId()%>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 
