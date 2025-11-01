@@ -11,7 +11,7 @@
 
 <body>
 <header class="laptop">
-
+    <img src="${pageContext.request.contextPath}/Assets/Icons/FluxarLogoBRANCA.png" alt="Logo do aplicativo fluxar branco">
 </header>
 <main>
     <article>
@@ -19,6 +19,11 @@
             <h1 id="loginTitle" class="caixa__title">Entrar no Fluxar</h1>
             <div class="caixa__sub">Gerencie seu estoque com mais segurança e rapidez</div>
         </div>
+        <nav class="nav-login">
+            <ul>
+                <li>Não tem uma conta? <a href="">Crie agora!</a></li>
+            </ul>
+        </nav>
         <form action="LoginServlet" method="post">
 
             <% if (request.getAttribute("erroEmail") != null) { %>
@@ -38,30 +43,35 @@
             </div>
             <% } %>
 
-            <% if (request.getAttribute("erroSenha") != null) { %>
-            <div class="floating-label-erro">
-                <input type="password" class="inputs-erro userPassword" name="senhaUsuario"
-                       id="userSenha" placeholder=" " required>
-                <label id="label3" for="userSenha">Digite sua senha aqui</label>
-                <p class="erro">
-                    <%= request.getAttribute("erroSenha") %>
-                </p>
+            <div id="senha">
+                <% if (request.getAttribute("erroSenha") != null) { %>
+                <div class="floating-label-erro">
+                    <input type="password" class="inputs-erro userPassword" name="senhaUsuario"
+                           id="userSenha" placeholder=" " required>
+                    <label id="label3" for="userSenha">Digite sua senha aqui</label>
+                    <p class="erro">
+                        <%= request.getAttribute("erroSenha") %>
+                    </p>
+                </div>
+                <% } else {%>
+                <div class="floating-label">
+                    <input type="password" class="inputs userPassword" name="senhaUsuario"
+                           id="userPassword" placeholder=" " required>
+                    <label id="label4" for="userPassword">Digite sua senha aqui</label>
+                </div>
+                <%}%>
+                <nav class="nav-login">
+                    <ul>
+                        <li>Esqueceu sua senha? <a href="">Clique aqui!</Esqueceu></a></li>
+                    </ul>
+                </nav>
             </div>
-            <% } else {%>
-            <div class="floating-label">
-                <input type="password" class="inputs userPassword" name="senhaUsuario"
-                       id="userPassword" placeholder=" " required>
-                <label id="label4" for="userPassword">Digite sua senha aqui</label>
-            </div>
-            <%}%>
 
             <button type="submit" class="botaoPrimario">Entrar</button>
         </form>
-        <nav class="nav-login">
+        <nav class="nav-login" id="analista">
             <ul>
-                <li class="botaoSecundariob"><a class="botaoSecundariob"
-                                                href="../webapp/pages/esqueciSenha/inputEmail/recuperarSenha.jsp">ESQUECI
-                    MINHA SENHA</a></li>
+                <li><a href="">Entrar como analista</a></li>
             </ul>
         </nav>
     </article>

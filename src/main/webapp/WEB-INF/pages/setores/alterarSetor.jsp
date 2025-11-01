@@ -100,10 +100,10 @@
 
   <form action="${pageContext.request.contextPath}/AlterarSetorServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%=setor.getNome()%>">
+    <input type="text" name="nome" id="name" value="<%=setor.getNome()%>" required>
     <p><%=request.getAttribute("erroNome")%></p>
 
-    <select name = "idUnidade">
+    <select name = "idUnidade" required>
         <%for (Unidade unidade: unidades) {
           if(unidade.getId()!=setor.getIdUnidade()){%>
             <option value="<%=unidade.getId()%>"><%=unidade.getNome()%></option>

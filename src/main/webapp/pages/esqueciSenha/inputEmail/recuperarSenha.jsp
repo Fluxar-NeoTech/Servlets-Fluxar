@@ -5,13 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/recuperarSenha.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/recuperarSenha.css">
     <title>Recuperação de senha</title>
 </head>
 
 <body>
 <header>
-    <a href="<%= request.getContextPath() %>/paginaLogin/login.jsp" class="icon-back">
+    <a href="<%=request.getContextPath() %>/paginaLogin/login.jsp" class="icon-back">
     </a>
     <h1>Recuperação de senha</h1>
 </header>

@@ -19,7 +19,7 @@ public class AdicionarAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        //        Declaração de variáveis:
+//        Declaração de variáveis:
         HttpSession session = request.getSession();
 
 //        Setando atributo da request com o tipo do usuário
@@ -78,7 +78,8 @@ public class AdicionarAdminServlet extends HttpServlet {
             request.setAttribute("erroNome", "Insira um nome para o administrador");
             continuar = false;
         } else {
-            nomeCompleto = RegrasBanco.separarNomeCompleto(nomeInput);
+            nomeInput = nomeInput.trim();
+            nomeCompleto = RegrasBanco.separarNomeCompleto(nomeInput.trim());
             administrador.setNome(nomeCompleto[0]);
             administrador.setSobrenome(nomeCompleto[1]);
         }
@@ -87,6 +88,7 @@ public class AdicionarAdminServlet extends HttpServlet {
             request.setAttribute("erroEmail", "Insira um email para o administrador");
             continuar = false;
         } else {
+            email = email.trim().toLowerCase();
             if (!ValidacaoInput.validarEmail(email)) {
                 request.setAttribute("erroEmail", "Formato de email inválido");
                 continuar = false;
@@ -97,6 +99,7 @@ public class AdicionarAdminServlet extends HttpServlet {
             request.setAttribute("erroSenha", "Defina uma senha para o administrador");
             continuar = false;
         } else {
+            senha = senha.trim();
             senhaValida = ValidacaoInput.validarSenha(senha);
             if (senhaValida != 0){
                 if (senhaValida == 1){
@@ -116,7 +119,7 @@ public class AdicionarAdminServlet extends HttpServlet {
                 }
                 continuar = false;
             } else {
-                if (!senha.equals(confirmarSenha)){
+                if (!senha.equals(confirmarSenha.trim())){
                     request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
                     continuar = false;
                 }

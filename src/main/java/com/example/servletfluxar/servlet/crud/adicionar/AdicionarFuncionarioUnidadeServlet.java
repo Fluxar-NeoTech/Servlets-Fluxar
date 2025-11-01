@@ -71,6 +71,13 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
+        if (unidades.isEmpty()){
+            request.setAttribute("mensagem", "Não há nenhuma unidade cadastrada para essa empresa");
+            request.getRequestDispatcher("/ListarFuncionariosServlet")
+                    .forward(request, response);
+            return;
+        }
+
         request.setAttribute("unidades", unidades);
 
 //        Redireciona para a página de adicionar setor:
@@ -83,9 +90,9 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
         response.setContentType("text/html");
 //        Declaração de variáveis:
         String[] nomeCompleto = new String[2];
-        String nomeInput = request.getParameter("nomeCompleto").trim();
-        String email = request.getParameter("email").trim();
-        String cargo = request.getParameter("cargo").trim();
+        String nomeInput = request.getParameter("nomeCompleto");
+        String email = request.getParameter("email");
+        String cargo = request.getParameter("cargo");
         int idUnidade = 0;
         HttpSession session = request.getSession();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
@@ -119,7 +126,7 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
             request.setAttribute("erroNome", "Nome deve ter mais do que 3 caracteres");
             continuar = false;
         } else {
-            nomeInput = nomeInput.toLowerCase();
+            nomeInput = nomeInput.trim().toLowerCase();
             nomeCompleto = RegrasBanco.separarNomeCompleto(nomeInput);
         }
         funcionario.setNome(nomeCompleto[0]);
@@ -130,6 +137,7 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
             request.setAttribute("erroEmail", "Insira um email para o administrador");
             continuar = false;
         } else {
+            email = email.trim().toLowerCase();
             if (!ValidacaoInput.validarEmail(email)) {
                 request.setAttribute("erroEmail", "Formato de email inválido");
                 continuar = false;
@@ -138,11 +146,18 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
         funcionario.setEmail(email);
 
 //        Validando cargo:
-        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
-            request.setAttribute("erroCargo", "Cargo inválido");
+        if (cargo != null) {
+            cargo = cargo.trim();
+            if (!cargo.equals("Analista") && !cargo.equals("Gestor")) {
+                request.setAttribute("erroCargo", "Cargo inválido");
+                continuar = false;
+            } else {
+                funcionario.setCargo(cargo);
+            }
+        } else {
+            request.setAttribute("erroCargo", "Cargo deve ser escolhido");
             continuar = false;
         }
-        funcionario.setCargo(cargo);
 
 //        Validando id da unidade:
         try {
@@ -160,10 +175,15 @@ public class AdicionarFuncionarioUnidadeServlet extends HttpServlet {
         if (!continuar){
             unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
+            if (unidades.isEmpty()){
+                request.setAttribute("mensagem", "Não há nenhuma unidade cadastrada para essa empresa");
+                request.getRequestDispatcher("/ListarFuncionariosServlet")
+                        .forward(request, response);
+                return;
+            }
+
             request.setAttribute("unidades", unidades);
-            request.setAttribute("funcionario", funcionario);
-            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
+            request.setAttribute("funcionario", funcionario);request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;
         }

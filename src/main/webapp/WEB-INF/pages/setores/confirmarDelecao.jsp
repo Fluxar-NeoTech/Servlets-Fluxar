@@ -149,7 +149,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=setor.getId()%>">
+    <input type="hidden" name="id" value="<%=setor.getId()%>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 

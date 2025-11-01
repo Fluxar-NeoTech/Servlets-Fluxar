@@ -105,8 +105,8 @@
   <p id="title">Adicionar funcionário</p>
 
   <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
-    <select name = "idSetor">
-      <option selected hidden>Setor</option>
+    <select name = "idSetor" required>
+      <option selected hidden value="">Setor</option>
       <%for (Setor setor: setores) {%>
         <option value="<%=setor.getId()%>"><%=setor.getNome()%></option>
       <%}%>
@@ -114,11 +114,11 @@
     <p><%= request.getAttribute("erroNome")%></p>
 
     <label for="senha">Senha:</label>
-    <input type="text" name="senha" id="senha">
+    <input type="text" name="senha" id="senha" required>
     <p><%= request.getAttribute("erroSenha")%></p>
 
     <label for="confirmarSenha">Confirmar senha:</label>
-    <input type="password" name="confirmarSenha" id="confirmarSenha">
+    <input type="password" name="confirmarSenha" id="confirmarSenha" required>
     <p><%= request.getAttribute("erroConfimarSenha")%></p>
 
     <div>

@@ -12,7 +12,6 @@
 
 <body>
 <%
-  request.setAttribute("ativo", true);
   String tipoUsuario = (String) request.getAttribute("tipoUsuario");
 %>
 <header>
@@ -116,17 +115,17 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarPlanoServlet" method="post">
     <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="name">
+    <input type="text" name="nome" id="name" required>
 
     <div>
-      <input type="radio" id="anual" name="tempo" value="12">
+      <input type="radio" id="anual" name="tempo" value="12" required>
       <label for="anual">Anual</label>
-      <input type="radio" id="mensal" name="tempo" value="1">
+      <input type="radio" id="mensal" name="tempo" value="1" required>
       <label for="mensal">Mensal</label>
     </div>
 
     <label for="preco">Preço:</label>
-    <input type="text" name="preco" id="preco">
+    <input type="text" name="preco" id="preco" required>
 
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>

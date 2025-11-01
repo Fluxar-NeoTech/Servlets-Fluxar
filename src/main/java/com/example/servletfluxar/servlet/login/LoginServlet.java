@@ -36,36 +36,48 @@ public class LoginServlet extends HttpServlet {
         Empresa empresa;
         AssinaturaDAO assinaturaDAO = new AssinaturaDAO();
         Assinatura assinatura;
-        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        Funcionario funcionario;
         AdministradorDAO administradorDAO = new AdministradorDAO();
         Administrador administrador;
+        boolean continuar = true;
 
 //        Coletando o input do usuário:
-        emailInput = request.getParameter("emailUsuario").trim();
-        senhaInput = request.getParameter("senhaUsuario").trim();
+        emailInput = request.getParameter("emailUsuario");
+        senhaInput = request.getParameter("senhaUsuario");
 
 //        Verificando se o formato do email é válido:
-        if (!ValidacaoInput.validarEmail(emailInput)){
-            request.setAttribute("erroEmail", "Formato de email inválido");
+        if (emailInput == null) {
+            request.setAttribute("erroEmail", "Email deve ser digitado");
+            continuar = false;
+        } else {
+            emailInput = emailInput.trim().toLowerCase();
+            if (!ValidacaoInput.validarEmail(emailInput)) {
+                request.setAttribute("erroEmail", "Formato de email inválido");
+                continuar = false;
+            }
+        }
+
+        if (senhaInput == null){
+            request.setAttribute("erroSenha", "Senha deve ser digitada");
+            continuar = false;
+        } else {
+            senhaInput = senhaInput.trim();
+            if (senhaInput.length() < 8) {
+                request.setAttribute("erroSenha", "Senha deve maior que 8 caracteres");
+                continuar = false;
+            }
+        }
+
+        if (!continuar){
             request.getRequestDispatcher("/index.jsp")
                     .forward(request, response);
             return;
         }
 
-        if (senhaInput.length() < 8) {
-            request.setAttribute("erroSenha", "Senha deve maior que 8 caracteres");
-            request.getRequestDispatcher( "/index.jsp")
-                    .forward(request, response);
-            return;
-        }
-
         empresa = empresaDAO.buscarPorEmail(emailInput);
-        funcionario = funcionarioDAO.buscarPorEmail(emailInput);
         administrador = administradorDAO.buscarPorEmail(emailInput);
 
 //        Verificando se email está cadastrado:
-        if (funcionario != null || empresa != null || administrador != null) {
+        if (empresa != null || administrador != null) {
 
 //            Verificando se está cadastrado como empresa
             if (empresa != null) {
@@ -108,13 +120,9 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("/index.jsp")
                             .forward(request, response);
                 }
-            } else {
-                request.setAttribute("erroEmail", "Acesso no mobile");
-                request.getRequestDispatcher("/index.jsp")
-                        .forward(request, response);
             }
         } else {
-            request.setAttribute("erroEmail", "Email não cadastrado");
+            request.setAttribute("erroEmail", "Email inválido");
             request.getRequestDispatcher("/index.jsp")
                     .forward(request, response);
         }

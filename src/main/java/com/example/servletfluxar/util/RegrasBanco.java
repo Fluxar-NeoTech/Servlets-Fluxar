@@ -51,9 +51,6 @@ public class RegrasBanco {
         boolean maiuscula;
         int i;
 
-        // Remove espaços extras no início e fim
-        nomeCompleto = nomeCompleto.trim();
-
         // Encontra o primeiro espaço
         primeiroEspaco = nomeCompleto.indexOf(" ");
 

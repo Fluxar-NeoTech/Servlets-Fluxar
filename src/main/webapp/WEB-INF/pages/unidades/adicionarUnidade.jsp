@@ -107,15 +107,15 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarUnidadeServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name">
+    <input type="text" name="nome" id="name" required>
     <p><%=request.getAttribute("erroNome")%></p>
 
     <label for="cnpj">CNPJ:</label>
-    <input type="text" name="cnpj" id="cnpj">
+    <input type="text" name="cnpj" id="cnpj" required>
     <p><%=request.getAttribute("erroCnpj")%></p>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
+    <input type="email" name="email" id="email" required>
     <p><%=request.getAttribute("erroEmail")%></p>
 
     <label for="cep">CEP:</label>
@@ -123,7 +123,7 @@
     <p><%=request.getAttribute("erroCep")%></p>
 
     <label for="numero">Número:</label>
-    <input type="text" name="numero" id="numero">
+    <input type="text" name="numero" id="numero" required>
     <p><%=request.getAttribute("erroNumero")%></p>
 
     <label for="complemento">Complemento:</label>

@@ -142,7 +142,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%= plano.getId() %>">
+    <input type="hidden" name="id" value="<%= plano.getId() %>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 

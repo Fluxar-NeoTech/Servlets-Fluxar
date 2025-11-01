@@ -124,11 +124,17 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
         }
 
 //        Validando cargo:
-        if (!cargo.equals("Analista") && !cargo.equals("Gestor")){
-            request.setAttribute("erroCargo", "Cargo inválido");
-            continuar = false;
+        if (cargo != null) {
+            cargo = cargo.trim();
+            if (!cargo.equals("Analista") && !cargo.equals("Gestor")) {
+                request.setAttribute("erroCargo", "Cargo inválido");
+                continuar = false;
+            } else {
+                funcionario.setCargo(cargo);
+            }
         } else {
-            funcionario.setCargo(cargo);
+            request.setAttribute("erroCargo", "Cargo deve ser escolhido");
+            continuar = false;
         }
 
         if (!continuar){

@@ -4,6 +4,7 @@ import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Plano;
+import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -67,7 +68,7 @@ public class AdicionarPlanoServlet extends HttpServlet {
         try{
             tempo = Integer.parseInt(request.getParameter("tempo"));
         } catch (Exception e){
-            request.setAttribute("erroTempo", "Tempo inválido");
+            request.setAttribute("erroTempo", "Tempo deve ser selecionado");
             continuar = false;
         }
 
@@ -75,7 +76,11 @@ public class AdicionarPlanoServlet extends HttpServlet {
         if (nome == null){
             request.setAttribute("erroNome", "Insira um nome para o plano");
             continuar = false;
+        } else {
+            nome = nome.trim().toLowerCase();
+            nome = RegrasBanco.nomeCapitalize(nome);
         }
+
         if (precoInput == null){
             request.setAttribute("erroNome", "Insira um nome para o plano");
             continuar = false;

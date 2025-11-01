@@ -143,7 +143,7 @@
     </section>
 
     <%if (!assinaturas.isEmpty()) {%>
-    <table style="--cols: 8;">
+    <table style=<%=tipoUsuario.equals("administrador") ? "--cols:8;" : "--cols:7;"%>>
         <thead>
         <tr>
             <th>Id</th>

@@ -110,19 +110,19 @@
 
   <form action="${pageContext.request.contextPath}/AdicionarAdminServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nomeCompleto" id="name">
+    <input type="text" name="nomeCompleto" id="name" required>
     <p><%= request.getAttribute("erroNome")%></p>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
+    <input type="email" name="email" id="email" required>
     <p><%= request.getAttribute("erroEmail")%></p>
 
     <label for="senha">Senha:</label>
-    <input type="text" name="senha" id="senha">
+    <input type="text" name="senha" id="senha" required>
     <p><%= request.getAttribute("erroSenha")%></p>
 
     <label for="confirmarSenha">Confirmar senha:</label>
-    <input type="password" name="confirmarSenha" id="confirmarSenha">
+    <input type="password" name="confirmarSenha" id="confirmarSenha" required>
     <p><%= request.getAttribute("erroConfirmarSenha")%></p>
 
     <div>

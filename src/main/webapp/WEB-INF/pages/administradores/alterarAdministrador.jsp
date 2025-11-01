@@ -118,12 +118,12 @@
 
   <form id="form" action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
     <label for="name">Nome completo:</label>
-    <input type="text" name="nomeCompleto" id="name" value="<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>">
+    <input type="text" name="nomeCompleto" id="name" value="<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>" required>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email" value=<%=administrador.getEmail()%>>
+    <input type="email" name="email" id="email" value="<%=administrador.getEmail()%>" required>
 
-    <input name="id" value="<%=administrador.getId()%>" type="hidden">
+    <input name="id" value="<%=administrador.getId()%>" type="hidden" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
       <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>

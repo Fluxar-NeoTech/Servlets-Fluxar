@@ -96,11 +96,11 @@
 
   <form action="${pageContext.request.contextPath}/AlterarEmpresaServlet" method="post">
     <label for="name">Nome:</label>
-    <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>">
+    <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>" required>
     <p><%=request.getAttribute("erroNome")%></p>
 
     <label for="email">Email:</label>
-    <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>">
+    <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>" required>
     <p><%=request.getAttribute("erroEmail")%></p>
 
     <div>

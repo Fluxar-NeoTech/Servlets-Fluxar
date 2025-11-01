@@ -127,7 +127,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=administrador.getId()%>">
+    <input type="hidden" name="id" value="<%=administrador.getId()%>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 

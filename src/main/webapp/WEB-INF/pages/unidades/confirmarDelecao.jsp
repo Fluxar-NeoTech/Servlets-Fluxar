@@ -152,7 +152,7 @@
         </tr>
       </tbody>
     </table>
-    <input type="hidden" name="id" value="<%=unidade.getId()%>">
+    <input type="hidden" name="id" value="<%=unidade.getId()%>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>
 

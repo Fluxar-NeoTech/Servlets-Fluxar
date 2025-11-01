@@ -261,6 +261,8 @@ main {
     gap: 1.5rem;
     width: 100%;
     max-width: 300px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+    height: 200px;
 }
 
 .dados > h2 {
