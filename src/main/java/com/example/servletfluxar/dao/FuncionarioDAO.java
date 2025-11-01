@@ -128,7 +128,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario f JOIN setor s ON f.id_setor = s.id" +
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM funcionario f JOIN setor s ON f.id_setor = s.id " +
                     "JOIN unidade u ON s.id_unidade = u.id JOIN empresa e ON u.id_empresa = e.id " +
                     "JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
             pstmt.setString(1, String.valueOf(status));
@@ -340,6 +340,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
             pstmt.setString(3, funcionario.getCargo());
             pstmt.setString(4, funcionario.getEmail());
             pstmt.setInt(5, funcionario.getIdSetor());
+            pstmt.setInt(6, funcionario.getId());
 
             return pstmt.executeUpdate()>0;
 

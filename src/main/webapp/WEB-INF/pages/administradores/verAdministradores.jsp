@@ -126,7 +126,7 @@
         <a href="/ListarAdminsServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (administradores.isEmpty()) {%>
+    <%if (!administradores.isEmpty()) {%>
     <table style="--cols: 4;">
         <thead>
         <tr>

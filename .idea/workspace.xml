@@ -11,110 +11,19 @@
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/TelefoneDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarFuncionarioSetorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarFuncionarioSetorServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarFuncionarioUnidadeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarFuncionarioUnidadeServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarSetorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/adicionar/AdicionarSetorServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/HomeServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarFuncionarioSetorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarFuncionarioSetorServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarFuncionarioUnidadeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarFuncionarioUnidadeServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarPlanoServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarPlanoServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarSetorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/alterar/AlterarSetorServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverAssinaturaServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverAssinaturaServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverFuncionarioServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverFuncionarioServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverSetorServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/remover/RemoverSetorServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/ErrosDeLogistica.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/FAVICOMNEOTECH.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/FLuxarLogoRoxa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/FluxarLogoAPP.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/FluxarLogoBRANCA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/NeoTechLogo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/XFAVICOM 1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/desorganização.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/github.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/instagram.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/linkedin.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/lixeria.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/icons/whatsapp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/AnaGarcia--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/AnnaBonfim--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Caio--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Carlos--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/CelularesDuplosDoInicio.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Diego--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Diogo--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Duda--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Giovana--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Guilherme--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Gustavo--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Heloisa--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/ImagemBackgroundInicio.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Leticia--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Lucas--1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Mayumi--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/Natalia--2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/O fluxar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/PalavraNeoTechComTraco.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/celularAnalise.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/celularDados.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/celularMelhoramosFluxar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corte.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corteBrancoMelhoramos.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corteDeitado.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corteEmPe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corteRoxoFinal.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/corteRoxoIa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/imagem neotech.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/mão com celular fluxar (1) 2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/neoTechNotBook.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/nootEstoque.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/nootIA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/risco.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/seloAproved.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/assets/images/ícone IA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/script/footer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/script/menuHamburguer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/script/reveal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/script/scriptMembros.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/script/scriptPlanos.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/LandingPage-NeoTech/public/styles/styleLogin.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/adicionarAdministrador.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/adicionarAdministrador.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/alterarAdministrador.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/alterarAdministrador.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/confirmarDelecao.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarSetoresServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarSetoresServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/RegrasBanco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/util/RegrasBanco.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/verAdministradores.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/verAdministradores.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/confirmarDelecao.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/verAssinaturas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/verAssinaturas.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/adicionarEmpresa.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/adicionarEmpresa.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/alterarEmpresa.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/alterarEmpresa.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/adicionarFuncionario.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/adicionarFuncionario.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/confirmarDelecao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/verFuncionarios.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/verFuncionarios.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/adicionarPlano.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/alterarPlano.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/alterarPlano.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/confirmarDelecao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/adicionarSetor.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/adicionarSetor.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/confirmarDelecao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/verSetores.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/verSetores.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/adicionarTelefone.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/adicionarTelefone.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/confirmarDelecao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/verTelefones.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/verTelefones.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/adicionarUnidade.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/adicionarUnidade.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/alterarUnidade.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/alterarUnidade.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/confirmarDelecao.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/confirmarDelecao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/styles/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

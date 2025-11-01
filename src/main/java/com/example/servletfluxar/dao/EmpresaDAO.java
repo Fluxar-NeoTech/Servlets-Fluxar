@@ -75,6 +75,28 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         }
     }
 
+    public int contarPorEmpresaStatus(char status){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa e " +
+                    "JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public Empresa buscarPorId(int id) {
         Connection conn = null;

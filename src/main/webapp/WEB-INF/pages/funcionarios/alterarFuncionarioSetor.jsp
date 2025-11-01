@@ -106,7 +106,7 @@
 <main>
   <p id="title">Alterar funcionário</p>
 
-  <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
+  <form action="${pageContext.request.contextPath}/AlterarFuncionarioSetorServlet" method="post">
 
     <div>
       <input type="radio" id="analista" name="cargo" value="Analista" <%=funcionario.getCargo().equals("Analista")? "checked": ""%>>

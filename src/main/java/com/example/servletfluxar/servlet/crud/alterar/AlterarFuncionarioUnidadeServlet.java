@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "AlterarFuncionarioUnidadeServlet", value = "/AlterarFuncionarioUnidadeServlet")
@@ -159,6 +158,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         }
 
         funcionario = funcionarioDAO.buscarPorId(idFuncionario);
+        funcionario.setId(idFuncionario);
 
 //        Validando se nome é válido:
         if (nomeInput == null){
