@@ -318,7 +318,7 @@ select:focus {
 
 .input-select {
     position: relative;
-    width: 12vw;
+    width: 10vw;
     min-width: 120px;
     height: 40px;
     z-index: 1;

@@ -11,28 +11,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/AdministradorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/EmpresaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/FuncionarioDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/PlanoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/SetorDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/dao/UnidadeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarAdminsServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarEmpresasServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/servletfluxar/servlet/crud/listar/ListarPlanosServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/verAdministradores.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/administradores/verAdministradores.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/verAssinaturas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/assinaturas/verAssinaturas.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/verFuncionarios.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/funcionarios/verFuncionarios.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/planos/verPlanos.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/verSetores.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/setores/verSetores.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/verTelefones.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/telefones/verTelefones.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/novaSenha.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/novaSenha.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/erroConexao.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/naoEncontrada.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/erro/erroConexao.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/erro/erroConexao.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/erro/naoEncontrada.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/erro/naoEncontrada.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/codigo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/codigo.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/styles/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/styles/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/styles/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +33,8 @@
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="Interface" />
-        <option value="Jsp File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -323,7 +308,7 @@
       <workItem from="1761736704793" duration="9358000" />
       <workItem from="1761775029685" duration="18158000" />
       <workItem from="1761865001427" duration="5785000" />
-      <workItem from="1762028835587" duration="3803000" />
+      <workItem from="1762028835587" duration="8136000" />
     </task>
     <servers />
   </component>

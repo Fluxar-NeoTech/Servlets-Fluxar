@@ -1,11 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="erroConexao.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/erroConexao.css">
 </head>
 
 <body>
@@ -26,12 +26,10 @@
             fill="#C40000" />
     </svg>
 
-
+    <form action="">
+        <button>Voltar à página inicial</button>
+    </form>
 
 </body>
-
-<form action="">
-    <button>Voltar à página inicial</button>
-</form>
 
 </html>
