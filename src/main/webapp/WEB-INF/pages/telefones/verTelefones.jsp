@@ -125,7 +125,7 @@
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
-            <th>Nome empresa</th>
+            <th>Id</th>
             <th>Número</th>
             <%
                 if (tipoUsuario.equals("empresa")) {

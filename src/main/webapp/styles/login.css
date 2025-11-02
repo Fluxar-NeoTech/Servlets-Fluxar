@@ -43,6 +43,31 @@ header {
     align-items: center;
 }
 
+#container-plano>form{
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.plano{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.plano p{
+    text-align: center;
+}
+
+.plano > div{
+    margin: auto;
+    text-align: center;
+}
+
+.plano>.botaoSecundario{
+    width: 80%;
+}
+
 input {
     width: 30vw;
 }
@@ -205,17 +230,26 @@ a {
     box-shadow: 0 0 5px var(--purple-750);
 }
 
-.codigo-inputs.erroCodigo input {
+.codigo-inputs.erro-request input {
     border-color: var(--red-800);
 }
 
-.codigo-inputs.erroCodigo input:focus {
+.codigo-inputs.erro-request input:focus {
     border-color: var(--red-700);
     box-shadow: 0 0 5px var(--red-700);
 }
 
-.erroCodigo{
+.erro-request{
     color: var(--red-800);
+}
+
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--purple-800);
+    transform: scale(1);
+    margin-right: 5px;
+    cursor: pointer;
 }
 
 .floating-label-erro input:focus+label,

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
     <title>Alteração de senha</title>
 </head>
 
@@ -36,9 +37,9 @@
                            id="userConfSenha" placeholder=" " required>
                     <label for="userConfSenha">Confirme sua senha aqui</label>
                     <button type="button" class="icon-toggle" aria-label="Mostrar senha" id="togglePwd">👁️</button>
-                    <% if (request.getAttribute("erroSenha") != null) { %>
+                    <% if (request.getAttribute("erroConfSenha") != null) { %>
                         <p class="erro">
-                            <%= request.getAttribute("erroSenha") %>
+                            <%= request.getAttribute("erroConfSenha") %>
                         </p>
                     <%}%>
                 </div>
