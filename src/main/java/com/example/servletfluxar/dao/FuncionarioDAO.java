@@ -57,7 +57,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 //        Conectando ao banco de dados e enviando sql para ver os dados da tabela funcionario.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE CONCAT(nome, ' ', sobrenome) LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE CONCAT(nome, ' ', sobrenome) ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -78,7 +78,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
         }
     }
 
-    public List<Funcionario> listarPorEmail(int pagina, int limite, String email, int idEmpresa) {
+    public List<Funcionario> listarPorEmail(int pagina, int limite, String email) {
 //        Declarando variáveis:
         Connection conn = null;
         int offset = (pagina - 1) * limite;
@@ -87,11 +87,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 //        Conectando ao banco de dados e enviando sql para ver os dados da tabela funcionario.
         try {
             conn = Conexao.conectar();
-            if (idEmpresa==0) {
-                pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
-            } else {
-                pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
-            }
+            pstmt = conn.prepareStatement("SELECT * FROM funcionario WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+email+"%");
             rs = pstmt.executeQuery();
 

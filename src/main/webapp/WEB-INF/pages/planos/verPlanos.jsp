@@ -165,7 +165,7 @@
            class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!planos.isEmpty() || !(planos.get(0)==null)) {%>
+    <%if (!planos.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:5;"
             : "--cols:4;" %>>
         <thead>

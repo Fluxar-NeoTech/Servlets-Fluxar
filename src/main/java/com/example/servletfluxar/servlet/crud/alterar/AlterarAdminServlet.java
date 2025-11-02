@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "AlterarAdminServlet", value = "/AlterarAdminServlet")
 public class AlterarAdminServlet extends HttpServlet {
@@ -49,11 +50,19 @@ public class AlterarAdminServlet extends HttpServlet {
         }
 
         administrador = administradorDAO.buscarPorId(id);
-        request.setAttribute("administrador", administrador);
+
+        if (administrador != null) {
+            request.setAttribute("administrador", administrador);
 
 //        Redireciona para a página de adicionar administrador:
-        request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
-                .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("administradores", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um admin com esse id");
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/verAdministradores.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverSetorServlet", value = "/RemoverSetorServlet")
 public class RemoverSetorServlet extends HttpServlet {
@@ -47,9 +48,9 @@ public class RemoverSetorServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NullPointerException | NumberFormatException e){
-            System.out.println(e.getMessage());
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            e.printStackTrace();
+            request.setAttribute("erro","O id do setor passado deve ser um número inteiro");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp");
             return;
         }
 
@@ -65,10 +66,17 @@ public class RemoverSetorServlet extends HttpServlet {
             unidade = unidadeDAO.buscarPorId(setor.getIdUnidade());
         }
 
-        request.setAttribute("unidade", unidade);
-        request.setAttribute("setor", setor);
-        request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
-                .forward(request, response);
+        if (setor!=null) {
+            request.setAttribute("unidade", unidade);
+            request.setAttribute("setor", setor);
+            request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -111,13 +119,20 @@ public class RemoverSetorServlet extends HttpServlet {
         }
 
         setor = setorDAO.buscarPorId(id);
-        if (empresaLogada.getId() != unidadeDAO.buscarPorId(setor.getIdUnidade()).getIdEmpresa()) {
-            response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
-            return;
-        } else {
-            setorDAO.deletarPorId(id);
-        }
 
-        response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+        if (setor!=null) {
+            if (empresaLogada.getId() != unidadeDAO.buscarPorId(setor.getIdUnidade()).getIdEmpresa()) {
+                response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+                return;
+            } else {
+                setorDAO.deletarPorId(id);
+            }
+            response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+        }else {
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                    .forward(request, response);
+        }
     }
 }

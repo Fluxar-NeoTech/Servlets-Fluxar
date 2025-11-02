@@ -8,6 +8,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverPlanoServlet", value = "/RemoverPlanoServlet")
 public class RemoverPlanoServlet extends HttpServlet {
@@ -37,21 +38,28 @@ public class RemoverPlanoServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse plano");
-            request.getRequestDispatcher("")
+            e.printStackTrace();
+            request.setAttribute("erro", "Id do plano deve ser um número inteiro");
+            request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
                     .forward(request, response);
             return;
         }
 
         plano = planoDAO.buscarPorId(id);
 
-        if (planoDAO.contar() > 1){
-            request.setAttribute("plano", plano);
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
-                    .forward(request, response);
+        if (plano!=null) {
+            if (planoDAO.contar() > 1) {
+                request.setAttribute("plano", plano);
+                request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+                        .forward(request, response);
+            } else {
+                request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+                        .forward(request, response);
+            }
         } else {
-            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
+            request.setAttribute("planos", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um plano com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
                     .forward(request, response);
         }
     }
@@ -80,15 +88,27 @@ public class RemoverPlanoServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse plano");
-            request.getRequestDispatcher("")
+            e.printStackTrace();
+            request.setAttribute("erro", "Ocorreu um erro ao procurar esse plano");
+            request.getRequestDispatcher("WEB-INF/pages/planos/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }
 
-        planoDAO.deletarPorId(id);
-
-        response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+        if (planoDAO.buscarPorId(id) != null) {
+            if (planoDAO.deletarPorId(id)) {
+                response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
+            } else {
+                request.setAttribute("planos", new ArrayList<>());
+                request.setAttribute("erro", "Não foi possível deletar esse plano no momento, tente novamente mais tarde...");
+                request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                        .forward(request, response);
+            }
+        } else {
+            request.setAttribute("planos", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um plano com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                    .forward(request, response);
+        }
     }
 }

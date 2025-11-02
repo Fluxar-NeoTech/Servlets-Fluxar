@@ -109,7 +109,7 @@ public class AlterarSetorServlet extends HttpServlet {
         } catch (NullPointerException | NumberFormatException e){
             System.out.println(e.getMessage());
             request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            request.setAttribute("mendagem", "O id do setor passado deve ser um número inteiro");
             return;
         }
 
@@ -170,7 +170,7 @@ public class AlterarSetorServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
         } else {
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.setAttribute("error", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
+            request.setAttribute("error", "Não foi possível alterar esse setor no momento. Tente novamente mais tarde...");
             request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
                     .forward(request, response);
         }

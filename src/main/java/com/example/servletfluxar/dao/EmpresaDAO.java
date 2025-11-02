@@ -65,7 +65,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome  ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -104,7 +104,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+email+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -143,7 +143,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+cnpj+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -269,7 +269,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE nome LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE nome ILIKE ?");
             pstmt.setString(1, "%"+nome+"%");
             rs = pstmt.executeQuery();
 
@@ -290,7 +290,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE email ILIKE ?");
             pstmt.setString(1, "%"+email+"%");
             rs = pstmt.executeQuery();
 
@@ -311,7 +311,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE cnpj LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE cnpj ILIKE ?");
             pstmt.setString(1, "%"+cnpj+"%");
             rs = pstmt.executeQuery();
 
@@ -429,7 +429,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj ILIKE ?");
             pstmt.setString(1, cnpj);
             rs = pstmt.executeQuery();
 
@@ -460,7 +460,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome ILIKE ?");
             pstmt.setString(1, nome);
             rs = pstmt.executeQuery();
 
@@ -491,7 +491,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email ILIKE ?");
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 

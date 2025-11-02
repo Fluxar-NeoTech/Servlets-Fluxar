@@ -125,15 +125,33 @@
     <p id="title">Unidades</p>
     <section id="topo">
 
-        <form action="" id="filtro">
-            <details>
-                <summary>Filtros</summary>
-                <button class="filtro">Id</button>
-                <button class="filtro">Preço</button>
-                <button class="filtro" id="filtroBottom">Duração</button>
-            </details>
+        <form action="${pageContext.request.contextPath}/ListarUnidadesServlet" id="filtro">
+            <%if (tipoUsuario.equals("Administrador")) {%>
+            <div class="input-select">
+                <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
+                <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
 
-            <input type="text" id="search" name="valorFiltro" placeholder="Valor do filtro...">
+                <div class="options">
+                    <span data-value="id">Id</span>
+                    <span data-value="empresa">Empresa</span>
+                    <span data-value="nome">Nome</span>
+                    <span data-value="cnpj">CNPJ</span>
+                    <span data-value="email">Email</span>
+                </div>
+            </div>
+            <%}%>
+
+            <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                       name="valorFiltro" id="valorFiltro" placeholder=" " required>
+                <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
+                <% if (request.getAttribute("erroValorFiltro") != null) { %>
+                <p class="erro">
+                    <%= request.getAttribute("erroValorFiltro") %>
+                </p>
+                <%}%>
+            </div>
 
             <button type="submit" class="botaoPrimario">Buscar</button>
         </form>
@@ -142,7 +160,7 @@
     </section>
 
 
-    <%if (!unidades.isEmpty() || !(unidades.get(0)==null)) {%>
+    <%if (!unidades.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:6;" : "--cols:7;"%>>
         <thead>
         <tr>

@@ -64,6 +64,12 @@ public class ListarAdminsServlet extends HttpServlet {
                             administrador = administradorDAO.buscarPorId(id);
                             if (administrador != null){
                                 administradores.add(administrador);
+                            } else {
+                                request.setAttribute("administradores", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhum administrador foi encontrado nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                                        .forward(request, response);
+                                return;
                             }
                         } else {
                             request.setAttribute("erroValorFiltro", "Id do admin deve ser maior do que 0");
@@ -78,6 +84,15 @@ public class ListarAdminsServlet extends HttpServlet {
                     pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                     administradores = totalRegitros > 0 ? administradorDAO.listarPorNomeCompleto(pagina, limite, RegrasBanco.nomeCapitalize(valorFiltro)) : new ArrayList<>();
+
+                    if (administradores.isEmpty()){
+                        request.setAttribute("administradores", new ArrayList<>());
+                        request.setAttribute("erro", "Nenhum administrador foi encontrado nessa filtragem");
+                        request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                                .forward(request, response);
+                        return;
+                    }
+
 //                Filtro de email:
                 } else if (tipoFiltro.equals("email")) {
                     totalRegitros = administradorDAO.contarPorEmail(valorFiltro);
@@ -85,10 +100,18 @@ public class ListarAdminsServlet extends HttpServlet {
                     pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                     administradores = totalRegitros > 0 ? administradorDAO.listarPorEmail(pagina, limite, valorFiltro) : new ArrayList<>();
+                    if (administradores.isEmpty()){
+                        request.setAttribute("administradores", new ArrayList<>());
+                        request.setAttribute("erro", "Nenhum administrador foi encontrado nessa filtragem");
+                        request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                                .forward(request, response);
+                        return;
+                    }
                 } else {
                     request.setAttribute("erroValorFiltro", "Filtro não disponível");
                 }
             } else {
+                request.setAttribute("administradores", new ArrayList<>());
                 request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                 request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                         .forward(request, response);

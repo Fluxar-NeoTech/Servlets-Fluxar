@@ -65,7 +65,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 //        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE CONCAT(nome, ' ', sobrenome) ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -104,7 +104,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 //        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+email+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -158,7 +158,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE CONCAT(nome, ' ', sobrenome) ILIKE ?");
             pstmt.setString(1, "%"+nome+"%");
             rs = pstmt.executeQuery();
 
@@ -179,7 +179,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE email ILIKE ?");
             pstmt.setString(1, "%"+email+"%");
             rs = pstmt.executeQuery();
 

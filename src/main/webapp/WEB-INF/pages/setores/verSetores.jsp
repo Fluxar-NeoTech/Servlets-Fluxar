@@ -137,7 +137,7 @@
         <a href="${pageContext.request.contextPath}/ListarSetoresServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!setores.isEmpty() || !(setores.get(0)==null)) {%>
+    <%if (!setores.isEmpty()) {%>
     <table style=<%= tipoUsuario.equals("administrador") ? "--cols:4;" : "--cols:5;"%>>
         <thead>
         <tr>

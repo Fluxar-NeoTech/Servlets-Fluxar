@@ -138,7 +138,7 @@
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!administradores.isEmpty() || !(administradores.get(0)==null)) {%>
+    <%if (!administradores.isEmpty()) {%>
     <table style="--cols: 4;">
         <thead>
         <tr>

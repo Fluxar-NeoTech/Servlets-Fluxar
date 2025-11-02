@@ -8,21 +8,18 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 <body>
-<div class="container">
     <header>
-        <img src="${pageContext.request.contextPath}/Assets/Icons/NeoTechLogo.png" alt="NeoTech" class="logo">
+        <a href="https://neotech-oj1r.onrender.com/"><img src="${pageContext.request.contextPath}/Assets/Icons/NeoTechLogo.png" alt="NeoTech" class="logo"></a>
     </header>
 
     <main>
         <h1>Seja bem-vindo!</h1>
-        <button class="btn-access">Acesse os dados do sistema</button>
+        <a class="access" href="${pageContext.request.contextPath}/index.jsp">Faça agora o seu login!</a>
     </main>
 
-    <div class="footer-graphic">
-        <img src="${pageContext.request.contextPath}/images/fluxar-graphic.png" alt="Fluxar">
-        <h2>Fluxar</h2>
+    <footer>
+        <img src="${pageContext.request.contextPath}/Assets/Icons/FluxarLogoBRANCA.png" alt="Fluxar" width="200px">
         <p>Estoque parado não pode parar seu <strong>crescimento.</strong></p>
-    </div>
-</div>
+    </footer>
 </body>
 </html>

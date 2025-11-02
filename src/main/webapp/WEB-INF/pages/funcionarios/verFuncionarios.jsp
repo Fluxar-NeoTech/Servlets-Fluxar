@@ -152,7 +152,7 @@
         <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!funcionarios.isEmpty() || !(funcionarios.get(0)==null)) {%>
+    <%if (!funcionarios.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:5;" : "--cols:6;"%>>
         <thead>
         <tr>

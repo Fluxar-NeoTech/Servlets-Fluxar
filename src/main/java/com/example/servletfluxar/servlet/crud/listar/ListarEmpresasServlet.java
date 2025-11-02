@@ -69,6 +69,12 @@ public class ListarEmpresasServlet extends HttpServlet {
                                 empresa = empresaDAO.buscarPorId(id);
                                 if (empresa != null) {
                                     empresas.add(empresa);
+                                } else {
+                                    request.setAttribute("empresas", new ArrayList<>());
+                                    request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                                    request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                            .forward(request, response);
+                                    return;
                                 }
                             } else {
                                 request.setAttribute("erroValorFiltro", "Id do plano deve ser maior do que 0");
@@ -83,6 +89,14 @@ public class ListarEmpresasServlet extends HttpServlet {
                         pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                         empresas = totalRegitros > 0 ? empresaDAO.listarPorNome(pagina, limite, RegrasBanco.nomeCapitalize(valorFiltro)) : new ArrayList<>();
+
+                        if (empresas.isEmpty()){
+                            request.setAttribute("empresas", new ArrayList<>());
+                            request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                    .forward(request, response);
+                            return;
+                        }
                     } else if (tipoFiltro.equals("email")) {
                         //                Filtro de email:
                         totalRegitros = empresaDAO.contarPorEmail(valorFiltro);
@@ -90,6 +104,14 @@ public class ListarEmpresasServlet extends HttpServlet {
                         pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                         empresas = totalRegitros > 0 ? empresaDAO.listarPorEmail(pagina, limite, valorFiltro) : new ArrayList<>();
+
+                        if (empresas.isEmpty()){
+                            request.setAttribute("empresas", new ArrayList<>());
+                            request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                    .forward(request, response);
+                            return;
+                        }
                     } else if (tipoFiltro.equals("cnpj")) {
 //                    Filtro de cnpj:
                         totalRegitros = empresaDAO.contarPorCNPJ(valorFiltro);
@@ -97,6 +119,14 @@ public class ListarEmpresasServlet extends HttpServlet {
                         pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                         empresas = totalRegitros > 0 ? empresaDAO.listarPorCNPJ(pagina, limite, valorFiltro) : new ArrayList<>();
+
+                        if (empresas.isEmpty()){
+                            request.setAttribute("empresas", new ArrayList<>());
+                            request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                    .forward(request, response);
+                            return;
+                        }
                     } else if (tipoFiltro.equals("mindtcadastro")) {
                         try {
                             // Converte o valor recebido (ex: "2025-11-01") para LocalDate
@@ -110,12 +140,19 @@ public class ListarEmpresasServlet extends HttpServlet {
                             // Lista as empresas dentro do intervalo
                             empresas = totalRegitros > 0 ? empresaDAO.listarPorMinDataCadastro(pagina, limite, dataFiltro) : new ArrayList<>();
 
+                            if (empresas.isEmpty()){
+                                request.setAttribute("empresas", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                        .forward(request, response);
+                                return;
+                            }
                         } catch (DateTimeParseException e) {
                             e.printStackTrace();
                             request.setAttribute("erroValorFiltro", "Use o formato YYYY-MM-DD.");
                             empresas = new ArrayList<>();
                         }
-                    }else if (tipoFiltro.equals("maxdtcadastro")) {
+                    } else if (tipoFiltro.equals("maxdtcadastro")) {
                         try {
                             // Converte o valor recebido (ex: "2025-11-01") para LocalDate
                             LocalDate dataFiltro = LocalDate.parse(valorFiltro);
@@ -128,19 +165,23 @@ public class ListarEmpresasServlet extends HttpServlet {
                             // Lista as empresas dentro do intervalo
                             empresas = totalRegitros > 0 ? empresaDAO.listarPorMaxDataCadastro(pagina, limite, dataFiltro) : new ArrayList<>();
 
+                            if (empresas.isEmpty()){
+                                request.setAttribute("empresas", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhuma empresa foi encontrada nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                                        .forward(request, response);
+                                return;
+                            }
                         } catch (DateTimeParseException e) {
                             e.printStackTrace();
                             request.setAttribute("erroValorFiltro", "Use o formato YYYY-MM-DD.");
                             empresas = new ArrayList<>();
                         }
                     } else {
-                        request.setAttribute("erroFiltro", "Defina um valor para o filtro");
-                        request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
-                                .forward(request, response);
-                        return;
+                        request.setAttribute("erroValorFiltro", "Filtro não disponível");
                     }
-
                 } else {
+                    request.setAttribute("empresas", new ArrayList<>());
                     request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                     request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
                             .forward(request, response);

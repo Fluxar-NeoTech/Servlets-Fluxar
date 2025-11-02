@@ -126,14 +126,27 @@
     <section id="topo">
 
         <form action="">
-            <details>
-                <summary>Filtros</summary>
-                <button class="filtro">Id</button>
-                <button class="filtro">Preço</button>
-                <button class="filtro" id="filtroBottom">Duração</button>
-            </details>
+            <div class="input-select">
+                <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
+                <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
 
-            <input type="text" id="search" name="vaorFiltro" placeholder="Valor do filtro...">
+                <div class="options">
+                    <span data-value="id">Id</span>
+                    <span data-value="empresa">Empresa</span>
+                </div>
+            </div>
+
+            <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                       name="valorFiltro" id="valorFiltro" placeholder=" " required>
+                <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
+                <% if (request.getAttribute("erroValorFiltro") != null) { %>
+                <p class="erro">
+                    <%= request.getAttribute("erroValorFiltro") %>
+                </p>
+                <%}%>
+            </div>
 
             <button type="submit" class="botaoPrimario">Buscar</button>
         </form>
@@ -141,7 +154,7 @@
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet" class="botaoSecundario">Ver todas</a>
     </section>
 
-    <%if (!assinaturas.isEmpty() || !(assinaturas.get(0)==null)) {%>
+    <%if (!assinaturas.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:8;" : "--cols:7;"%>>
         <thead>
         <tr>
@@ -175,16 +188,16 @@
             <td><%=assinatura.getFormaPagamento()%>
             </td>
             <td>
+                <%if (tipoUsuario.equals("administrador")) {%>
                 <div id="juntos">
-                    <%if (tipoUsuario.equals("administrador")) {%>
                     <a href="${pageContext.request.contextPath}/RemoverAssinaturaServlet?id=<%=assinatura.getId()%>">
                         <svg class="alterar" viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M25.0714 1.87501H18.1071L17.5616 0.779307C17.446 0.545057 17.268 0.348012 17.0476 0.210337C16.8272 0.0726631 16.573 -0.00017742 16.3138 1.02731e-05H9.68036C9.42174 -0.000993469 9.16807 0.0715755 8.94841 0.209403C8.72876 0.34723 8.552 0.544741 8.43839 0.779307L7.89286 1.87501H0.928571C0.682299 1.87501 0.446113 1.97378 0.271972 2.1496C0.0978314 2.32541 0 2.56387 0 2.81251L0 4.68751C0 4.93615 0.0978314 5.17461 0.271972 5.35042C0.446113 5.52624 0.682299 5.62501 0.928571 5.62501H25.0714C25.3177 5.62501 25.5539 5.52624 25.728 5.35042C25.9022 5.17461 26 4.93615 26 4.68751V2.81251C26 2.56387 25.9022 2.32541 25.728 2.1496C25.5539 1.97378 25.3177 1.87501 25.0714 1.87501ZM3.0875 27.3633C3.13179 28.0773 3.44393 28.7475 3.96039 29.2373C4.47685 29.7272 5.15879 29.9999 5.86741 30H20.1326C20.8412 29.9999 21.5232 29.7272 22.0396 29.2373C22.5561 28.7475 22.8682 28.0773 22.9125 27.3633L24.1429 7.50001H1.85714L3.0875 27.3633Z"
                                   fill="#A90003"/>
                         </svg>
                     </a>
-                    <%}%>
                 </div>
+                <%}%>
             </td>
         </tr>
         <%}%>

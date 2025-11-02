@@ -158,7 +158,7 @@
         <a href="${pageContext.request.contextPath}/ListarEmpresasServlet" class="botaoSecundario">Ver todas</a>
     </section>
 
-    <%if (!empresas.isEmpty() || !(empresas.get(0) == null)) {%>
+    <%if (!empresas.isEmpty()) {%>
     <table style="--cols: 6;">
         <thead>
         <tr>

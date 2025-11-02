@@ -122,7 +122,7 @@
     <p id="title">Telefones de <%=((Empresa) request.getAttribute("empresa")).getNome()%>
     </p>
 
-    <%if (!telefones.isEmpty() || !(telefones.get(0)==null)) {%>
+    <%if (!telefones.isEmpty()) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
