@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deletar plano</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -141,6 +142,12 @@
         </tr>
       </tbody>
     </table>
+
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request"><%=request.getAttribute("erro")%>
+    </p>
+    <%}%>
+
     <input type="hidden" name="id" value="<%= plano.getId() %>" required>
     <div>
       <button type="submit" class="botaoPrimario">Confirmar</button>

@@ -1,7 +1,5 @@
-<%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
-<%@ page import="com.example.servletfluxar.util.ValidacaoInput" %>
 <%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -11,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar administradores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -23,7 +22,7 @@
     <div id="nome">
         <p>
             <%=((Administrador) session.getAttribute("administrador")).getNome() + " " +
-                            ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
+                    ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
         </p>
     </div>
 </header>
@@ -122,7 +121,8 @@
             </div>
 
             <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
-                <input type="text" class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
                        name="valorFiltro" id="valorFiltro" placeholder=" " required>
                 <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
                 <% if (request.getAttribute("erroValorFiltro") != null) { %>
@@ -138,7 +138,7 @@
         <a href="${pageContext.request.contextPath}/ListarAdminsServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!administradores.isEmpty()) {%>
+    <%if (!administradores.isEmpty() || !(administradores.get(0)==null)) {%>
     <table style="--cols: 4;">
         <thead>
         <tr>
@@ -178,7 +178,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum administrador cadastrado</p>
+    <%}%>
     <%}%>
     <section id="footer">
         <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarAdminServlet">Adicionar</a>

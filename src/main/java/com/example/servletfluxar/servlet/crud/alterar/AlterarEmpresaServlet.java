@@ -117,8 +117,8 @@ public class AlterarEmpresaServlet extends HttpServlet {
         if (empresaDAO.alterar(empresa)){
             response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível alterar uma empresa no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/empresas/alterarEmpresa.jsp")
                     .forward(request, response);
         }
     }

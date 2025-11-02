@@ -103,16 +103,9 @@ public class RemoverSetorServlet extends HttpServlet {
 //        Verificando se o id foi passado corretamente:
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", "Id deve ser um número");
+            request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }

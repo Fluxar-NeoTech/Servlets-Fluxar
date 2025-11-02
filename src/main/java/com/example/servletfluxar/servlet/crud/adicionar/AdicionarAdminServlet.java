@@ -144,8 +144,8 @@ public class AdicionarAdminServlet extends HttpServlet {
         if (administradorDAO.inserir(administrador)){
             response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/adicionarAdministrador.jsp")
                     .forward(request, response);
         }
     }

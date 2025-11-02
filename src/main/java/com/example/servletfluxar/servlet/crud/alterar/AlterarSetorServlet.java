@@ -43,6 +43,7 @@ public class AlterarSetorServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
+            npe.printStackTrace();
             request.setAttribute("erro", "É necessário fazer login novamente");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
@@ -51,9 +52,8 @@ public class AlterarSetorServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NullPointerException | NumberFormatException e){
-            System.out.println(e.getMessage());
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            e.printStackTrace();
+            request.setAttribute("erro", "O id do setor passado deve ser um número");
             return;
         }
 
@@ -169,9 +169,8 @@ public class AlterarSetorServlet extends HttpServlet {
         if (setorDAO.alterar(setor)) {
             response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
         } else {
-            System.out.println("erro");
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.setAttribute("mensagem", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
+            request.setAttribute("error", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
             request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
                     .forward(request, response);
         }

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar setores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -136,7 +137,7 @@
         <a href="${pageContext.request.contextPath}/ListarSetoresServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!setores.isEmpty()) {%>
+    <%if (!setores.isEmpty() || !(setores.get(0)==null)) {%>
     <table style=<%= tipoUsuario.equals("administrador") ? "--cols:4;" : "--cols:5;"%>>
         <thead>
         <tr>
@@ -189,7 +190,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum setor cadastrado</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

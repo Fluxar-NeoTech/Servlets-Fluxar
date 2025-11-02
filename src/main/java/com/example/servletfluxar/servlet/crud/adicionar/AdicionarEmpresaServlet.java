@@ -171,8 +171,8 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         if (empresaDAO.inserir(empresa)){
             response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/empresas/adicionarEmpresa.jsp")
                     .forward(request, response);
         }
     }

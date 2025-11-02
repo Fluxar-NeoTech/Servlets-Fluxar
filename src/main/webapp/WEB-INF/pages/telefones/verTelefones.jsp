@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar telefones</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -121,7 +122,7 @@
     <p id="title">Telefones de <%=((Empresa) request.getAttribute("empresa")).getNome()%>
     </p>
 
-    <%if (!telefones.isEmpty()) {%>
+    <%if (!telefones.isEmpty() || !(telefones.get(0)==null)) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
@@ -160,7 +161,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum telefone cadastrado</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

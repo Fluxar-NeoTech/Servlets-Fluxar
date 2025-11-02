@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar assinaturas</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -140,7 +141,7 @@
         <a href="${pageContext.request.contextPath}/ListarAssinaturasServlet" class="botaoSecundario">Ver todas</a>
     </section>
 
-    <%if (!assinaturas.isEmpty()) {%>
+    <%if (!assinaturas.isEmpty() || !(assinaturas.get(0)==null)) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:8;" : "--cols:7;"%>>
         <thead>
         <tr>
@@ -190,7 +191,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhuma assinatura cadastrada</p>
+    <%}%>
     <%}%>
 
     <%if (tipoUsuario.equals("administrador")) {%>

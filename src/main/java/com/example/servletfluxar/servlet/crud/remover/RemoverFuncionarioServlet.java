@@ -114,9 +114,8 @@ public class RemoverFuncionarioServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "Id deve ser um número");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Id deve ser um número");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }

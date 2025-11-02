@@ -110,8 +110,8 @@ public class AdicionarTelefoneServlet extends HttpServlet {
         if (telefoneDAO.inserir(telefone)){
             response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um telefone no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir um telefone no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/telefones/adicionarTelefone.jsp")
                     .forward(request, response);
         }
     }

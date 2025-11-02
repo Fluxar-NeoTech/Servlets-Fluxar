@@ -25,14 +25,9 @@ public class RemoverAssinaturaServlet extends HttpServlet {
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", "É necessário fazer login novamente");
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
+            request.setAttribute("erro", "Id da assinatura deve ser um número inteiro");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
@@ -48,8 +43,8 @@ public class RemoverAssinaturaServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/ListarAssinaturasServlet");
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 

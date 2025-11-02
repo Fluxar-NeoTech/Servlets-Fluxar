@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Unidades</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -141,7 +142,7 @@
     </section>
 
 
-    <%if (!unidades.isEmpty()) {%>
+    <%if (!unidades.isEmpty() || !(unidades.get(0)==null)) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:6;" : "--cols:7;"%>>
         <thead>
         <tr>
@@ -200,7 +201,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhuma unidade cadastrada</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar funcionário</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -100,7 +101,8 @@
 
     <form action="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet" method="post">
         <label for="name">Nome:</label>
-        <input type="text" name="nomeCompleto" id="name" value="<%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%>">
+        <input type="text" name="nomeCompleto" id="name"
+               value="<%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%>">
         <p><%= request.getAttribute("erroNome")%>
         </p>
 
@@ -109,16 +111,26 @@
         <p><%= request.getAttribute("erroEmail")%>
         </p>
 
+        <%if (!unidades.isEmpty()){%>
         <select name="idUnidade">
             <%for (Unidade unidade : unidades) {%>
-                <%if (unidade.getId() != setor.getIdUnidade()) {%>
-                    <option value="<%=unidade.getId()%>"><%=unidade.getNome()%></option>
-                <%} else {%>
-                    <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%></option>
-                <%}%>
+            <%if (unidade.getId() != setor.getIdUnidade()) {%>
+            <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
+            </option>
+            <%} else {%>
+            <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%>
+            </option>
+            <%}%>
             <%}%>
         </select>
-        <p><%= request.getAttribute("erroIdUnidade")%></p>
+        <p><%= request.getAttribute("erroIdUnidade")%>
+        </p>
+        <%}%>
+
+        <%if (request.getAttribute("erro") != null) {%>
+        <p class="erro-request"><%=request.getAttribute("erro")%>
+        </p>
+        <%}%>
 
         <input type="hidden" name="id" value="<%=funcionario.getId()%>" required>
 

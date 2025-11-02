@@ -114,8 +114,8 @@ public class AdicionarPlanoServlet extends HttpServlet {
         if (planoDAO.inserir(plano)){
             response.sendRedirect(request.getContextPath() + "/ListarPlanosServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/planos/adicionarPlano.jsp")
                     .forward(request, response);
         }
     }
