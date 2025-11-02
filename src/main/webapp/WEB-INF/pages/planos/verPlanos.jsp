@@ -30,6 +30,9 @@
                     ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
         </p>
+        <%if (tipoUsuario.equals("administrador")){%>
+        <a href="#" class="botaoPrimario">Área restrita</a>
+        <%}%>
     </div>
 </header>
 <aside>

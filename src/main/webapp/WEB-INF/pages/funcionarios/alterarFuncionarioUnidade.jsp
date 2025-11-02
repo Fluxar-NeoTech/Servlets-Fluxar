@@ -97,48 +97,50 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar funcionário</p>
+    <div id="center">
+        <p id="title">Alterar funcionário</p>
 
-    <form action="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nomeCompleto" id="name"
-               value="<%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%>">
-        <p><%= request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nomeCompleto" id="name"
+                value="<%=FormatoOutput.nome(funcionario.getNome(), funcionario.getSobrenome())%>">
+            <p><%= request.getAttribute("erroNome")%>
+            </p>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<%=funcionario.getEmail()%>">
-        <p><%= request.getAttribute("erroEmail")%>
-        </p>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="<%=funcionario.getEmail()%>">
+            <p><%= request.getAttribute("erroEmail")%>
+            </p>
 
-        <%if (!unidades.isEmpty()){%>
-        <select name="idUnidade">
-            <%for (Unidade unidade : unidades) {%>
-            <%if (unidade.getId() != setor.getIdUnidade()) {%>
-            <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
-            </option>
-            <%} else {%>
-            <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%>
-            </option>
+            <%if (!unidades.isEmpty()){%>
+            <select name="idUnidade">
+                <%for (Unidade unidade : unidades) {%>
+                <%if (unidade.getId() != setor.getIdUnidade()) {%>
+                <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
+                </option>
+                <%} else {%>
+                <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%>
+                </option>
+                <%}%>
+                <%}%>
+            </select>
+            <p><%= request.getAttribute("erroIdUnidade")%>
+            </p>
             <%}%>
+
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
             <%}%>
-        </select>
-        <p><%= request.getAttribute("erroIdUnidade")%>
-        </p>
-        <%}%>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <input type="hidden" name="id" value="<%=funcionario.getId()%>" required>
 
-        <input type="hidden" name="id" value="<%=funcionario.getId()%>" required>
-
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

@@ -104,34 +104,40 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar Plano</p>
+    <div id="center">
+        <p id="title">Alterar Plano</p>
 
-    <form id="form" action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="name" value="<%=plano.getNome()%>" required>
+        <form id="form" action="${pageContext.request.contextPath}/AlterarPlanoServlet" method="post">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="name" value="<%=plano.getNome()%>" required>
 
-        <div>
-            <input type="radio" id="anual" name="tempo" value="12" <%=plano.getTempo()==12? "checked": ""%> required>
-            <label for="anual">Anual</label>
-            <input type="radio" id="mensal" name="tempo" value="1" <%=plano.getTempo()==1? "checked": ""%> required>
-            <label for="mensal">Mensal</label>
-        </div>
+            <div>
+                <div style="display: flex;">
+                    <input type="radio" id="anual" name="tempo" value="12" <%=plano.getTempo()==12? "checked": ""%> required>
+                    <label for="anual">Anual</label>
+                </div>
+                <div style="display: flex;">
+                    <input type="radio" id="mensal" name="tempo" value="1" <%=plano.getTempo()==1? "checked": ""%> required>
+                    <label for="mensal">Mensal</label>
+                </div>
+            </div>
 
-        <label for="preco">Preço:</label>
-        <input type="text" name="preco" id="preco" value="<%=plano.getPreco()%>" required>
+            <label for="preco">Preço:</label>
+            <input type="text" name="preco" id="preco" value="<%=plano.getPreco()%>" required>
 
-        <input type="hidden" name="id" value="<%=plano.getId()%>">
+            <input type="hidden" name="id" value="<%=plano.getId()%>">
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarPlanosServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

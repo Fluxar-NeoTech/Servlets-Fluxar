@@ -108,39 +108,45 @@
     </div>
 </aside>
 <main>
-    <p id="title">Adicionar administrador</p>
+    <div id="center">
+        <p id="title">Adicionar administrador</p>
 
-    <form action="${pageContext.request.contextPath}/AdicionarAdminServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nomeCompleto" id="name" required>
-        <p><%= request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AdicionarAdminServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nomeCompleto" id="name" placeholder="Nome Completo" required>
+            <% if (request.getAttribute("erroNome") != null) { %>
+                <p><%= request.getAttribute("erroNome") %></p>
+            <% } %>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
-        <p><%= request.getAttribute("erroEmail")%>
-        </p>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="E-mail" required>
+            <% if (request.getAttribute("erroEmail") != null) { %>
+                <p><%= request.getAttribute("erroEmail") %></p>
+            <% } %>
 
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha" required>
-        <p><%= request.getAttribute("erroSenha")%>
-        </p>
+            <label for="senha">Senha:</label>
+            <input type="text" name="senha" id="senha" placeholder="Senha" required>
+            <% if (request.getAttribute("erroSenha") != null) { %>
+                <p><%= request.getAttribute("erroSenha") %></p>
+            <% } %>
 
-        <label for="confirmarSenha">Confirmar senha:</label>
-        <input type="password" name="confirmarSenha" id="confirmarSenha" required>
-        <p><%= request.getAttribute("erroConfirmarSenha")%>
-        </p>
+            <label for="confirmarSenha">Confirmar senha:</label>
+            <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder="Confirmar senha" required>
+            <% if (request.getAttribute("erroConfirmarSenha") != null) { %>
+                <p><%= request.getAttribute("erroConfirmarSenha") %></p>
+            <% } %>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

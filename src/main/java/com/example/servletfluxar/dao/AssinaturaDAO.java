@@ -228,7 +228,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             pstmt.setDate(3, Date.valueOf(assinatura.getDtFim()));
             pstmt.setString(4, assinatura.getFormaPagamento());
             pstmt.setString(5, String.valueOf(assinatura.getStatus()));
-            pstmt.setInt(5, assinatura.getId());
+            pstmt.setInt(6, assinatura.getId());
 
 
             return pstmt.executeUpdate()>0;
