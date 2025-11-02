@@ -67,7 +67,7 @@
         </form>
         <nav class="nav-login" id="analista">
             <ul>
-                <li><a href="">Entrar como analista</a></li>
+                <li><a href="https://web-site-fluxar.vercel.app/" target="_blank">Entrar como analista</a></li>
             </ul>
         </nav>
     </article>

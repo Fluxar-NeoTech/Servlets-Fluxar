@@ -83,6 +83,10 @@ public class LoginServlet extends HttpServlet {
             if (empresa != null) {
 //                Buscando
                 assinatura = assinaturaDAO.buscarPorIdEmpresa(empresa.getId());
+                if (assinatura == null){
+                    session.setAttribute("empresa", empresa);
+                    response.sendRedirect(request.getContextPath()+"/pages/renovacao/escolhaPlano.jsp");
+                }
                 if (assinatura.getStatus() == 'A') {
                     if (assinatura.getDtFim().isAfter(LocalDate.now())) {
                         if (empresaDAO.autenticar(emailInput, senhaInput) != null) {
@@ -99,12 +103,12 @@ public class LoginServlet extends HttpServlet {
                     } else {
                         assinatura.setStatus('I');
                         assinaturaDAO.alterar(assinatura);
-                        response.sendRedirect(request.getContextPath()+"/pages/renovacao");
+                        session.setAttribute("empresa", empresa);
+                        response.sendRedirect(request.getContextPath()+"/pages/renovacao/escolhaPlano.jsp");
                     }
                 } else {
-                    request.setAttribute("erroEmail", "Empresa inativa");
-                    request.getRequestDispatcher("/index.jsp")
-                            .forward(request, response);
+                    session.setAttribute("empresa", empresa);
+                    response.sendRedirect(request.getContextPath()+"/pages/renovacao/escolhaPlano.jsp");
                 }
             } else if (administrador != null) {
                 if (administradorDAO.autenticar(emailInput, senhaInput) != null) {

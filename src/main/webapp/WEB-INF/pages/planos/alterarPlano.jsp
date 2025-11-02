@@ -112,10 +112,14 @@
             <input type="text" name="nome" id="name" value="<%=plano.getNome()%>" required>
 
             <div>
-                <input type="radio" id="anual" name="tempo" value="12" <%=plano.getTempo()==12? "checked": ""%> required>
-                <label for="anual">Anual</label>
-                <input type="radio" id="mensal" name="tempo" value="1" <%=plano.getTempo()==1? "checked": ""%> required>
-                <label for="mensal">Mensal</label>
+                <div style="display: flex;">
+                    <input type="radio" id="anual" name="tempo" value="12" <%=plano.getTempo()==12? "checked": ""%> required>
+                    <label for="anual">Anual</label>
+                </div>
+                <div style="display: flex;">
+                    <input type="radio" id="mensal" name="tempo" value="1" <%=plano.getTempo()==1? "checked": ""%> required>
+                    <label for="mensal">Mensal</label>
+                </div>
             </div>
 
             <label for="preco">Preço:</label>
