@@ -39,6 +39,6 @@ public class Telefone {
     }
 
     public void setIdEmpresa(int idEmpresa) {
-        idEmpresa = idEmpresa;
+        this.idEmpresa = idEmpresa;
     }
 }

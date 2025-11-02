@@ -4,6 +4,7 @@ import com.example.servletfluxar.dao.AssinaturaDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.model.Assinatura;
 import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -19,8 +20,8 @@ public class NomeCNPJEmpresaServlet extends HttpServlet {
         response.setContentType("text/html");
 //      Declarando variáveis:
         String nomeInput;
-        String CNPJInput;
-        String CNPJ = null;
+        String cnpjInput;
+        String cnpj = null;
         EmpresaDAO empresaDAO = new EmpresaDAO();
         Empresa empresaNome;
         Empresa empresaCNPJ;
@@ -30,22 +31,23 @@ public class NomeCNPJEmpresaServlet extends HttpServlet {
 
 //        Pegando Input do usuário:
         nomeInput = request.getParameter("nome").trim();
-        CNPJInput = request.getParameter("CNPJ").trim();
+        cnpjInput = request.getParameter("CNPJ").trim();
 
-// Validar e extrair CNPJ limpo:
-        if (CNPJInput.matches("\\d{2}[\\. ]?\\d{3}[\\. ]?\\d{3}/\\d{4}[- ]?\\d{2}")) {
+//      Validar e extrair CNPJ limpo:
+        if (ValidacaoInput.validarCNPJ(cnpjInput)) {
             // Extrai só os dígitos, sem pontuação
-            CNPJ = CNPJInput.replaceAll("[^0-9]", "");
+            cnpj = cnpjInput.replaceAll("[^0-9]", "");
 
         } else {
             // Formato inválido
             request.setAttribute("erroCNPJ", "Formato de CNPJ inválido");
-            request.getRequestDispatcher("/cadastro/cnpjNomeEmpresa/cadastro.jsp").forward(request, response);
+            request.getRequestDispatcher("/cadastro/cnpjNomeEmpresa/cadastro.jsp")
+                    .forward(request, response);
         }
 
 //        Verificando se o nome da empresa já existe no banco de dados:
         empresaNome = empresaDAO.buscarPorNome(nomeInput);
-        empresaCNPJ = empresaDAO.buscarPorCNPJ(CNPJ);
+        empresaCNPJ = empresaDAO.buscarPorCNPJ(cnpj);
 
 //        Verificando se a empresa já está cadastrada:
         if (empresaNome != null && empresaCNPJ != null) {
@@ -69,7 +71,7 @@ public class NomeCNPJEmpresaServlet extends HttpServlet {
         } else {
 
             session.setAttribute("nomeEmpresa", nomeInput);
-            session.setAttribute("cnpjEmpresa", CNPJ);
+            session.setAttribute("cnpjEmpresa", cnpj);
             response.sendRedirect(request.getContextPath() + "/cadastro/plano/contato/escolherPlano.html");
 
         }

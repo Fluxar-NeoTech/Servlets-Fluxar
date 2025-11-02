@@ -1,29 +1,28 @@
 package com.example.servletfluxar.dao;
 
-import com.example.servletfluxar.Conexao;
-import com.example.servletfluxar.dao.interfaces.GenericoDAO;
-import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.conexao.Conexao;
+import com.example.servletfluxar.dao.interfaces.DAO;
+import com.example.servletfluxar.dao.interfaces.DependeEmpresa;
 import com.example.servletfluxar.model.Unidade;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UnidadeDAO implements GenericoDAO<Unidade> {
+public class UnidadeDAO implements DAO<Unidade>, DependeEmpresa<Unidade> {
 //    Declaração de atributos:
-    private Connection conn = null;
     private PreparedStatement pstmt;
+    private Statement stmt;
     private ResultSet rs;
 
     @Override
-    public Map<Integer, Unidade> listar(int pagina, int limite){
+    public List<Unidade> listar(int pagina, int limite){
 //        Declarando variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
-        Map<Integer, Unidade> unidades = new HashMap<>();
+        List<Unidade> unidades = new ArrayList<>();
 
-//        Conectando ao banco de dados e enviando sql:
+//        Conectando ao banco de dados e enviando sql para ver os dados da tabela unidade.
         try {
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("SELECT * FROM unidade ORDER BY id LIMIT ? OFFSET ?");
@@ -33,21 +32,28 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
 //            Criando objetos e adicionando a lista das unidades:
             while (rs.next()) {
-                unidades.put(rs.getInt("id"), new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento")));
             }
 
 //        Retornando as unidades cadastradas:
             return unidades;
 
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados");
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return null;
+
         }finally {
             Conexao.desconectar(conn);
         }
     }
 
-    public List<Unidade> listarPorEmpresa(int idEmpresa, int pagina, int limite){
+    @Override
+    public List<Unidade> listarPorIdEmpresa(int pagina, int limite, int idEmpresa){
 //        Declaração de variáveis:
+        Connection conn = null;
         int offset = (pagina - 1) * limite;
         List<Unidade> unidades = new ArrayList<>();
 
@@ -62,13 +68,49 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
 //            Coletando dados:
             while (rs.next()) {
-                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa")));
+                unidades.add(new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento")));
             }
 
 //        Retornando as unidades cadastradas por essa empresa:
             return unidades;
 
         }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return unidades;
+        }finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public List<Unidade> listarNomesPorIdEmpresa(int idEmpresa){
+        //        Declaração de variáveis:
+        Connection conn = null;
+        Unidade unidade;
+        List<Unidade> unidades = new ArrayList<>();
+
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT DISTINCT id, nome FROM unidade WHERE id_empresa = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+//            Coletando dados:
+            while (rs.next()) {
+                unidade = new Unidade();
+                unidade.setNome(rs.getString("nome"));
+                unidade.setId(rs.getInt("id"));
+                unidades.add(unidade);
+            }
+
+//        Retornando as unidades cadastradas por essa empresa:
+            return unidades;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
             return unidades;
         }finally {
             Conexao.desconectar(conn);
@@ -76,7 +118,94 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
     }
 
     @Override
+    public int contar(){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT COUNT(*)\"contador\" FROM unidade");
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public int contarPorNome(String nome){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade WHERE nome LIKE ?");
+            pstmt.setString(1, "%"+nome+"%");
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
+    public int contarPorIdEmpresa(int idEmpresa){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
+                    "ON u.id_empresa = e.id WHERE e.id = ?");
+            pstmt.setInt(1, idEmpresa);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+    public int contarPorEmpresaStatus(char status){
+        Connection conn = null;
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM unidade u JOIN empresa e " +
+                    "ON u.id_empresa = e.id JOIN assinatura a ON a.id_empresa = e.id WHERE a.status = ?");
+            pstmt.setString(1, String.valueOf(status));
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("contador");
+            }
+            return -1;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return -1;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    @Override
     public Unidade buscarPorId(int id){
+        Connection conn = null;
 //        Conectando ao banco de dados:
         try{
             conn = Conexao.conectar();
@@ -86,7 +215,36 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
 //            Verificando se há um retorno com um registro do banco de dados:
             if(rs.next()){
-                return new Unidade(rs.getInt("id"), rs.getString("nome"), rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_endereco"), rs.getInt("id_empresa"));
+                return new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento"));
+            }
+            return null;
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+    public Unidade buscarPorCnpj(String cnpj){
+        Connection conn = null;
+//        Conectando ao banco de dados:
+        try{
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM unidade WHERE cnpj = ?");
+            pstmt.setString(1, cnpj);
+            rs = pstmt.executeQuery();
+
+//            Verificando se há um retorno com um registro do banco de dados:
+            if(rs.next()){
+                return new Unidade(rs.getInt("id"), rs.getString("nome"),
+                        rs.getString("cnpj"), rs.getString("email"), rs.getInt("id_empresa"),
+                        rs.getString("endereco_cep"), rs.getInt("endereco_numero"),
+                        rs.getString("endereco_complemento"));
             }
             return null;
 
@@ -100,34 +258,42 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
     @Override
     public boolean inserir (Unidade unidade){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("INSERT INTO unidade (cnpj, nome, email, id_endereco, id_empresa)" +
-                    "VALUES (?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO unidade (cnpj, nome, email, id_empresa, " +
+                    "endereco_cep, endereco_numero, endereco_complemento)" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, unidade.getCnpj());
             pstmt.setString(2, unidade.getNome());
             pstmt.setString(3, unidade.getEmail());
-            pstmt.setInt(4, unidade.getIdEndereco());
-            pstmt.setInt(5, unidade.getIdEmpresa());
+            pstmt.setInt(4, unidade.getIdEmpresa());
+            pstmt.setString(5, unidade.getCep());
+            pstmt.setInt(6, unidade.getNumero());
+            pstmt.setString(7, unidade.getComplemento());
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally {
+        } finally {
             Conexao.desconectar(conn);
         }
     }
 
     @Override
     public boolean alterar (Unidade unidade){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("UPDATE unidade SET nome = ?, email = ?, id_endereco = ? WHERE id = ?");
+            pstmt = conn.prepareStatement("UPDATE unidade SET nome = ?, email = ?, endereco_cep = ?, endereco_numero = ?, " +
+                    "endereco_complemento = ? WHERE id = ?");
             pstmt.setString(1, unidade.getNome());
             pstmt.setString(2, unidade.getEmail());
-            pstmt.setInt(3, unidade.getIdEndereco());
-            pstmt.setInt(4, unidade.getId());
+            pstmt.setString(3, unidade.getCep());
+            pstmt.setInt(4, unidade.getNumero());
+            pstmt.setString(5, unidade.getComplemento());
+            pstmt.setInt(6, unidade.getId());
 
             return pstmt.executeUpdate()>0;
         } catch (SQLException sqle) {
@@ -140,6 +306,7 @@ public class UnidadeDAO implements GenericoDAO<Unidade> {
 
     @Override
     public boolean deletarPorId (int id){
+        Connection conn = null;
         try{
             conn = Conexao.conectar();
             pstmt = conn.prepareStatement("DELETE FROM unidade WHERE id = ?");

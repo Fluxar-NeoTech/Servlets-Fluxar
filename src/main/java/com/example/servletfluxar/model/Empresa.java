@@ -1,6 +1,7 @@
 package com.example.servletfluxar.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Empresa {
 //    Declaração de variáveis:
@@ -9,10 +10,10 @@ public class Empresa {
     private String cnpj;
     private String email;
     private String senha;
-    private Date dtCadastro;
+    private LocalDate dtCadastro;
 
 //    Métodos construtores:
-    public Empresa(int id, String nome, String cnpj, String email, String senha, Date dtCadastro) {
+    public Empresa(int id, String nome, String cnpj, String email, String senha, LocalDate dtCadastro) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
@@ -44,7 +45,7 @@ public class Empresa {
         return senha;
     }
 
-    public Date getDtCadastro() {
+    public LocalDate getDtCadastro() {
         return dtCadastro;
     }
 
@@ -68,7 +69,7 @@ public class Empresa {
         this.senha = senha;
     }
 
-    public void setDataCadastro(Date dtCadastro) {
+    public void setDataCadastro(LocalDate dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
 }
