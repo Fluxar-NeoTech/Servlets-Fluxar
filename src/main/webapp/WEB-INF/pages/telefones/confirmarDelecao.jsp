@@ -18,8 +18,12 @@
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=empresa.getId()%>">
-      <%=empresa.getNome()%></a>
+    <p>
+      <%= tipoUsuario == "empresa" ?
+              ((Empresa) session.getAttribute("empresa")).getNome() :
+              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
+    </p>
   </div>
 </header>
 <aside>

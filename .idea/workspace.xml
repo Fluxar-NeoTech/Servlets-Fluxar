@@ -10,14 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a957803-3fcf-46b1-87d0-172ba90f09f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/erroConexao.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/naoEncontrada.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/erro/erroConexao.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/erro/erroConexao.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/erro/naoEncontrada.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/erro/naoEncontrada.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/codigo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/pages/esqueciSenha/codigo.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/styles/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/styles/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/empresas/verEmpresas.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/unidades/verUnidades.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -308,7 +303,7 @@
       <workItem from="1761736704793" duration="9358000" />
       <workItem from="1761775029685" duration="18158000" />
       <workItem from="1761865001427" duration="5785000" />
-      <workItem from="1762028835587" duration="8136000" />
+      <workItem from="1762028835587" duration="8613000" />
     </task>
     <servers />
   </component>
