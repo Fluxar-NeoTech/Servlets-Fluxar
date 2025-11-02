@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverAdminServlet", value = "/RemoverAdminServlet")
 public class RemoverAdminServlet extends HttpServlet {
@@ -48,10 +49,13 @@ public class RemoverAdminServlet extends HttpServlet {
 
         if (administradorDAO.contar() > 1 && administrador != null){
             request.setAttribute("administrador", administrador);
-            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/confirmarDelecao.jsp")
                     .forward(request, response);
         } else {
-            response.sendRedirect(request.getContextPath()+"/ListarAdminsServlet");
+            request.setAttribute("administradores", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um admin com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                    .forward(request, response);
         }
     }
 
@@ -90,14 +94,15 @@ public class RemoverAdminServlet extends HttpServlet {
             if (administradorDAO.deletarPorId(id)) {
                 response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
             } else {
+                request.setAttribute("administradores", new ArrayList<>());
                 request.setAttribute("erro", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
-                request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
+                request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                         .forward(request, response);
             }
         }else {
-            request.setAttribute("administrador", administradorDAO.buscarPorId(id));
+            request.setAttribute("administradores", new ArrayList<>());
             request.setAttribute("erro", "Esse administrador não existe");
-            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                     .forward(request, response);
         }
     }

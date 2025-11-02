@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverUnidadeServlet", value = "/RemoverUnidadeServlet")
 public class RemoverUnidadeServlet extends HttpServlet {
@@ -66,10 +67,17 @@ public class RemoverUnidadeServlet extends HttpServlet {
             unidade = unidadeDAO.buscarPorId(id);
         }
 
-        request.setAttribute("unidade", unidade);
-        request.setAttribute("empresa", empresa);
-        request.getRequestDispatcher("WEB-INF/pages/unidades/confirmarDelecao.jsp")
-                .forward(request, response);
+        if (unidade!=null) {
+            request.setAttribute("unidade", unidade);
+            request.setAttribute("empresa", empresa);
+            request.getRequestDispatcher("WEB-INF/pages/unidades/confirmarDelecao.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("unidades", new ArrayList<>());
+            request.setAttribute("erro", "Unidade escolhida não existe");
+            request.getRequestDispatcher("WEB-INF/pages/unidades/verUnidades.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -116,14 +124,17 @@ public class RemoverUnidadeServlet extends HttpServlet {
         }
 
         unidade = unidadeDAO.buscarPorId(id);
-        empresa = empresaDAO.buscarPorId(unidade.getIdEmpresa());
-        if (empresaLogada.getId() != empresa.getId()) {
+        if(unidade!=null) {
+            empresa = empresaDAO.buscarPorId(unidade.getIdEmpresa());
+            if (empresaLogada.getId() == empresa.getId()) {
+                unidadeDAO.deletarPorId(id);
+            }
             response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
-            return;
         } else {
-            unidadeDAO.deletarPorId(id);
+            request.setAttribute("unidades", new ArrayList<>());
+            request.setAttribute("erro", "Unidade escolhida não existe");
+            request.getRequestDispatcher("WEB-INF/pages/unidades/verUnidades.jsp")
+                    .forward(request, response);
         }
-
-        response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
     }
 }

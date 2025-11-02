@@ -3,21 +3,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', system-ui, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --purple-600: #7A3FF2;
+    --purple-700: #6F1FB9;
+    --purple-750: #773789;
+    --purple-800: #47005B;
 }
 
 body {
     background-color: #ffffff;
-    color: #2c0053;
-}
-
-.container {
+    color: var(--purple-800);
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: relative;
 }
 
 header {
@@ -32,13 +36,14 @@ header {
 
 main {
     padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 h1 {
     font-size: 48px;
     font-weight: bold;
-    margin-bottom: 20px;
-    position: relative;
 }
 
 h1::after {
@@ -51,20 +56,21 @@ h1::after {
     border-radius: 3px;
 }
 
-.btn-access {
-    background-color: #6a0dad;
+.access {
+    background-color: var(--purple-800);
     color: white;
     border: none;
     border-radius: 25px;
+    width: fit-content;
     padding: 15px 30px;
     font-size: 18px;
     cursor: pointer;
-    margin-top: 30px;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
-.btn-access:hover {
-    background-color: #5400a3;
+.access:hover {
+    background-color: var(--purple-750);
 }
 
 .subscription-info {
@@ -73,7 +79,7 @@ h1::after {
 }
 
 .subscription-info a {
-    color: #6a0dad;
+    color: var(--purple-800);
     text-decoration: none;
 }
 
@@ -81,37 +87,22 @@ h1::after {
     text-decoration: underline;
 }
 
-.footer-graphic {
-    background-color: #6a0dad;
+footer {
+    background-color: var(--purple-800);
     color: white;
     padding: 50px 40px;
     border-top-left-radius: 100px;
     border-top-right-radius: 100px;
     text-align: right;
     position: relative;
+    height: 200px;
 }
 
-.footer-graphic h2 {
+footer h2 {
     font-size: 36px;
     margin-bottom: 10px;
 }
 
-.footer-graphic p {
+footer p {
     font-size: 16px;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 36px;
-    }
-
-    .btn-access {
-        padding: 12px 25px;
-        font-size: 16px;
-    }
-
-    .footer-graphic h2 {
-        font-size: 28px;
-    }
 }

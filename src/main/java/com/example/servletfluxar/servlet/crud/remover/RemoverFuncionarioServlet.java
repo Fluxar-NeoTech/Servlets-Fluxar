@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverFuncionarioServlet", value = "/RemoverFuncionarioServlet")
 public class RemoverFuncionarioServlet extends HttpServlet {
@@ -48,14 +49,11 @@ public class RemoverFuncionarioServlet extends HttpServlet {
 
         try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe) {
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
+            request.setAttribute("erro", "Id do funcionário deve ser um número");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
                     .forward(request, response);
-            return;
-        } catch (NullPointerException npe) {
-            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServet");
             return;
         }
 
@@ -74,12 +72,18 @@ public class RemoverFuncionarioServlet extends HttpServlet {
             unidade = unidadeDAO.buscarPorId(unidade.getIdEmpresa());
         }
 
-        request.setAttribute("empresa", empresa);
-        request.setAttribute("funcionario",funcionario);
-        request.setAttribute("unidade", unidade);
-        request.setAttribute("setor", setor);
-        request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
-                .forward(request, response);
+        if (funcionario!=null) {
+            request.setAttribute("empresa", empresa);
+            request.setAttribute("funcionario", funcionario);
+            request.setAttribute("unidade", unidade);
+            request.setAttribute("setor", setor);
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("funcionarios", new ArrayList<>());
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -114,20 +118,26 @@ public class RemoverFuncionarioServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", "Id deve ser um número");
+            request.setAttribute("erro", "Id do funcionário deve ser um número inteiro");
             request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }
 
         funcionario = funcionarioDAO.buscarPorId(id);
-        if (empresaLogada.getId() != unidadeDAO.buscarPorId(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade()).getIdEmpresa()) {
-            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
-            return;
-        } else {
-            funcionarioDAO.deletarPorId(id);
-        }
 
-        response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
+        if (funcionario!=null) {
+            if (empresaLogada.getId() != unidadeDAO.buscarPorId(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade()).getIdEmpresa()) {
+                response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
+            } else {
+                funcionarioDAO.deletarPorId(id);
+                response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
+            }
+        } else {
+            request.setAttribute("funcionarios", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um funcionário com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                    .forward(request, response);
+        }
     }
 }

@@ -54,7 +54,7 @@ public class ConfirmarPagamentoServlet extends HttpServlet {
 //        Enviando usuário para próxima página:
             if (assinaturaDAO.inserir(assinatura)){
                 request.setAttribute("empresa", empresa);
-                request.getRequestDispatcher("/pages/cadastro/agradecimentos.jsp")
+                request.getRequestDispatcher("/pages/agradecimento.jsp")
                         .forward(request, response);
             }else{
                 request.setAttribute("erro", "Não foi possível cadastrar, tente novamente mais tarde...");
@@ -69,6 +69,6 @@ public class ConfirmarPagamentoServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

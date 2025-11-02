@@ -8,6 +8,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverEmpresaServlet", value = "/RemoverEmpresaServlet")
 public class RemoverEmpresaServlet extends HttpServlet {
@@ -24,37 +25,42 @@ public class RemoverEmpresaServlet extends HttpServlet {
         try {
             tipoUsuario = (String) session.getAttribute("tipoUsuario");
             request.setAttribute("tipoUsuario", tipoUsuario);
-            if (tipoUsuario.equals("administrador")){
+            if (tipoUsuario.equals("administrador")) {
                 administradorLogado = (Administrador) session.getAttribute("administrador");
                 request.setAttribute("administrador", administradorLogado);
             } else {
-                response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
+                response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
                 return;
             }
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erro", "É necessário fazer login novamente");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
-        try{
+        try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
+            request.setAttribute("erro", "Id da empresa deve ser um número");
+            request.setAttribute("empresas", new ArrayList<>());
+            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
                     .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
             return;
         }
 
         empresa = empresaDAO.buscarPorId(id);
 
-        request.setAttribute("empresa", empresa);
-        request.getRequestDispatcher("WEB-INF/pages/empresas/confirmarDelecao.jsp")
+        if (empresa != null) {
+            request.setAttribute("empresa", empresa);
+            request.getRequestDispatcher("WEB-INF/pages/empresas/confirmarDelecao.jsp")
                     .forward(request, response);
+        } else {
+            request.setAttribute("empresas", new ArrayList<>());
+            request.setAttribute("erro", "Não existe uma empresa com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -70,38 +76,42 @@ public class RemoverEmpresaServlet extends HttpServlet {
         try {
             tipoUsuario = (String) session.getAttribute("tipoUsuario");
             request.setAttribute("tipoUsuario", tipoUsuario);
-            if (tipoUsuario.equals("administrador")){
+            if (tipoUsuario.equals("administrador")) {
                 administradorLogado = (Administrador) session.getAttribute("administrador");
                 request.setAttribute("administrador", administradorLogado);
             } else {
-                response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
+                response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
                 return;
             }
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             request.setAttribute("erro", "É necessário fazer login novamente");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
-        try{
+        try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa empresa");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
+            request.setAttribute("erro", "Id da empresa deve ser um número inteiro");
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
                     .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
             return;
         }
 
-        if (empresaDAO.deletarPorId(id)) {
-            response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+        if (empresaDAO.buscarPorId(id) != null) {
+            if (empresaDAO.deletarPorId(id)) {
+                response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
+            } else {
+                request.setAttribute("empresas", new ArrayList<>());
+                request.setAttribute("erro", "Ocorreu um erro ao deletar essa empresa, tente novamente mais tarde...");
+                request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                        .forward(request, response);
+            }
         } else {
-            request.setAttribute("mensagem", "Ocorreu um erro ao deletar essa empresa, " +
-                    "tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("empresas", new ArrayList<>());
+            request.setAttribute("erro", "Não existe uma empresa com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
                     .forward(request, response);
         }
     }

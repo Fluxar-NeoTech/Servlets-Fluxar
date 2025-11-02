@@ -45,6 +45,37 @@ public class AssinaturaDAO implements DAO<Assinatura>{
         }
     }
 
+    public List<Assinatura> listarPorMinDt(int pagina, int limite) {
+//        Declarando variáveis:
+        Connection conn = null;
+        int offset = (pagina - 1) * limite;
+        List<Assinatura> assinaturas = new ArrayList<>();
+
+//        Tentando conectar ao banco de dados e enviar o select do SQL para selecionar a(s) assinatura(s).
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT * FROM assinatura ORDER BY id LIMIT ? OFFSET ?");
+            pstmt.setInt(1, limite);
+            pstmt.setInt(2, offset);
+            rs = pstmt.executeQuery();
+
+//            Pegando as assinaturas do banco e adicionando a lista de assinaturas.
+            while (rs.next()) {
+                assinaturas.add(new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento")));
+            }
+
+//            Retornando a lista de assinaturas.
+            return assinaturas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return assinaturas;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
+
     @Override
     public int contar(){
         Connection conn = null;
@@ -111,6 +142,29 @@ public class AssinaturaDAO implements DAO<Assinatura>{
         }
     }
 
+    public Assinatura buscarPorNomeEmpresa(String nomeEmpresa) {
+        Connection conn = null;
+
+        try {
+            conn = Conexao.conectar();
+            pstmt = conn.prepareStatement("SELECT a.* FROM assinatura a JOIN empresa e ON a.id_empresa = e.id WHERE e.nome ILIKE ?");
+            pstmt.setString(1, nomeEmpresa);
+            rs = pstmt.executeQuery();
+
+//          Retornando o registro da tabela assinatura
+            if (rs.next()) {
+                return new Assinatura(rs.getInt("id"), rs.getDate("dt_inicio").toLocalDate(), rs.getDate("dt_fim").toLocalDate(), rs.getString("status").charAt(0), rs.getInt("id_empresa"), rs.getInt("id_plano"), rs.getString("forma_pagamento"));
+            }
+            return null;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return null;
+        } finally {
+            Conexao.desconectar(conn);
+        }
+    }
+
     @Override
     public Assinatura buscarPorId(int id) {
         Connection conn = null;
@@ -141,7 +195,7 @@ public class AssinaturaDAO implements DAO<Assinatura>{
             conn = Conexao.conectar();
 
             // Preparando comando SQL para cadastrar uma assinatura:
-            pstmt = conn.prepareStatement("INSERT INTO assinatura (id_plano, id_empresa, status, dt_inicio, dt_fim, forma_pagamento) VALUES (?, ?, ?, to_date(?,\"yyyy-mm-dd\"), to_date(?,\"yyyy-mm-dd\"), ?)");
+            pstmt = conn.prepareStatement("INSERT INTO assinatura (id_plano, id_empresa, status, dt_inicio, dt_fim, forma_pagamento) VALUES (?, ?, ?, to_date(?,\'yyyy-mm-dd\'), to_date(?,\'yyyy-mm-dd\'), ?)");
             pstmt.setInt(1, assinatura.getIdPlano());
             pstmt.setInt(2, assinatura.getIdEmpresa());
             pstmt.setString(3, Character.toString(assinatura.getStatus()));
