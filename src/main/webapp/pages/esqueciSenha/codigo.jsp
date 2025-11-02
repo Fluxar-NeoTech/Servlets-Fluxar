@@ -14,7 +14,7 @@
     <img src="${pageContext.request.contextPath}/Assets/Icons/FluxarLogoBRANCA.png" alt="Logo do aplicativo fluxar branco">
 </header>
 <main>
-    <article>
+    <article id="recebeCodigo">
         <div>
             <a href="../esqueciSenha/digitarEmail.jsp" class="btn-voltar">← Reenviar código</a>
             <h1 id="loginTitle" class="caixa__title">Código</h1>

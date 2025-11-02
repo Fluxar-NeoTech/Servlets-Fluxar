@@ -1,6 +1,7 @@
 <%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="com.example.servletfluxar.model.Unidade" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.servletfluxar.model.Administrador" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -18,9 +19,12 @@
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
-                    empresaLogada.getId()%>">
-      <%=empresaLogada.getNome()%></a>
+    <p>
+      <%= tipoUsuario == "empresa" ?
+              ((Empresa) session.getAttribute("empresa")).getNome() :
+              ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
+    </p>
   </div>
 </header>
 <aside>

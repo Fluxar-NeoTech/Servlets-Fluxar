@@ -17,9 +17,9 @@
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=
-                    ((Empresa) session.getAttribute("empresa")).getId()%>">
-      <%=((Empresa) session.getAttribute("empresa")).getNome()%></a>
+    <p>
+      <%=((Empresa) session.getAttribute("empresa")).getNome()%>
+    </p>
   </div>
 </header>
 <aside>

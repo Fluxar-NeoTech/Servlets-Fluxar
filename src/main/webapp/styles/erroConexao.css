@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('./Assets/font/Montserrat-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url('./Assets/font/Montserrat-Medium.ttf') ;
+}
+
+h1 {
+    font-family: 'Montserrat-Bold';
+    font-size: 55px;
+    color: #D9000D;
+    margin-left: 40px;
+    margin-top: -90px;
+}
+
+p {
+    font-family: 'Montserrat-Medium';
+    font-size: 20px;
+    color: #D9000D;
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
+svg{
+    width: 40%;
+    margin-left: 30%;
+    margin-bottom: 10%;
+}
+
+button{
+    height: 35px;
+    width: 60%;
+    margin-left: 20%;
+    background-image: linear-gradient(to right,#650082, #9B00C6);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+}

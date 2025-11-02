@@ -26,8 +26,8 @@
 
 body {
     background: radial-gradient(1200px 600px at 10% 10%, #ff965d, transparent),
-        radial-gradient(1000px 500px at 90% 90%, #ff70a7, transparent),
-        linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    radial-gradient(1000px 500px at 90% 90%, #ff70a7, transparent),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,7 +38,7 @@ header {
     flex-direction: column;
     background-color: var(--purple-800);
     height: 100vh;
-    width: 40vw;
+    width: 38vw;
     justify-content: center;
     align-items: center;
 }
@@ -179,14 +179,18 @@ a {
 }
 
 .codigo-inputs {
+    width: 100%;
+    max-width: 400px;
+    min-width: 240px;
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    margin: auto;
 }
 
 .codigo-inputs input {
-    width: 45px;
+    width: 8vw;
+    min-width: 35px;
+    max-width: 45px;
     height: 55px;
     text-align: center;
     font-size: 24px;
@@ -334,6 +338,10 @@ input[type="submit"] {
         margin: auto;
     }
 
+    .codigo-inputs{
+        gap: 12px;
+    }
+
     article>h2 {
         font-size: 24px;
         font-weight: 400;
@@ -440,7 +448,152 @@ input[type="submit"] {
 }
 
 @media(max-width: 500px) {
-    .laptop {
-        display: none;
+    body{
+        flex-direction: column;
+    }
+
+    header{
+        height: 10vh;
+        width: 100vw;
+        justify-content: center;
+        align-items: center;
+    }
+
+    header > img{
+        height: 8vh;
+    }
+
+    main {
+        height: 90vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    article {
+        width: 80vw;
+        min-width: 320px;
+        background-color: white;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: auto;
+    }
+
+    article>h2 {
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+    .inputs {
+        width: 100%;
+        padding: 15px;
+        height: 50px;
+        font-size: 1em;
+        border-radius: 10px;
+    }
+
+    .floating-label {
+        position: relative;
+        width: 100%;
+    }
+
+    .floating-label label {
+        font-size: 1em;
+    }
+
+    .floating-label input:focus+label,
+    .floating-label input:not(:placeholder-shown)+label {
+        top: -11px;
+        left: 10px;
+        padding: 0 5px;
+    }
+
+    .inputs-erro {
+        width: 100%;
+        padding: 15px;
+        height: 50px;
+        font-size: 1em;
+        border-radius: 10px;
+    }
+
+    .floating-label-erro {
+        position: relative;
+        width: 100%;
+    }
+
+    .floating-label-erro label {
+        font-size: 1em;
+    }
+
+    .floating-label-erro input:focus+label,
+    .floating-label-erro input:not(:placeholder-shown)+label {
+        top: -11px;
+        left: 10px;
+        padding: 0 5px;
+    }
+
+    .botaoPrimario {
+        cursor: pointer;
+        display: flex;
+        min-width: 148px;
+        width: 100%;
+        background-color: #46005A;
+        color: white;
+        justify-content: center;
+        height: 40px;
+        align-items: center;
+        border-radius: 10px;
+        border: none;
+        margin: auto;
+        font-family: 'Montserrat';
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .botaoPrimario:hover {
+        background-color: var(--purple-750);
+    }
+
+    .nav-login {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .nav-login>ul {
+        list-style-type: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .botaoSecundario {
+        display: flex;
+        min-width: 148px;
+        width: 100%;
+        border: 3px solid var(--purple-800);
+        color: var(--purple-800);
+        justify-content: center;
+        height: 40px;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .botaoSecundario:hover {
+        border-color: var(--purple-750);
+        color: var(--purple-750);
     }
 }
