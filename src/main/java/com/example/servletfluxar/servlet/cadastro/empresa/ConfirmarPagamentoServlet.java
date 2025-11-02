@@ -53,9 +53,7 @@ public class ConfirmarPagamentoServlet extends HttpServlet {
 
 //        Enviando usuário para próxima página:
             if (assinaturaDAO.inserir(assinatura)){
-                request.setAttribute("empresa", empresa);
-                request.getRequestDispatcher("/pages/agradecimento.jsp")
-                        .forward(request, response);
+                response.sendRedirect(request.getContextPath()+"/pages/agradecimento.jsp");
             }else{
                 request.setAttribute("erro", "Não foi possível cadastrar, tente novamente mais tarde...");
                 request.getRequestDispatcher("/pages/cadastro/inicioCadastro.jsp")
