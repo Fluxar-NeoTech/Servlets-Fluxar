@@ -1,13 +1,45 @@
 package com.example.servletfluxar.util;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class ConexaoAPILGPD {
+// Classe genérica para requisições POST JSON
+public class ConexaoAPILGPD {
+
+    private static Dotenv dotenv = null;
+
+    static {
+        try {
+            dotenv = Dotenv.configure()
+                    .ignoreIfMissing() // se não existir .env, não dá erro
+                    .load();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o .env: " + e.getMessage());
+            dotenv = null;
+        }
+    }
+
+    /**
+     * Busca variável de ambiente:
+     * Primeiro do sistema (produção), depois do .env (desenvolvimento)
+     */
+    public static String get(String key) {
+        String value = System.getenv(key);
+        if (value == null && dotenv != null) {
+            value = dotenv.get(key);
+        }
+        return value;
+    }
+
+//    Pega a URL base da API:
+    public static String getBaseUrl() {
+        return get("BASE_URL");
+    }
     public static String post(String endpoint, String json) {
         try {
-
             URL url = new URL(endpoint);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
             conexao.setRequestMethod("POST");
@@ -25,67 +57,16 @@ class ConexaoAPILGPD {
             StringBuilder resposta = new StringBuilder();
             String linha;
             while ((linha = br.readLine()) != null) resposta.append(linha);
+
             return resposta.toString();
 
         } catch (Exception e) {
             return "Erro: " + e.getMessage();
         }
     }
-}
 
-class EmpresaService {
-    private static final String BASE_URL = "http://127.0.0.1:5000/empresa";
-
-    public String cadastrar(String email, String senha) {
-        String json = "{ \"email\": \"" + email + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/cadastro", json);
-    }
-
-    public String login(String email, String senha) {
-        String json = "{ \"email\": \"" + email + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/login", json);
-    }
-
-    public String alterarCnpj(String cnpjVelho, String cnpjNovo) {
-        String json = "{ \"cnpjVelho\": \"" + cnpjVelho + "\", \"cnpjNovo\": \"" + cnpjNovo + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/alterar_cnpj", json);
-    }
-}
-
-class FuncionarioService {
-    private static final String BASE_URL = "http://127.0.0.1:5000/funcionario";
-
-    public String cadastrar(String nome, String email, String senha) {
-        String json = "{ \"nome\": \"" + nome + "\", \"email\": \"" + email + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/cadastro", json);
-    }
-
-    public String login(String email, String senha) {
-        String json = "{ \"email\": \"" + email + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/login", json);
-    }
-
-    public String alterarCargo(String email, String cargoNovo) {
-        String json = "{ \"email\": \"" + email + "\", \"cargoNovo\": \"" + cargoNovo + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/alterar_cargo", json);
-    }
-}
-
-class AdminService {
-    private static final String BASE_URL = "http://127.0.0.1:5000/admin";
-
-    public String cadastrar(String usuario, String senha) {
-        String json = "{ \"usuario\": \"" + usuario + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/cadastro", json);
-    }
-
-    public String login(String usuario, String senha) {
-        String json = "{ \"usuario\": \"" + usuario + "\", \"senha\": \"" + senha + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/login", json);
-    }
-
-    public String alterarPermissao(String usuario, String permissao) {
-        String json = "{ \"usuario\": \"" + usuario + "\", \"permissao\": \"" + permissao + "\" }";
-        return ConexaoAPILGPD.post(BASE_URL + "/alterar_permissao", json);
+    // Converte resposta "true"/"false" em boolean
+    public static boolean toBoolean(String resposta) {
+        return resposta != null && resposta.equalsIgnoreCase("true");
     }
 }
