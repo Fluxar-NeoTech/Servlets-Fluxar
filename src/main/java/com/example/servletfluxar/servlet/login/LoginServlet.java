@@ -99,9 +99,7 @@ public class LoginServlet extends HttpServlet {
                     } else {
                         assinatura.setStatus('I');
                         assinaturaDAO.alterar(assinatura);
-                        request.setAttribute("erroEmail", "Empresa inativa");
-                        request.getRequestDispatcher("/index.jsp")
-                                .forward(request, response);
+                        response.sendRedirect(request.getContextPath()+"/pages/renovacao");
                     }
                 } else {
                     request.setAttribute("erroEmail", "Empresa inativa");

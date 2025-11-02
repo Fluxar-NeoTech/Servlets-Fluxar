@@ -433,7 +433,7 @@ select:focus {
 .floating-label label {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 8px;
     color: #46005A;
     background-color: white;
     pointer-events: none;
@@ -483,7 +483,7 @@ select:focus {
 .floating-label-erro label {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 8px;
     color: var(--red-800);
     pointer-events: none;
     background-color: transparent;
@@ -493,8 +493,9 @@ select:focus {
 
 .erro {
     position: absolute;
-    top: 35px;
-    left: 10px;
+    top: 30px;
+    left: 8px;
+    font-size: 14px;
     background-color: white;
     color: var(--red-800);
     padding: 0 5px;
@@ -672,7 +673,7 @@ svg {
     .floating-label input:focus+label,
     .floating-label input:not(:placeholder-shown)+label {
         top: -10px;
-        left: 10px;
+        left: 8px;
         padding: 0 5px;
     }
 
@@ -695,7 +696,7 @@ svg {
     .floating-label-erro input:focus+label,
     .floating-label-erro input:not(:placeholder-shown)+label {
         top: -10px;
-        left: 10px;
+        left: 8px;
         padding: 0 5px;
     }
 }
