@@ -128,7 +128,7 @@
         <%}%>
 
         <input type="hidden" name="id" value="<%=telefone.getId()%>" required>
-        <div>
+        <div id="center">
             <button type="submit" class="botaoPrimario">Confirmar</button>
 
             <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Cancelar</a>

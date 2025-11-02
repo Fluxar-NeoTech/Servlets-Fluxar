@@ -93,29 +93,31 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar empresa</p>
+    <div id="center">
+        <p id="title">Alterar empresa</p>
 
-    <form action="${pageContext.request.contextPath}/AlterarEmpresaServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>" required>
-        <p><%=request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AlterarEmpresaServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nome" id="name" value="<%=empresa.getNome()%>" required>
+            <p><%=request.getAttribute("erroNome")%>
+            </p>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>" required>
-        <p><%=request.getAttribute("erroEmail")%>
-        </p>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="<%=empresa.getEmail()%>" required>
+            <p><%=request.getAttribute("erroEmail")%>
+            </p>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

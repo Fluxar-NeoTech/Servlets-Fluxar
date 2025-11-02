@@ -96,48 +96,50 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar funcionário</p>
+    <div id="center">
+        <p id="title">Alterar funcionário</p>
 
-    <form action="${pageContext.request.contextPath}/AlterarFuncionarioSetorServlet" method="post">
+        <form action="${pageContext.request.contextPath}/AlterarFuncionarioSetorServlet" method="post">
 
-        <div>
-            <input type="radio" id="analista" name="cargo" value="Analista"
-                <%=funcionario.getCargo().equals("Analista")? "checked": ""%> required>
-            <label for="analista">Analista</label>
-            <input type="radio" id="gestor" name="cargo" value="Gestor"
-                <%=funcionario.getCargo().equals("Gestor")? "checked": ""%> required>
-            <label for="gestor">Gestor</label>
-        </div>
-        <p><%= request.getAttribute("erroCargo")%>
-        </p>
+            <div>
+                <input type="radio" id="analista" name="cargo" value="Analista"
+                    <%=funcionario.getCargo().equals("Analista")? "checked": ""%> required>
+                <label for="analista">Analista</label>
+                <input type="radio" id="gestor" name="cargo" value="Gestor"
+                    <%=funcionario.getCargo().equals("Gestor")? "checked": ""%> required>
+                <label for="gestor">Gestor</label>
+            </div>
+            <p><%= request.getAttribute("erroCargo")%>
+            </p>
 
-        <%if (!setores.isEmpty()) {%>
-        <select name="idSetor" required>
-            <%
-                for (Setor setor : setores) {
-                    if (setor.getId() != funcionario.getIdSetor()) {
-            %>
-            <option value="<%=setor.getId()%>"><%=setor.getNome()%>
-            </option>
-            <%} else {%>
-            <option value="<%=setor.getId()%>" selected><%=setor.getNome()%>
-            </option>
+            <%if (!setores.isEmpty()) {%>
+            <select name="idSetor" required>
+                <%
+                    for (Setor setor : setores) {
+                        if (setor.getId() != funcionario.getIdSetor()) {
+                %>
+                <option value="<%=setor.getId()%>"><%=setor.getNome()%>
+                </option>
+                <%} else {%>
+                <option value="<%=setor.getId()%>" selected><%=setor.getNome()%>
+                </option>
+                <%}%>
+                <%}%>
+            </select>
             <%}%>
+
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
             <%}%>
-        </select>
-        <%}%>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
-
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario"
-               href="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet?id=<%=funcionario.getId()%>">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario"
+                href="${pageContext.request.contextPath}/AlterarFuncionarioUnidadeServlet?id=<%=funcionario.getId()%>">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

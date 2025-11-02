@@ -100,44 +100,46 @@
     </div>
 </aside>
 <main>
-    <p id="title">Adicionar empresa</p>
+    <div id="center">
+        <p id="title">Adicionar empresa</p>
 
-    <form action="${pageContext.request.contextPath}/AdicionarEmpresaServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="name" required>
-        <p><%=request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AdicionarEmpresaServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nome" id="name" required>
+            <p><%=request.getAttribute("erroNome")%>
+            </p>
 
-        <label for="cnpj">CNPJ:</label>
-        <input type="text" name="cnpj" id="cnpj" required>
-        <p><%=request.getAttribute("erroCnpj")%>
-        </p>
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" name="cnpj" id="cnpj" required>
+            <p><%=request.getAttribute("erroCnpj")%>
+            </p>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
-        <p><%=request.getAttribute("erroEmail")%>
-        </p>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            <p><%=request.getAttribute("erroEmail")%>
+            </p>
 
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha" required>
-        <p><%=request.getAttribute("erroSenha")%>
-        </p>
+            <label for="senha">Senha:</label>
+            <input type="text" name="senha" id="senha" required>
+            <p><%=request.getAttribute("erroSenha")%>
+            </p>
 
-        <label for="confirmarSenha">Confirmar senha:</label>
-        <input type="password" name="confirmarSenha" id="confirmarSenha" required>
-        <p><%=request.getAttribute("erroConfirmarSenha")%>
-        </p>
+            <label for="confirmarSenha">Confirmar senha:</label>
+            <input type="password" name="confirmarSenha" id="confirmarSenha" required>
+            <p><%=request.getAttribute("erroConfirmarSenha")%>
+            </p>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarEmpresasServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 
