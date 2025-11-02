@@ -39,8 +39,8 @@ public class RemoverSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -95,8 +95,8 @@ public class RemoverSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 

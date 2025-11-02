@@ -52,7 +52,7 @@ public class InicioCadastroServlet extends HttpServlet {
                 cnpj = RegrasBanco.cnpj(cnpj);
             } else {
                 // Formato inválido
-                request.setAttribute("erroCNPJ", "Formato de CNPJ inválido");
+                request.setAttribute("erroCnpj", "Formato de CNPJ inválido");
                 continuar = false;
             }
         }
