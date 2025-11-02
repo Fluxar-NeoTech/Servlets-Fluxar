@@ -33,8 +33,8 @@ public class AdicionarTelefoneServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -67,8 +67,8 @@ public class AdicionarTelefoneServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -110,8 +110,8 @@ public class AdicionarTelefoneServlet extends HttpServlet {
         if (telefoneDAO.inserir(telefone)){
             response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um telefone no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir um telefone no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/telefones/adicionarTelefone.jsp")
                     .forward(request, response);
         }
     }

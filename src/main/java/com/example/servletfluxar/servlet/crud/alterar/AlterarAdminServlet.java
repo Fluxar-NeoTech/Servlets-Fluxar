@@ -33,22 +33,17 @@ public class AlterarAdminServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "Ops, é necessário fazer login novamente...");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
         try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
             request.setAttribute("erro", "Id deve ser um número");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe) {
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse admin");
-            request.getRequestDispatcher("")
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
                     .forward(request, response);
             return;
         }
@@ -85,8 +80,9 @@ public class AlterarAdminServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            npe.printStackTrace();
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -122,8 +118,8 @@ public class AlterarAdminServlet extends HttpServlet {
         if (administradorDAO.alterar(administrador)) {
             response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
         } else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("pages/erro.jsp")
+            request.setAttribute("erro", "Não foi possível alterar um administrador no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
                     .forward(request, response);
         }
     }

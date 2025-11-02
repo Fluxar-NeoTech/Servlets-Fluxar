@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar funcionários</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -151,7 +152,7 @@
         <a href="${pageContext.request.contextPath}/ListarFuncionariosServlet" class="botaoSecundario">Ver todos</a>
     </section>
 
-    <%if (!funcionarios.isEmpty()) {%>
+    <%if (!funcionarios.isEmpty() || !(funcionarios.get(0)==null)) {%>
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:5;" : "--cols:6;"%>>
         <thead>
         <tr>
@@ -207,7 +208,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum funcionário cadastrado</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

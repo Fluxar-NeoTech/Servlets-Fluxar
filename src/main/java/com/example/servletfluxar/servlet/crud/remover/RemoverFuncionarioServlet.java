@@ -41,8 +41,8 @@ public class RemoverFuncionarioServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -105,8 +105,8 @@ public class RemoverFuncionarioServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -114,9 +114,8 @@ public class RemoverFuncionarioServlet extends HttpServlet {
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "Id deve ser um número");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Id deve ser um número");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }

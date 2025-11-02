@@ -2,6 +2,7 @@ package com.example.servletfluxar.servlet.crud.adicionar;
 
 import com.example.servletfluxar.dao.*;
 import com.example.servletfluxar.model.*;
+import com.example.servletfluxar.util.EnvioEmail;
 import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
@@ -40,8 +41,8 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -52,8 +53,8 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         }
 
         if(!continuar){
-            request.setAttribute("mensagem", "Número de funcionários no seu plano atingido");
-            request.getRequestDispatcher("/ListarFuncionariosServlet")
+            request.setAttribute("erro", "Número de funcionários no seu plano atingido");
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
                     .forward(request, response);
             return;
         }
@@ -70,8 +71,8 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         request.setAttribute("setores", setores);
 
         if (setores.isEmpty()){
-            request.setAttribute("mensagem", "Não há nenhum setor cadastrado para essa unidade");
-            request.getRequestDispatcher("/AdicionarFuncionarioUnidadeServlet")
+            request.setAttribute("erro", "Não há nenhum setor cadastrado para essa unidade");
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
                     .forward(request, response);
             return;
         }
@@ -109,8 +110,8 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -158,12 +159,13 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
             setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
 
             if (setores.isEmpty()){
-                request.setAttribute("mensagem", "Não há nenhum setor cadastrado");
-                request.getRequestDispatcher("/ListarFuncionariosServlet")
+                request.setAttribute("erro", "Não há nenhum setor cadastrado");
+                request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
                         .forward(request, response);
                 return;
             }
 
+            request.setAttribute("setores", setores);
             request.setAttribute("funcionario", funcionario);
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
@@ -175,12 +177,61 @@ public class AdicionarFuncionarioSetorServlet extends HttpServlet {
         funcionario.setSenha(senha);
 
        if (funcionarioDAO.inserir(funcionario)){
+
+           System.out.println(funcionario.getCargo());
+           if (funcionario.getCargo().toLowerCase().equals("gestor")) {
+               try {
+                   EnvioEmail.enviarEmail(funcionario.getEmail(),
+                           "Uso do app Fluxar",
+                           "<h1>Seja bem-vindo</h1>" +
+                                   "<h4>Sua empresa contratou os serviçoes do Fluxar,</h4>" +
+                                   "<p>Você foi escolhido para ser o gestor (responsável) da sua unidade para adicionar as entradas, " +
+                                   "saídas, e todo o fluxo de estoque. A fim de melhorar o desempenho competitivo da sua empresa</p><br>" +
+                                   "<p>Segue o aplicativo:</p>",
+                           "src/main/apkAplicativo/fluxar-1.1.apk"
+                   );
+               }catch (Exception e){
+                   setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+
+                   request.setAttribute("setores", setores);
+                   request.setAttribute("erro", "Não foi possível enviar um email com as informações do aplicativo, faça isso manualmente");
+                   request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
+                           .forward(request, response);
+                   return;
+               }
+           } else {
+               try {
+                   EnvioEmail.enviarEmail(funcionario.getEmail(),
+                           "Uso do app Fluxar",
+                           "<h1>Seja bem-vindo</h1>" +
+                                   "<h4>Sua empresa contratou os serviçoes do Fluxar,</h4>" +
+                                   "<p>Você foi escolhido para ser o analista da sua unidade, sua função é analisar" +
+                                   "todo o fluxo de estoque da sua unidade. " +
+                                   "A fim de busca melhorias dentro da sua empresa</p><br>" +
+                                   "<p>Segue o link do site do analista:</p>"+
+                                   "<p>https://fluxar-analista.onrender.com/</p>"
+                   );
+               }catch (Exception e){
+
+                   setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+
+                   request.setAttribute("setores", setores);
+                   request.setAttribute("erro", "Não foi possível enviar um email com as informações do aplicativo, faça isso manualmente");
+                   request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
+                           .forward(request, response);
+                   return;
+               }
+           }
+
            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
        } else {
+           setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+
+           request.setAttribute("setores", setores);
            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
+           request.setAttribute("erro", "Não foi possível inserir o funcionários, tente novamente");
            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioSetor.jsp")
                    .forward(request, response);
-           return;
        }
     }
 }

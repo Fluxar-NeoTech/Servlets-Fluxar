@@ -58,6 +58,11 @@
                 </nav>
             </div>
 
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
+
             <button type="submit" class="botaoPrimario">Entrar</button>
         </form>
         <nav class="nav-login" id="analista">

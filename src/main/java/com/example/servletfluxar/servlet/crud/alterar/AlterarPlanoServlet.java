@@ -30,8 +30,8 @@ public class AlterarPlanoServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -77,17 +77,17 @@ public class AlterarPlanoServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException | NullPointerException e){
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "O id do plano deve ser um número");
-            request.getRequestDispatcher("")
+            e.printStackTrace();
+            request.setAttribute("erro", "O id do plano deve ser um número");
+            request.getRequestDispatcher("/WEB-INF/pages/planos/alterarPlano.jsp")
                     .forward(request, response);
             return;
         }
@@ -131,8 +131,8 @@ public class AlterarPlanoServlet extends HttpServlet {
         if (planoDAO.alterar(plano)){
             response.sendRedirect(request.getContextPath()+"/ListarPlanosServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível alterar este plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível alterar este plano no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/planos/alterarPlano.jsp")
                     .forward(request, response);
         }
     }

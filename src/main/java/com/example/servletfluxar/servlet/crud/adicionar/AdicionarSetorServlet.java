@@ -35,8 +35,8 @@ public class AdicionarSetorServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -70,8 +70,8 @@ public class AdicionarSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -94,7 +94,7 @@ public class AdicionarSetorServlet extends HttpServlet {
         try {
             setor.setIdUnidade(Integer.parseInt(request.getParameter("idUnidade")));
         } catch (NullPointerException | NumberFormatException e){
-            request.setAttribute("erroNumero", "Id da unidade deve ser um número");
+            request.setAttribute("erro", "Id da unidade deve ser um número");
             continuar = false;
         }
 
@@ -119,9 +119,8 @@ public class AdicionarSetorServlet extends HttpServlet {
         if (setorDAO.inserir(setor)) {
             response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
         } else {
-            System.out.println("erro");
             request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.setAttribute("mensagem", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
+            request.setAttribute("erro", "Não foi possível inserir um setor no momento. Tente novamente mais tarde...");
             request.getRequestDispatcher("/WEB-INF/pages/setores/adicionarSetor.jsp")
                     .forward(request, response);
         }
