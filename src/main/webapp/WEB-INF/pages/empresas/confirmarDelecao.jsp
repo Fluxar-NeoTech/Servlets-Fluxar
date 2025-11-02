@@ -18,7 +18,8 @@
 <header>
   <div id="nome">
     <p>
-      <%=((Empresa) session.getAttribute("empresa")).getNome()%>
+      <%=((Administrador) session.getAttribute("administrador")).getNome() + " " +
+            ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
     </p>
   </div>
 </header>

@@ -1,0 +1,117 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #2c0053;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logo {
+    height: 40px;
+}
+
+main {
+    padding: 50px 40px;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 5px;
+    background-color: #ff6600;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+.btn-access {
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-access:hover {
+    background-color: #5400a3;
+}
+
+.subscription-info {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.subscription-info a {
+    color: #6a0dad;
+    text-decoration: none;
+}
+
+.subscription-info a:hover {
+    text-decoration: underline;
+}
+
+.footer-graphic {
+    background-color: #6a0dad;
+    color: white;
+    padding: 50px 40px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    text-align: right;
+    position: relative;
+}
+
+.footer-graphic h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.footer-graphic p {
+    font-size: 16px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .btn-access {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+
+    .footer-graphic h2 {
+        font-size: 28px;
+    }
+}

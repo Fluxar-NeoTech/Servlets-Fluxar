@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
     <title>Entrar</title>
 </head>
 
@@ -16,13 +17,13 @@
 <main>
     <article>
         <div>
-            <a href="#" class="btn-voltar">← Voltar</a>
+            <a href="https://neotech-oj1r.onrender.com/" class="btn-voltar">← Voltar</a>
             <h1 id="loginTitle" class="caixa__title">Entrar no Fluxar</h1>
             <div class="caixa__sub">Gerencie seu estoque com mais segurança e rapidez</div>
         </div>
         <nav class="nav-login">
             <ul>
-                <li>Não tem uma conta? <a href="">Crie agora!</a></li>
+                <li>Não tem uma conta? <a href="${pageContext.request.contextPath}/pages/cadastro/inicioCadastro.jsp">Crie agora!</a></li>
             </ul>
         </nav>
         <form action="LoginServlet" method="post">

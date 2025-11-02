@@ -1,47 +1,57 @@
-package com.example.servletfluxar.servlet.esqueciSenha;
+package com.example.servletfluxar.servlet.cadastro.empresa;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
-import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
-import com.example.servletfluxar.model.Funcionario;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
-@WebServlet(name = "VerificarSenhaServlet", value = "/VerificarSenhaServlet")
-public class VerificarSenhaServlet extends HttpServlet {
+@WebServlet(name = "CadastroValidarSenhaServlet", value = "/CadastroValidarSenhaServlet")
+public class CadastroValidarSenhaServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         // Declaração de variáveis:
         EmpresaDAO empresaDAO = new EmpresaDAO();
         AdministradorDAO administradorDAO = new AdministradorDAO();
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("registroAlterar");
-        String novaSenha = request.getParameter("novaSenha");
+        String senha = request.getParameter("senha");
         String senhaConfirmada = request.getParameter("senhaConfirmada");
+        Empresa empresa;
+        String plano;
+        double preco;
         int senhaValida;
         boolean continuar = true;
 
+        try{
+            empresa = (Empresa) session.getAttribute("empresa");
+            plano = (String) session.getAttribute("plano");
+            preco = (Double) session.getAttribute("preco");
+        }catch (NullPointerException npe){
+            System.out.println(npe);
+            request.setAttribute("erro", "Tempo expirado, tente cadastrar novamente...");
+            request.getRequestDispatcher("/pages/cadastro/inicioCadastro.jsp")
+                    .forward(request, response);
+            return;
+        }
+
         // Verificando se senha está nos padrões:
-        if (novaSenha == null){
+        if (senha == null){
             request.setAttribute("erroSenha", "Defina uma senha para o administrador");
             continuar = false;
         } else {
-            novaSenha = novaSenha.trim();
-            senhaValida = ValidacaoInput.validarSenha(novaSenha);
+            senha = senha.trim();
+            senhaValida = ValidacaoInput.validarSenha(senha);
             if (senhaValida != 0){
                 if (senhaValida == 1){
                     request.setAttribute("erroSenha", "Senha deve ser menor do que 28 caracteres");
@@ -60,7 +70,7 @@ public class VerificarSenhaServlet extends HttpServlet {
                 }
                 continuar = false;
             } else {
-                if (!novaSenha.equals(senhaConfirmada.trim())){
+                if (!senha.equals(senhaConfirmada.trim())){
                     request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
                     continuar = false;
                 }
@@ -69,18 +79,20 @@ public class VerificarSenhaServlet extends HttpServlet {
 
         // Verificando se a senha e a senha confirmada são iguais:
         if (!continuar) {
-            request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
+            request.getRequestDispatcher("/pages/cadastro/senha.jsp")
                     .forward(request, response);
             return;
         }
 
-//        Atualizando banco de dados:
-        if(empresaDAO.alterarSenha(email, novaSenha) || administradorDAO.alterarSenha(email, novaSenha)){
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-        }else{
-            request.setAttribute("erroSenha","Não foi possível alterar a senha");
-            request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
-                    .forward(request,response);
-        }
+        empresa.setSenha(senha);
+
+        session.setAttribute("empresa", empresa);
+
+        request.setAttribute("preco", preco);
+        request.setAttribute("plano", plano);
+
+//        Redirecionando usuário:
+        request.getRequestDispatcher("/pages/cadastro/pagamento.jsp")
+                .forward(request, response);
     }
 }

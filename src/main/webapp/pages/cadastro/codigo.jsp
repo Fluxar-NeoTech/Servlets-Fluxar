@@ -17,12 +17,12 @@
 <main>
     <article id="recebeCodigo">
         <div>
-            <a href="../esqueciSenha/digitarEmail.jsp" class="btn-voltar">← Reenviar código</a>
+            <a href="${pageContext.request.contextPath}/pages/cadastro/confirmarDados.jsp" class="btn-voltar">← Voltar</a>
             <h1 id="loginTitle" class="caixa__title">Código</h1>
             <div class="caixa__sub">Digite o código que enviamos para o seu email</div>
         </div>
         
-        <form action="${pageContext.request.contextPath}/EsqueciSenhaEscreverCodigoServlet" method="post">
+        <form action="${pageContext.request.contextPath}/CadastroVerificarCodigoServlet" method="post">
             <div class="codigo-inputs <%= request.getAttribute("erroCodigo") != null ? "erroCodigo" : "" %>">
                 <input type="text" name="codigo1" maxlength="1" required>
                 <input type="text" name="codigo2" maxlength="1" required>
