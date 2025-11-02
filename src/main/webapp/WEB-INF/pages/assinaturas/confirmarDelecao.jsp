@@ -144,7 +144,7 @@
     <%}%>
 
     <input type="hidden" name="id" value="<%=assinatura.getId()%>" required>
-    <div>
+    <div id="center">
       <button type="submit" class="botaoPrimario">Confirmar</button>
 
       <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAssinaturasServlet">Cancelar</a>

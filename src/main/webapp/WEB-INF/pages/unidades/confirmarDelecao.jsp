@@ -169,7 +169,7 @@
         <%}%>
 
         <input type="hidden" name="id" value="<%=unidade.getId()%>" required>
-        <div>
+        <div id="center">
             <button type="submit" class="botaoPrimario">Confirmar</button>
 
             <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Cancelar</a>

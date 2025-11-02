@@ -95,37 +95,39 @@
     </div>
 </aside>
 <main>
-    <p id="title">Adicionar setor</p>
+    <div id="center">
+        <p id="title">Adicionar setor</p>
 
-    <form action="${pageContext.request.contextPath}/AdicionarSetorServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="name" required>
-        <p><%=request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AdicionarSetorServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nome" id="name" required>
+            <p><%=request.getAttribute("erroNome")%>
+            </p>
 
-        <select name="idUnidade" required>
-            <option selected hidden>Unidade</option>
-            <%for (Unidade unidade : unidades) {%>
-            <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
-            </option>
+            <select name="idUnidade" required>
+                <option selected hidden>Unidade</option>
+                <%for (Unidade unidade : unidades) {%>
+                <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
+                </option>
+                <%}%>
+            </select>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" cols="50" placeholder="Digite a descricao"></textarea>
+            <p><%=request.getAttribute("erroDescricao")%>
+            </p>
+
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
             <%}%>
-        </select>
 
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" rows="4" cols="50" placeholder="Digite a descricao"></textarea>
-        <p><%=request.getAttribute("erroDescricao")%>
-        </p>
-
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
-
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

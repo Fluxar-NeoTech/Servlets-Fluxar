@@ -110,27 +110,29 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar Administrador</p>
+    <div id="center">
+        <p id="title">Alterar Administrador</p>
 
-    <form id="form" action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
-        <label for="name">Nome completo:</label>
-        <input type="text" name="nomeCompleto" id="name"
-               value="<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>" required>
+        <form id="form" action="${pageContext.request.contextPath}/AlterarAdminServlet" method="post">
+            <label for="name">Nome completo:</label>
+            <input type="text" name="nomeCompleto" id="name"
+                value="<%=FormatoOutput.nome(administrador.getNome(), administrador.getSobrenome())%>" required>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<%=administrador.getEmail()%>" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="<%=administrador.getEmail()%>" required>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <input name="id" value="<%=administrador.getId()%>" type="hidden" required>
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
-        </div>
-    </form>
+            <input name="id" value="<%=administrador.getId()%>" type="hidden" required>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

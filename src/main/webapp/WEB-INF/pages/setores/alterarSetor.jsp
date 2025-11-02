@@ -97,46 +97,48 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar setor</p>
+    <div id="center">
+        <p id="title">Alterar setor</p>
 
-    <form action="${pageContext.request.contextPath}/AlterarSetorServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="name" value="<%=setor.getNome()%>" required>
-        <p><%=request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AlterarSetorServlet" method="post">
+            <label for="name">Nome:</label>
+            <input type="text" name="nome" id="name" value="<%=setor.getNome()%>" required>
+            <p><%=request.getAttribute("erroNome")%>
+            </p>
 
-        <select name="idUnidade" required>
-            <%
-                for (Unidade unidade : unidades) {
-                    if (unidade.getId() != setor.getIdUnidade()) {
-            %>
-            <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
-            </option>
-            <%} else {%>
-            <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%>
-            </option>
+            <select name="idUnidade" required>
+                <%
+                    for (Unidade unidade : unidades) {
+                        if (unidade.getId() != setor.getIdUnidade()) {
+                %>
+                <option value="<%=unidade.getId()%>"><%=unidade.getNome()%>
+                </option>
+                <%} else {%>
+                <option value="<%=unidade.getId()%>" selected><%=unidade.getNome()%>
+                </option>
+                <%}%>
+                <%}%>
+            </select>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" rows="4" cols="50"
+                    placeholder="Digite a descricao"><%=setor.getDescricao()%></textarea>
+            <p><%=request.getAttribute("erroDescricao")%>
+            </p>
+
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
             <%}%>
-            <%}%>
-        </select>
 
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" rows="4" cols="50"
-                  placeholder="Digite a descricao"><%=setor.getDescricao()%></textarea>
-        <p><%=request.getAttribute("erroDescricao")%>
-        </p>
+            <input type="hidden" name="id" value="<%=setor.getId()%>"></input>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
-
-        <input type="hidden" name="id" value="<%=setor.getId()%>"></input>
-
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

@@ -110,24 +110,26 @@
     </div>
 </aside>
 <main>
-    <p id="title">Adicionar telefone</p>
+    <div id="center">
+        <p id="title">Adicionar telefone</p>
 
-    <form action="${pageContext.request.contextPath}/AdicionarTelefoneServlet" method="post">
-        <label for="telefone">Telefone:</label>
-        <input type="text" name="telefone" id="telefone" required>
-        <p><%=request.getAttribute("erroTelefone")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AdicionarTelefoneServlet" method="post">
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="telefone" id="telefone" required>
+            <p><%=request.getAttribute("erroTelefone")%>
+            </p>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarTelefonesServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

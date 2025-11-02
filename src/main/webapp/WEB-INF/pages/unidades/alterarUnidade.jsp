@@ -110,49 +110,51 @@
     </div>
 </aside>
 <main>
-    <p id="title">Alterar unidade</p>
+    <div id="center">
+        <p id="title-alterar">Alterar unidade</p>
 
-    <form action="${pageContext.request.contextPath}/AlterarUnidadeServlet" method="post">
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="name" value="<%=unidade.getNome()%>" required>
-        <p><%=request.getAttribute("erroNome")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AlterarUnidadeServlet" method="post" id="adicionando">
+            <label for="name">Nome:</label>
+            <input type="text" name="nome" id="name" value="<%=unidade.getNome()%>" placeholder=" " required>
+            <p><%=request.getAttribute("erroNome")%>
+            </p>
 
-        <label for="cnpj">CNPJ:</label>
-        <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(unidade.getCnpj())%>" required>
-        <p><%=request.getAttribute("erroCnpj")%>
-        </p>
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" name="cnpj" id="cnpj" value="<%=FormatoOutput.cnpj(unidade.getCnpj())%>" placeholder=" " required>
+            <p><%=request.getAttribute("erroCnpj")%>
+            </p>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" value="<%=unidade.getEmail()%>" required>
-        <p><%=request.getAttribute("erroEmail")%>
-        </p>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="<%=unidade.getEmail()%>" placeholder=" " required>
+            <p><%=request.getAttribute("erroEmail")%>
+            </p>
 
-        <label for="cep">CEP:</label>
-        <input type="text" name="cep" id="cep" value="<%=unidade.getCep()%>" required>
-        <p><%=request.getAttribute("erroCep")%>
-        </p>
+            <label for="cep">CEP:</label>
+            <input type="text" name="cep" id="cep" value="<%=unidade.getCep()%>" placeholder=" " required>
+            <p><%=request.getAttribute("erroCep")%>
+            </p>
 
-        <label for="numero">Número:</label>
-        <input type="text" name="numero" id="numero" value="<%=unidade.getNumero()%>" required>
-        <p><%=request.getAttribute("erroNumero")%>
-        </p>
+            <label for="numero">Número:</label>
+            <input type="text" name="numero" id="numero" value="<%=unidade.getNumero()%>" placeholder=" " required>
+            <p><%=request.getAttribute("erroNumero")%>
+            </p>
 
-        <label for="complemento">Complemento:</label>
-        <textarea id="complemento" name="complemento" rows="4" cols="50"
-                  placeholder="Digite o complemento"><%=unidade.getComplemento()%></textarea>
+            <label for="complemento">Complemento:</label>
+            <textarea id="complemento" name="complemento" rows="4" cols="50"
+                    placeholder="Digite o complemento"><%=unidade.getComplemento()%></textarea>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <input type="hidden" id="id" name="id" value="<%=unidade.getId()%>" required>
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
-        </div>
-    </form>
+            <input type="hidden" id="id" name="id" value="<%=unidade.getId()%>" placeholder=" " required>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarUnidadesServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

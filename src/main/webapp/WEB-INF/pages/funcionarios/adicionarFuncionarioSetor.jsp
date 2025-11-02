@@ -94,41 +94,43 @@
     </div>
 </aside>
 <main>
-    <p id="title">Adicionar funcionário</p>
+    <div id="center">
+        <p id="title">Adicionar funcionário</p>
 
-    <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
-        <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha" required>
-        <p><%= request.getAttribute("erroSenha")%>
-        </p>
+        <form action="${pageContext.request.contextPath}/AdicionarFuncionarioSetorServlet" method="post">
+            <label for="senha">Senha:</label>
+            <input type="text" name="senha" id="senha" required>
+            <p><%= request.getAttribute("erroSenha")%>
+            </p>
 
-        <label for="confirmarSenha">Confirmar senha:</label>
-        <input type="password" name="confirmarSenha" id="confirmarSenha" required>
-        <p><%= request.getAttribute("erroConfimarSenha")%>
-        </p>
+            <label for="confirmarSenha">Confirmar senha:</label>
+            <input type="password" name="confirmarSenha" id="confirmarSenha" required>
+            <p><%= request.getAttribute("erroConfimarSenha")%>
+            </p>
 
-        <%if (!setores.isEmpty()){%>
-        <select name="idSetor" required>
-            <option selected hidden value="">Setor</option>
-            <%for (Setor setor : setores) {%>
-            <option value="<%=setor.getId()%>"><%=setor.getNome()%>
-            </option>
+            <%if (!setores.isEmpty()){%>
+            <select name="idSetor" required>
+                <option selected hidden value="">Setor</option>
+                <%for (Setor setor : setores) {%>
+                <option value="<%=setor.getId()%>"><%=setor.getNome()%>
+                </option>
+                <%}%>
+            </select>
+            <p><%= request.getAttribute("erroNome")%>
+            </p>
             <%}%>
-        </select>
-        <p><%= request.getAttribute("erroNome")%>
-        </p>
-        <%}%>
 
-        <%if (request.getAttribute("erro") != null) {%>
-        <p class="erro-request"><%=request.getAttribute("erro")%>
-        </p>
-        <%}%>
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
-        <div>
-            <button type="submit" class="botaoPrimario">Confirmar</button>
-            <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
-        </div>
-    </form>
+            <div>
+                <button type="submit" class="botaoPrimario">Confirmar</button>
+                <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Voltar</a>
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 

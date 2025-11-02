@@ -103,7 +103,8 @@
     </div>
 </aside>
 <main>
-    <p id="title">Deletar administrador</p>
+    <div id="center">
+        <p id="title">Deletar administrador</p>
 
     <form id="form" action="${pageContext.request.contextPath}/RemoverAdminServlet" method="post">
         <table class="confirmarDelecao" style="border-radius: 20px">
@@ -141,6 +142,7 @@
             <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAdminsServlet">Cancelar</a>
         </div>
     </form>
+    </div>
 </main>
 </body>
 
