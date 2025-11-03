@@ -4,6 +4,8 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.util.AlterarSenhaService;
+import com.example.servletfluxar.util.EmpresaService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -65,7 +67,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome  ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -104,7 +106,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+email+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -143,7 +145,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 //        Conectando ao banco de dados e enviando comando sql para pegar a tabela da empresa.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+cnpj+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -269,7 +271,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE nome LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE nome ILIKE ?");
             pstmt.setString(1, "%"+nome+"%");
             rs = pstmt.executeQuery();
 
@@ -290,7 +292,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE email ILIKE ?");
             pstmt.setString(1, "%"+email+"%");
             rs = pstmt.executeQuery();
 
@@ -311,7 +313,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE cnpj LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM empresa WHERE cnpj ILIKE ?");
             pstmt.setString(1, "%"+cnpj+"%");
             rs = pstmt.executeQuery();
 
@@ -429,7 +431,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE cnpj ILIKE ?");
             pstmt.setString(1, cnpj);
             rs = pstmt.executeQuery();
 
@@ -460,7 +462,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE nome ILIKE ?");
             pstmt.setString(1, nome);
             rs = pstmt.executeQuery();
 
@@ -491,7 +493,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
 
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT * FROM empresa WHERE email ILIKE ?");
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
 
@@ -536,7 +538,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
                 empresa.setDataCadastro(rs.getDate("dt_cadastro").toLocalDate());
 
 //              Verifica se a senha bate com a no banco de dados
-                if(BCrypt.checkpw(senha, rs.getString("senha"))){
+                if(EmpresaService.login(email, senha)){
                     return empresa;
                 }
             }
@@ -560,7 +562,7 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
             pstmt.setString(1, empresa.getCnpj());
             pstmt.setString(2, empresa.getNome());
             pstmt.setString(3, empresa.getEmail());
-            pstmt.setString(4, BCrypt.hashpw(empresa.getSenha(), BCrypt.gensalt()));
+            pstmt.setString(4, EmpresaService.cadastrar(empresa.getEmail(), empresa.getSenha()));
 
 //          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
@@ -599,12 +601,17 @@ public class EmpresaDAO implements DAO<Empresa>, LoginDAO<Empresa> {
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
         Connection conn = null;
+        String alterar = AlterarSenhaService.alterarSenhaEmpresa(email, novaSenha);
+
+        if (alterar == null){
+            return false;
+        }
         
         try {
             conn = Conexao.conectar();
 //          Preparação do comando SQL para atualizar a senha do admin da empresa:
             pstmt = conn.prepareStatement("UPDATE empresa SET senha = ? WHERE email = ?");
-            pstmt.setString(1, BCrypt.hashpw(novaSenha, BCrypt.gensalt()));
+            pstmt.setString(1, alterar);
             pstmt.setString(2,email);
 
             return pstmt.executeUpdate()>0;

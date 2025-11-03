@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverAdminServlet", value = "/RemoverAdminServlet")
 public class RemoverAdminServlet extends HttpServlet {
@@ -28,21 +29,16 @@ public class RemoverAdminServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            npe.printStackTrace();
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Id deve conter apenas números");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
+        } catch (NumberFormatException | NullPointerException e) {
+            e.printStackTrace();
             request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
             request.getRequestDispatcher("")
                     .forward(request, response);
@@ -51,12 +47,14 @@ public class RemoverAdminServlet extends HttpServlet {
 
         administrador = administradorDAO.buscarPorId(id);
 
-        if (administradorDAO.contar() > 1){
+        if (administradorDAO.contar() > 1 && administrador != null){
             request.setAttribute("administrador", administrador);
-            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/confirmarDelecao.jsp")
                     .forward(request, response);
         } else {
-            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
+            request.setAttribute("administradores", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um admin com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                     .forward(request, response);
         }
     }
@@ -77,32 +75,34 @@ public class RemoverAdminServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse administrador");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e){
+            e.printStackTrace();
+            request.setAttribute("erro", "Id deve ser um número inteiro");
+            request.getRequestDispatcher("WEB-INF/pages/administradores/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }
 
-        if (administradorDAO.deletarPorId(id)) {
-            response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
-        } else {
-            request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+        if (administradorDAO.buscarPorId(id) != null) {
+            if (administradorDAO.deletarPorId(id)) {
+                response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
+            } else {
+                request.setAttribute("administradores", new ArrayList<>());
+                request.setAttribute("erro", "Ocorreu um erro ao deletar esse administrador, tente novamente mais tarde...");
+                request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
+                        .forward(request, response);
+            }
+        }else {
+            request.setAttribute("administradores", new ArrayList<>());
+            request.setAttribute("erro", "Esse administrador não existe");
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                     .forward(request, response);
         }
     }

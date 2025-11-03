@@ -1,7 +1,5 @@
-<%@ page import="com.example.servletfluxar.model.Empresa" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.servletfluxar.model.Administrador" %>
-<%@ page import="com.example.servletfluxar.util.ValidacaoInput" %>
 <%@ page import="com.example.servletfluxar.util.FormatoOutput" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -11,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar administradores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -21,10 +20,12 @@
 %>
 <header>
     <div id="nome">
-        <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%=((Administrador) session.getAttribute("administrador")).getId()%>">
+        <p>
             <%=((Administrador) session.getAttribute("administrador")).getNome() + " " +
                     ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
-        </a>
+        </p>
+
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
     </div>
 </header>
 <aside>
@@ -122,7 +123,8 @@
             </div>
 
             <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
-                <input type="text" class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
                        name="valorFiltro" id="valorFiltro" placeholder=" " required>
                 <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
                 <% if (request.getAttribute("erroValorFiltro") != null) { %>
@@ -178,7 +180,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum administrador cadastrado</p>
+    <%}%>
     <%}%>
     <section id="footer">
         <a class="botaoSecundario" href="${pageContext.request.contextPath}/AdicionarAdminServlet">Adicionar</a>

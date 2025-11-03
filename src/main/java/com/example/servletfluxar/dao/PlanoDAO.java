@@ -53,7 +53,7 @@ public class PlanoDAO implements DAO<Plano> {
 //        Conectando ao banco de dados e enviando sql para ver os dados da tabela plano.
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE nome LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM plano WHERE nome ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -194,7 +194,7 @@ public class PlanoDAO implements DAO<Plano> {
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE nome LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM plano WHERE nome ILIKE ?");
             pstmt.setString(1, "%"+nome+"%");
             rs = pstmt.executeQuery();
 

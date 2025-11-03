@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -23,15 +24,16 @@
 %>
 <header>
     <div id="nome">
-        <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
+        <p>
             <%= tipoUsuario == "empresa" ?
                     ((Empresa) session.getAttribute("empresa")).getNome() :
                     ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
-        </a>
         </p>
+
+        <%if (tipoUsuario.equals("administrador")){%>
+            <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
+        <%}%>
     </div>
 </header>
 <aside>

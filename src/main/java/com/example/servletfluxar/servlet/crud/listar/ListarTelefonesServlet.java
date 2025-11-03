@@ -40,12 +40,8 @@ public class ListarTelefonesServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
-            return;
-        } catch (NumberFormatException nfe) {
-            request.setAttribute("erroLogin", "Não é possível ver os telefones no momento");
-            request.getRequestDispatcher("").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -66,18 +62,20 @@ public class ListarTelefonesServlet extends HttpServlet {
         }
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
-            if (tipoFiltro != null) {
-
-            } else {
-                totalRegistros = telefoneDAO.contarPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
-                totalPaginas = Math.max(1, (int) Math.ceil(totalRegistros / 6.0));
+            totalRegistros = telefoneDAO.contarPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
+            totalPaginas = Math.max(1, (int) Math.ceil(totalRegistros / 6.0));
 
 //              Garante que pagina está no intervalo válido [1, totalPaginas]
-                pagina = Math.max(1, Math.min(pagina, totalPaginas));
+            pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
-                telefones = totalRegistros > 0 ? telefoneDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId()) : new ArrayList<>();
-            }
+            telefones = totalRegistros > 0 ? telefoneDAO.listarPorIdEmpresa(pagina, limite, ((Empresa) session.getAttribute("empresa")).getId()) : new ArrayList<>();
         } else {
+            if (idEmpresa <= 0){
+                request.setAttribute("erro", "Id da empresa deve ser um número positivo");
+                request.getRequestDispatcher("WEB-INF/pages/empresas/verEmpresas.jsp")
+                        .forward(request,response);
+                return;
+            }
             request.setAttribute("empresa", empresaDAO.buscarPorId(idEmpresa));
             totalRegistros = telefoneDAO.contarPorIdEmpresa(idEmpresa);
             totalPaginas = Math.max(1, (int) Math.ceil(totalRegistros / 6.0));

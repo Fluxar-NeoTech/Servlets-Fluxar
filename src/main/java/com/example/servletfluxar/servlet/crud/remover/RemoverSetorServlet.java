@@ -11,6 +11,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverSetorServlet", value = "/RemoverSetorServlet")
 public class RemoverSetorServlet extends HttpServlet {
@@ -39,17 +40,17 @@ public class RemoverSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
         try{
             id = Integer.parseInt(request.getParameter("id"));
         } catch (NullPointerException | NumberFormatException e){
-            System.out.println(e.getMessage());
-            request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mendagem", "O id do setor passado deve ser um número");
+            e.printStackTrace();
+            request.setAttribute("erro","O id do setor passado deve ser um número inteiro");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp");
             return;
         }
 
@@ -65,10 +66,17 @@ public class RemoverSetorServlet extends HttpServlet {
             unidade = unidadeDAO.buscarPorId(setor.getIdUnidade());
         }
 
-        request.setAttribute("unidade", unidade);
-        request.setAttribute("setor", setor);
-        request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
-                .forward(request, response);
+        if (setor!=null) {
+            request.setAttribute("unidade", unidade);
+            request.setAttribute("setor", setor);
+            request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -95,36 +103,36 @@ public class RemoverSetorServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
 //        Verificando se o id foi passado corretamente:
         try{
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe){
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe){
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse setor");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException | NullPointerException e){
+            request.setAttribute("erro", "Id deve ser um número");
+            request.getRequestDispatcher("WEB-INF/pages/setores/confirmarDelecao.jsp")
                     .forward(request, response);
             return;
         }
 
         setor = setorDAO.buscarPorId(id);
-        if (empresaLogada.getId() != unidadeDAO.buscarPorId(setor.getIdUnidade()).getIdEmpresa()) {
-            response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
-            return;
-        } else {
-            setorDAO.deletarPorId(id);
-        }
 
-        response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+        if (setor!=null) {
+            if (empresaLogada.getId() != unidadeDAO.buscarPorId(setor.getIdUnidade()).getIdEmpresa()) {
+                response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+                return;
+            } else {
+                setorDAO.deletarPorId(id);
+            }
+            response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+        }else {
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                    .forward(request, response);
+        }
     }
 }

@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar empresas</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -23,14 +24,15 @@
 %>
 <header>
     <div id="nome">
-        <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
+        <p>
             <%= tipoUsuario == "empresa" ?
                     ((Empresa) session.getAttribute("empresa")).getNome() :
                     ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
-        </a>
+        </p>
+        <%if (tipoUsuario.equals("administrador")){%>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
+        <%}%>
     </div>
 </header>
 <aside>
@@ -186,6 +188,12 @@
             </td>
             <td>
                 <div id="juntos">
+                    <a href="${pageContext.request.contextPath}/ListarTelefonesServlet?id=<%=empresa.getId()%>">
+                        <svg class="alterar"
+                             viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.22333 9.08833C5.90333 12.39 8.61 15.085 11.9117 16.7767L14.4783 14.21C14.7933 13.895 15.26 13.79 15.6683 13.93C16.975 14.3617 18.3867 14.595 19.8333 14.595C20.475 14.595 21 15.12 21 15.7617V19.8333C21 20.475 20.475 21 19.8333 21C8.87833 21 0 12.1217 0 1.16667C0 0.525 0.525 0 1.16667 0H5.25C5.89167 0 6.41667 0.525 6.41667 1.16667C6.41667 2.625 6.65 4.025 7.08167 5.33167C7.21 5.74 7.11667 6.195 6.79 6.52167L4.22333 9.08833Z" fill="#538DF5"/>
+                        </svg>
+                    </a>
                     <%if (tipoUsuario == "empresa") {%>
                     <a href="${pageContext.request.contextPath}/AlterarEmpresaServlet?id=<%=empresa.getId()%>">
                         <svg class="alterar" viewBox="0 0 34 30" fill="none"
@@ -209,7 +217,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhuma empresa cadastrada</p>
+    <%}%>
     <%}%>
 
     <%if (tipoUsuario.equals("administrador")) {%>

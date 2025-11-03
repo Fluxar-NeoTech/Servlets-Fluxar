@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "AlterarUnidadeServlet", value = "/AlterarUnidadeServlet")
 public class AlterarUnidadeServlet extends HttpServlet {
@@ -39,8 +40,8 @@ public class AlterarUnidadeServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -52,19 +53,26 @@ public class AlterarUnidadeServlet extends HttpServlet {
             }
         } catch (NullPointerException | NumberFormatException e){
             request.setAttribute("erro", e.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar essa unidade");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Ocorreu um erro ao procurar essa unidade");
+            request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
                     .forward(request, response);
             return;
         }
 
         unidade = unidadeDAO.buscarPorId(id);
 
-        request.setAttribute("unidade", unidade);
+        if (unidade!=null) {
+            request.setAttribute("unidade", unidade);
 
 //        Redireciona para a página de alterar unidade:
-        request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
-                .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("unidades", new ArrayList<>());
+            request.setAttribute("erro", "Unidade escolhida não existe");
+            request.getRequestDispatcher("WEB-INF/pages/unidades/verUnidades.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -200,11 +208,18 @@ public class AlterarUnidadeServlet extends HttpServlet {
         unidade.setIdEmpresa(((Empresa) request.getAttribute("empresa")).getId());
 
 //        Enviando e vendo se há um retorno:
-        if (unidadeDAO.alterar(unidade)){
-            response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
-        }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma unidade no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+        if (unidadeDAO.buscarPorId(unidade.getId())!=null) {
+            if (unidadeDAO.alterar(unidade)) {
+                response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
+            } else {
+                request.setAttribute("erro", "Não foi possível alterar essa unidade no momento. Tente novamente mais tarde...");
+                request.getRequestDispatcher("/WEB-INF/pages/unidades/alterarUnidade.jsp")
+                        .forward(request, response);
+            }
+        } else {
+            request.setAttribute("unidades", new ArrayList<>());
+            request.setAttribute("erro", "Unidade escolhida não existe");
+            request.getRequestDispatcher("WEB-INF/pages/unidades/verUnidades.jsp")
                     .forward(request, response);
         }
     }

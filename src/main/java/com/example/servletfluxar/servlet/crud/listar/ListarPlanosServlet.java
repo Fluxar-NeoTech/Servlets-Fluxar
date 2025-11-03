@@ -42,8 +42,8 @@ public class ListarPlanosServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -66,6 +66,12 @@ public class ListarPlanosServlet extends HttpServlet {
                             plano = planoDAO.buscarPorId(id);
                             if (plano != null) {
                                 planos.add(plano);
+                            } else {
+                                request.setAttribute("planos", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhum plano foi encontrado nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                                        .forward(request, response);
+                                return;
                             }
                         } else {
                             request.setAttribute("erroValorFiltro", "Id do plano deve ser maior do que 0");
@@ -80,6 +86,14 @@ public class ListarPlanosServlet extends HttpServlet {
                     pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                     planos = totalRegitros > 0 ? planoDAO.listarPorNome(pagina, limite, RegrasBanco.nomeCapitalize(valorFiltro)) : new ArrayList<>();
+
+                    if (planos.isEmpty()){
+                        request.setAttribute("planos", new ArrayList<>());
+                        request.setAttribute("erro", "Nenhum plano foi encontrado nessa filtragem");
+                        request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                                .forward(request, response);
+                        return;
+                    }
                 } else if (tipoFiltro.equals("duracao")){
                     if (!valorFiltro.equals("anual") && !valorFiltro.equals("mensal")){
                         request.setAttribute("erroValorFiltro", "Duração apenas anual ou mensal");
@@ -89,6 +103,14 @@ public class ListarPlanosServlet extends HttpServlet {
                         pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                         planos = totalRegitros > 0 ? planoDAO.listarPorTempo(pagina, limite,  valorFiltro.equals("anual")? 12 : 1) : new ArrayList<>();
+
+                        if (planos.isEmpty()){
+                            request.setAttribute("planos", new ArrayList<>());
+                            request.setAttribute("erro", "Nenhum plano foi encontrado nessa filtragem");
+                            request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                                    .forward(request, response);
+                            return;
+                        }
                     }
                 } else if (tipoFiltro.equals("minpreco")){
                     try{
@@ -99,6 +121,14 @@ public class ListarPlanosServlet extends HttpServlet {
                             pagina = Math.max(1, Math.min(pagina, totalPaginas));
 
                             planos = totalRegitros > 0 ? planoDAO.listarPorMinPreco(pagina, limite,  preco) : new ArrayList<>();
+
+                            if (planos.isEmpty()){
+                                request.setAttribute("planos", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhum plano foi encontrado nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                                        .forward(request, response);
+                                return;
+                            }
                         } else {
                             request.setAttribute("erroValorFiltro", "Preço deve ser positivo");
                         }
@@ -113,6 +143,14 @@ public class ListarPlanosServlet extends HttpServlet {
                             totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
                             pagina = Math.max(1, Math.min(pagina, totalPaginas));
                             planos = totalRegitros > 0 ? planoDAO.listarPorMaxPreco(pagina, limite, preco) : new ArrayList<>();
+
+                            if (planos.isEmpty()){
+                                request.setAttribute("planos", new ArrayList<>());
+                                request.setAttribute("erro", "Nenhum plano foi encontrado nessa filtragem");
+                                request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
+                                        .forward(request, response);
+                                return;
+                            }
                         } else {
                             request.setAttribute("erroValorFiltro", "Preço deve ser positivo");
                         }
@@ -123,6 +161,7 @@ public class ListarPlanosServlet extends HttpServlet {
                     request.setAttribute("erroValorFiltro", "Filtro não disponível");
                 }
             } else {
+                request.setAttribute("planos", new ArrayList<>());
                 request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                 request.getRequestDispatcher("WEB-INF/pages/planos/verPlanos.jsp")
                         .forward(request, response);

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
     <title>Código</title>
 </head>
 
@@ -14,7 +15,7 @@
     <img src="${pageContext.request.contextPath}/Assets/Icons/FluxarLogoBRANCA.png" alt="Logo do aplicativo fluxar branco">
 </header>
 <main>
-    <article>
+    <article id="recebeCodigo">
         <div>
             <a href="../esqueciSenha/digitarEmail.jsp" class="btn-voltar">← Reenviar código</a>
             <h1 id="loginTitle" class="caixa__title">Código</h1>
@@ -32,7 +33,7 @@
             </div>
 
             <% if (request.getAttribute("erroCodigo") != null) { %>
-                <p class="erroCodigo"><%= request.getAttribute("erroCodigo") %></p>
+                <p class="erro-request"><%= request.getAttribute("erroCodigo") %></p>
             <% } %>
 
             <button type="submit" class="botaoPrimario">Continuar</button>

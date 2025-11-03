@@ -33,8 +33,8 @@ public class ListarSetoresServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -45,7 +45,11 @@ public class ListarSetoresServlet extends HttpServlet {
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
             if (tipoFiltro != null){
-
+                request.setAttribute("setores", new ArrayList<>());
+                request.setAttribute("erro", "Filtro não disponível");
+                request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                        .forward(request, response);
+                return;
             } else {
                 totalRegistros = setorDAO.contarPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
                 totalPaginas = Math.max(1, (int) Math.ceil(totalRegistros / 6.0));
@@ -60,7 +64,11 @@ public class ListarSetoresServlet extends HttpServlet {
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
                 if (valorFiltro != null) {
-
+                    request.setAttribute("setores", new ArrayList<>());
+                    request.setAttribute("erro", "Filtro não disponível");
+                    request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                            .forward(request, response);
+                    return;
                 } else {
                     request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                     request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")

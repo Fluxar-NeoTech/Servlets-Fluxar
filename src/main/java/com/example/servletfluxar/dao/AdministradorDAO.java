@@ -5,6 +5,7 @@ import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.util.AdminService;
+import com.example.servletfluxar.util.AlterarSenhaService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -66,7 +67,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 //        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE CONCAT(nome, ' ', sobrenome) ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+nome+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -105,7 +106,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
 //        Conectando ao banco de dados e enviando comando sql para selecionar a tabela administrador ordernada pelo limite e por onde vai começar a buscar.
         try {
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+            pstmt = conn.prepareStatement("SELECT * FROM administrador WHERE email ILIKE ? ORDER BY id LIMIT ? OFFSET ?");
             pstmt.setString(1, "%"+email+"%");
             pstmt.setInt(2, limite);
             pstmt.setInt(3, offset);
@@ -159,7 +160,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE CONCAT(nome, ' ', sobrenome) LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE CONCAT(nome, ' ', sobrenome) ILIKE ?");
             pstmt.setString(1, "%"+nome+"%");
             rs = pstmt.executeQuery();
 
@@ -180,7 +181,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
         Connection conn = null;
         try{
             conn = Conexao.conectar();
-            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE email LIKE ?");
+            pstmt = conn.prepareStatement("SELECT COUNT(*)\"contador\" FROM administrador WHERE email ILIKE ?");
             pstmt.setString(1, "%"+email+"%");
             rs = pstmt.executeQuery();
 
@@ -314,7 +315,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador.setEmail(rs.getString("email"));
 
 //              Verificando se a senha do usuario concede com a do banco de dados.
-                if (BCrypt.checkpw(senha, rs.getString("senha"))){
+                if (AdminService.login(email, senha)){
                     return administrador;
                 }
             }
@@ -338,7 +339,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setString(1,administrador.getNome());
             pstmt.setString(2,administrador.getSobrenome());
             pstmt.setString(3,administrador.getEmail());
-            pstmt.setString(4, BCrypt.hashpw(administrador.getSenha(), BCrypt.gensalt()));
+            pstmt.setString(4, AdminService.cadastrar(administrador.getEmail(), administrador.getSenha()));
 
 //          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
@@ -367,7 +368,6 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
-            System.out.println("Erro");
             sqle.printStackTrace();
             return false;
         }finally {
@@ -378,13 +378,18 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
         Connection conn = null;
-        
+        String alterar = AlterarSenhaService.alterarSenhaAdmin(email, novaSenha);
+
+        if (alterar == null){
+            return false;
+        }
+
         try {
             conn = Conexao.conectar();
 
 //          Preparação do comando SQL para atualizar a senha do adminstrador da empresa.
             pstmt = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
-            pstmt.setString(1, AdminService.alterarSenha(email, novaSenha));
+            pstmt.setString(1, alterar);
             pstmt.setString(2,email);
 
             return pstmt.executeUpdate()>0;

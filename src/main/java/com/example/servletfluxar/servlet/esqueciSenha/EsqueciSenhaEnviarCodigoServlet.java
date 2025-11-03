@@ -53,7 +53,7 @@ public class EsqueciSenhaEnviarCodigoServlet extends HttpServlet {
 
             try {
 //                Enviando um email com o código de verificação para ele
-                EnvioEmail.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:" + codigo+"</h2><br><p>Não responda a esse email</p>");
+                EnvioEmail.enviarEmail(emailInput, "Seu código de verificação", "<h2>Código:</h2><h3>"+codigo+"</h3><p>Não responda a esse email</p>");
 
                 session.setAttribute("codigoVerificacao", codigo);
                 response.sendRedirect(request.getContextPath() +"/pages/esqueciSenha/codigo.jsp");

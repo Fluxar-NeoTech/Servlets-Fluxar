@@ -1,5 +1,6 @@
 package com.example.servletfluxar.servlet.crud.adicionar;
 
+import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
@@ -33,8 +34,8 @@ public class AdicionarEmpresaServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -55,6 +56,7 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         int senhaValida;
         HttpSession session = request.getSession();
         EmpresaDAO empresaDAO = new EmpresaDAO();
+        AdministradorDAO administradorDAO = new AdministradorDAO();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
         Empresa empresa = new Empresa();
         boolean continuar = true;
@@ -68,8 +70,8 @@ public class AdicionarEmpresaServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -111,10 +113,8 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         } else {
             email = email.trim().toLowerCase();
             if (ValidacaoInput.validarEmail(email)){
-                if (empresaDAO.buscarPorEmail(email) == null){
-
-                } else {
-                    request.setAttribute("erroEmail", "Email em uso");
+                if (empresaDAO.buscarPorEmail(email) != null || administradorDAO.buscarPorEmail(email) != null){
+                    request.setAttribute("erroEmail", "Email já cadastrado");
                     continuar = false;
                 }
             } else {
@@ -171,8 +171,8 @@ public class AdicionarEmpresaServlet extends HttpServlet {
         if (empresaDAO.inserir(empresa)){
             response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/empresas/adicionarEmpresa.jsp")
                     .forward(request, response);
         }
     }

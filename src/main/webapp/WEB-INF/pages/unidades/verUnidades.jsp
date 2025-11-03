@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Unidades</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -23,14 +24,15 @@
 %>
 <header>
     <div id="nome">
-        <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
+        <p>
             <%= tipoUsuario == "empresa" ?
                     ((Empresa) session.getAttribute("empresa")).getNome() :
                     ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
-        </a>
+        </p>
+        <%if (tipoUsuario.equals("administrador")) {%>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
+        <%}%>
     </div>
 </header>
 <aside>
@@ -126,17 +128,34 @@
     <p id="title">Unidades</p>
     <section id="topo">
 
-        <form action="" id="filtro">
-            <details>
-                <summary>Filtros</summary>
-                <button class="filtro">Id</button>
-                <button class="filtro">Preço</button>
-                <button class="filtro" id="filtroBottom">Duração</button>
-            </details>
+        <form action="ListarUnidadesServlet" id="filtro" method="get">
+            <div class="input-select">
+                <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
+                <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
 
-            <input type="text" id="search" name="valorFiltro" placeholder="Valor do filtro...">
+                <div class="options">
+                    <span data-value="id">Id</span>
+                    <span data-value="nome">Nome</span>
+                    <span data-value="email">Email</span>
+                    <% if (tipoUsuario.equals("administrador"){%>
+                    <span data-value="empresa">Empresa</span>
+                    <%}%>
+                </div>
+            </div>
 
-            <button type="submit" class="botaoPrimario">Buscar</button>
+            <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                       name="valorFiltro" id="valorFiltro" placeholder=" " required>
+                <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
+                <% if (request.getAttribute("erroValorFiltro") != null) { %>
+                <p class="erro">
+                    <%= request.getAttribute("erroValorFiltro") %>
+                </p>
+                <%}%>
+            </div>
+
+            <button type="submit" class="botaoPrimario">Filtrar</button>
         </form>
 
         <a href="${pageContext.request.contextPath}/ListarUnidadesServlet" class="botaoSecundario">Ver todas</a>
@@ -202,7 +221,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhuma unidade cadastrada</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

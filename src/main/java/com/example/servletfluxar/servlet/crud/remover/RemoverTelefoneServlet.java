@@ -11,6 +11,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "RemoverTelefoneServlet", value = "/RemoverTelefoneServlet")
 public class RemoverTelefoneServlet extends HttpServlet {
@@ -27,16 +28,10 @@ public class RemoverTelefoneServlet extends HttpServlet {
 
         try {
             id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException nfe) {
-            request.setAttribute("erro", nfe.getMessage());
-            request.setAttribute("mensagem", "Id deve conter apenas números");
-            request.getRequestDispatcher("")
-                    .forward(request, response);
-            return;
-        } catch (NullPointerException npe) {
-            request.setAttribute("erro", npe.getMessage());
-            request.setAttribute("mensagem", "Ocorreu um erro ao procurar esse telefone");
-            request.getRequestDispatcher("")
+        } catch (NumberFormatException |NullPointerException e){
+            e.printStackTrace();
+            request.setAttribute("erro", "Id do telefone deve ser um número inteiro");
+            request.getRequestDispatcher("WEB-INF/pages/telefones/verTelefones.jsp")
                     .forward(request, response);
             return;
         }
@@ -52,14 +47,21 @@ public class RemoverTelefoneServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
-        request.setAttribute("telefone", telefone);
-        request.getRequestDispatcher("WEB-INF/pages/telefones/confirmarDelecao.jsp")
-                .forward(request, response);
+        if (telefone!=null) {
+            request.setAttribute("telefone", telefone);
+            request.getRequestDispatcher("WEB-INF/pages/telefones/confirmarDelecao.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("telefones", new ArrayList<>());
+            request.setAttribute("erro", "Telefone escolhido não existe");
+            request.getRequestDispatcher("WEB-INF/pages/telefones/verTelefones.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -99,22 +101,29 @@ public class RemoverTelefoneServlet extends HttpServlet {
                 request.setAttribute("empresa", empresaLogada);
             }
         } catch (NullPointerException npe) {
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
-        if (empresaLogada.getId() == telefone.getIdEmpresa()) {
-            if (telefoneDAO.deletarPorId(id)) {
-                response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet");
+        telefone = telefoneDAO.buscarPorId(id);
+
+        if(telefone!=null) {
+            if (empresaLogada.getId() == telefone.getIdEmpresa()) {
+                if (telefoneDAO.deletarPorId(id)) {
+                    response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet");
+                } else {
+                    request.setAttribute("erro", "Ocorreu um erro ao deletar esse telefone, tente novamente mais tarde...");
+                    request.getRequestDispatcher("WEB-INF/pages/telefones/verTelefones.jsp")
+                            .forward(request, response);
+                }
             } else {
-                request.setAttribute("mensagem", "Ocorreu um erro ao deletar esse telefone, tente novamente mais tarde...");
-                request.getRequestDispatcher("")
-                        .forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/ListarTelefonesServlet?id=" + empresaLogada.getId());
             }
         } else {
-            request.setAttribute("mensagem", "Você não pode deletar esse telefone...");
-            request.getRequestDispatcher("")
+            request.setAttribute("telefone", new ArrayList<>());
+            request.setAttribute("erro", "Telefone escolhido não existe");
+            request.getRequestDispatcher("WEB-INF/pages/telefones/verTelefones.jsp")
                     .forward(request, response);
         }
     }

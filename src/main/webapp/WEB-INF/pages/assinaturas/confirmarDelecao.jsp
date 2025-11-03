@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deletar assinatura</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -20,13 +21,12 @@
 %>
 <header>
   <div id="nome">
-    <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) session.getAttribute("empresa")).getId() :
-                    ((Administrador) session.getAttribute("administrador")).getId()%>">
+    <p>
       <%= tipoUsuario == "empresa" ?
               ((Empresa) session.getAttribute("empresa")).getNome() :
               ((Administrador) session.getAttribute("administrador")).getNome() + " " +
-                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%></a>
+                      ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
+    </p>
   </div>
 </header>
 <aside>
@@ -137,8 +137,14 @@
         </tr>
       </tbody>
     </table>
+
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request"><%=request.getAttribute("erro")%>
+    </p>
+    <%}%>
+
     <input type="hidden" name="id" value="<%=assinatura.getId()%>" required>
-    <div>
+    <div id="center">
       <button type="submit" class="botaoPrimario">Confirmar</button>
 
       <a class="botaoSecundario" href="${pageContext.request.contextPath}/ListarAssinaturasServlet">Cancelar</a>

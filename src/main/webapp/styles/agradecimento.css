@@ -1,0 +1,108 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', system-ui, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --purple-600: #7A3FF2;
+    --purple-700: #6F1FB9;
+    --purple-750: #773789;
+    --purple-800: #47005B;
+}
+
+body {
+    background-color: #ffffff;
+    color: var(--purple-800);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logo {
+    height: 40px;
+}
+
+main {
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 5px;
+    background-color: #ff6600;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+.access {
+    background-color: var(--purple-800);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    width: fit-content;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.access:hover {
+    background-color: var(--purple-750);
+}
+
+.subscription-info {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.subscription-info a {
+    color: var(--purple-800);
+    text-decoration: none;
+}
+
+.subscription-info a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: var(--purple-800);
+    color: white;
+    padding: 50px 40px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    text-align: right;
+    position: relative;
+    height: 200px;
+}
+
+footer h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+footer p {
+    font-size: 16px;
+}

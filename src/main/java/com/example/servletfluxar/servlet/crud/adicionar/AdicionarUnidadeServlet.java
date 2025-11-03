@@ -68,8 +68,8 @@ public class AdicionarUnidadeServlet extends HttpServlet {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -161,8 +161,8 @@ public class AdicionarUnidadeServlet extends HttpServlet {
         if (unidadeDAO.inserir(unidade)){
             response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma unidade no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir uma unidade no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/unidades/adicionarUnidade.jsp")
                     .forward(request, response);
         }
     }

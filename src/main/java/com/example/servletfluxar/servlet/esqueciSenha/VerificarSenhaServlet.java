@@ -5,6 +5,7 @@ import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
+import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,7 +18,7 @@ public class VerificarSenhaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        doPost(request, response);
     }
 
     @Override
@@ -29,45 +30,45 @@ public class VerificarSenhaServlet extends HttpServlet {
         AdministradorDAO administradorDAO = new AdministradorDAO();
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("registroAlterar");
-        String novaSenha = request.getParameter("novaSenha").trim();
-        String senhaConfirmada = request.getParameter("senhaConfirmada").trim();
-        boolean temNumero = false;
-        boolean temMaiuscula = false;
-        boolean temMinuscula = false;
+        String novaSenha = request.getParameter("novaSenha");
+        String senhaConfirmada = request.getParameter("senhaConfirmada");
+        int senhaValida;
+        boolean continuar = true;
 
         // Verificando se senha está nos padrões:
-        if (novaSenha.length() < 8) {
-            request.setAttribute("erroSenha", "Senha possui menos de 8 caracteres");
-            request.getRequestDispatcher("/fazerLogin/esqueciSenha/novaSenha/novaSenha.jsp")
-                    .forward(request, response);
-            return;
+        if (novaSenha == null){
+            request.setAttribute("erroSenha", "Defina uma senha para o administrador");
+            continuar = false;
         } else {
-            for (char c : novaSenha.toCharArray()) {
-                if (Character.isUpperCase(c)) {
-                    temMaiuscula = true;
-                } else if (Character.isLowerCase(c)) {
-                    temMinuscula = true;
-                } else if (Character.isDigit(c)) {
-                    temNumero = true;
+            novaSenha = novaSenha.trim();
+            senhaValida = ValidacaoInput.validarSenha(novaSenha);
+            if (senhaValida != 0){
+                if (senhaValida == 1){
+                    request.setAttribute("erroSenha", "Senha deve ser menor do que 28 caracteres");
                 }
-            }
-            if (temMaiuscula == false) {
-                request.setAttribute("erroSenha", "Senha deve ter 1 letra maiúscula");
-            } else if (temMinuscula == false) {
-                request.setAttribute("erroSenha", "Senha deve ter 1 letra minúscula");
-            } else if (temNumero == false) {
-                request.setAttribute("erroSenha", "Senha deve ter um número");
-            }
-            if (request.getAttribute("erroSenha") != null) {
-                request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
-                        .forward(request, response);
-                return;
+                if (senhaValida == 2){
+                    request.setAttribute("erroSenha", "Senha deve ser maior do que 8 caracteres");
+                }
+                if (senhaValida == 3){
+                    request.setAttribute("erroSenha", "Senha deve ter letras maiúsculas");
+                }
+                if (senhaValida == 4){
+                    request.setAttribute("erroSenha", "Senha deve ter letras minúsculas");
+                }
+                if (senhaValida == 5){
+                    request.setAttribute("erroSenha", "Senha deve ter números");
+                }
+                continuar = false;
+            } else {
+                if (!novaSenha.equals(senhaConfirmada.trim())){
+                    request.setAttribute("erroConfirmarSenha", "Senha confirmada incorreta");
+                    continuar = false;
+                }
             }
         }
 
         // Verificando se a senha e a senha confirmada são iguais:
-        if (!senhaConfirmada.equals(novaSenha)) {
-            request.setAttribute("erroConfSenha", "Senha incorreta");
+        if (!continuar) {
             request.getRequestDispatcher("/pages/esqueciSenha/novaSenha.jsp")
                     .forward(request, response);
             return;

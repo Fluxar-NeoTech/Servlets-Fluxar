@@ -4,6 +4,7 @@ import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.UnidadeDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
+import com.example.servletfluxar.util.EmpresaService;
 import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
@@ -35,8 +36,8 @@ public class AlterarEmpresaServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -55,7 +56,7 @@ public class AlterarEmpresaServlet extends HttpServlet {
         HttpSession session = request.getSession();
         EmpresaDAO empresaDAO = new EmpresaDAO();
         UnidadeDAO unidadeDAO = new UnidadeDAO();
-        Empresa empresa = (Empresa) session.getAttribute("empresa");
+        Empresa empresa;
         boolean continuar = true;
 
         try {
@@ -64,11 +65,12 @@ public class AlterarEmpresaServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/ListarEmpresasServlet");
                 return;
             } else {
-                request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+                empresa = (Empresa) session.getAttribute("empresa");
+                request.setAttribute("empresa", empresa);
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -114,11 +116,11 @@ public class AlterarEmpresaServlet extends HttpServlet {
         }
 
 //        Enviando e vendo se há um retorno:
-        if (empresaDAO.alterar(empresa)){
+        if (EmpresaService.alterarEmail(empresaDAO.buscarPorId(empresa.getId()).getEmail(), empresa.getEmail()) && empresaDAO.alterar(empresa)){
             response.sendRedirect(request.getContextPath() + "/ListarEmpresasServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir uma empresa no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível alterar uma empresa no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/empresas/alterarEmpresa.jsp")
                     .forward(request, response);
         }
     }

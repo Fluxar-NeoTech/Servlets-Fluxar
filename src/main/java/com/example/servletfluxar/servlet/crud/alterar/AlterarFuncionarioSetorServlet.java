@@ -5,6 +5,7 @@ import com.example.servletfluxar.model.Empresa;
 import com.example.servletfluxar.model.Funcionario;
 import com.example.servletfluxar.model.Setor;
 import com.example.servletfluxar.model.Unidade;
+import com.example.servletfluxar.util.FuncionarioService;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -46,21 +47,8 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
-            return;
-        }
-
-        try {
-            session.getAttribute("continuar");
-        } catch (NullPointerException nullPointerException) {
-            response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
-        }
-
-        if(!continuar){
-            request.setAttribute("mensagem", "Número de funcionários no seu plano atingido");
-            request.getRequestDispatcher("/ListarFuncionariosServlet")
-                    .forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -150,15 +138,22 @@ public class AlterarFuncionarioSetorServlet extends HttpServlet {
 
         funcionario.setIdSetor(idSetor);
 
-       if (funcionarioDAO.alterar(funcionario)){
-           response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
-       } else {
-           setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
-           request.setAttribute("funcionario", funcionario);
-           request.setAttribute("setores", setores);
-           request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-           request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp")
-                   .forward(request, response);
-       }
+        if (funcionarioDAO.buscarPorId(funcionario.getId())!=null) {
+            if (FuncionarioService.alterarEmail(funcionarioDAO.buscarPorId(funcionario.getId()).getEmail(), funcionario.getEmail()) && funcionarioDAO.alterar(funcionario)) {
+                response.sendRedirect(request.getContextPath() + "/ListarFuncionariosServlet");
+            } else {
+                setores = setorDAO.listarNomesPorIdUnidade(setorDAO.buscarPorId(funcionario.getIdSetor()).getIdUnidade());
+                request.setAttribute("funcionario", funcionario);
+                request.setAttribute("setores", setores);
+                request.setAttribute("unidades", unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
+                request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioSetor.jsp")
+                        .forward(request, response);
+            }
+        } else {
+            request.setAttribute("funcionarios", new ArrayList<>());
+            request.setAttribute("erro", "Não existe funcionário com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                    .forward(request, response);
+        }
     }
 }

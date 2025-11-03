@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/login.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
     <title>Recuperação de senha</title>
 </head>
 
@@ -31,6 +32,11 @@
                 </p>
                 <%}%>
             </div>
+
+            <%if (request.getAttribute("erro") != null) {%>
+            <p class="erro-request"><%=request.getAttribute("erro")%>
+            </p>
+            <%}%>
 
            <button type="submit" class="botaoPrimario">CONTINUAR</button>
         </form>

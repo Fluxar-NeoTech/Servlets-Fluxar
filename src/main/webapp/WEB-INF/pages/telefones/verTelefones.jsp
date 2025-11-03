@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar telefones</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/Assets/Icons/XFAVICOM%201.png">
 </head>
 
 <body>
@@ -20,14 +21,15 @@
 %>
 <header>
     <div id="nome">
-        <a href="${pageContext.request.contextPath}/MeuPerfilServlet?idUsuario=<%= tipoUsuario == "empresa" ?
-                    ((Empresa) request.getAttribute("empresa")).getId() :
-                    ((Administrador) request.getAttribute("administrador")).getId()%>">
+        <p>
             <%= tipoUsuario == "empresa" ?
-                    ((Empresa) request.getAttribute("empresa")).getNome() :
-                    ((Administrador) request.getAttribute("administrador")).getNome() + " " +
-                            ((Administrador) request.getAttribute("administrador")).getSobrenome()%>
-        </a>
+                    ((Empresa) session.getAttribute("empresa")).getNome() :
+                    ((Administrador) session.getAttribute("administrador")).getNome() + " " +
+                            ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
+        </p>
+        <%if (tipoUsuario.equals("administrador")){%>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
+        <%}%>
     </div>
 </header>
 <aside>
@@ -127,7 +129,7 @@
     <table style=<%=tipoUsuario.equals("administrador") ? "--cols:2;" : "--cols:3;"%>>
         <thead>
         <tr>
-            <th>Nome empresa</th>
+            <th>Id</th>
             <th>Número</th>
             <%
                 if (tipoUsuario.equals("empresa")) {
@@ -162,7 +164,12 @@
         </tbody>
     </table>
     <%} else {%>
+    <%if (request.getAttribute("erro") != null) {%>
+    <p class="erro-request" style="color: #ff8181"><%=request.getAttribute("erro")%>
+    </p>
+    <%} else {%>
     <p style="color: white">Não há nenhum telefone cadastrado</p>
+    <%}%>
     <%}%>
 
     <section id="footer">

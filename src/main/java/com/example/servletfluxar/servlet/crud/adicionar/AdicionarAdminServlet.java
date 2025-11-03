@@ -1,6 +1,7 @@
 package com.example.servletfluxar.servlet.crud.adicionar;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
+import com.example.servletfluxar.dao.EmpresaDAO;
 import com.example.servletfluxar.dao.PlanoDAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Empresa;
@@ -34,8 +35,8 @@ public class AdicionarAdminServlet extends HttpServlet {
 
 //            Tratando exceção para caso não seja encontrado os dados na session:
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "Ops, é necessário fazer login novamente...");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -57,6 +58,7 @@ public class AdicionarAdminServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Administrador administrador = new Administrador();
         AdministradorDAO administradorDAO = new AdministradorDAO();
+        EmpresaDAO empresaDAO = new EmpresaDAO();
         boolean continuar = true;
 
         try {
@@ -68,8 +70,8 @@ public class AdicionarAdminServlet extends HttpServlet {
                 return;
             }
         } catch (NullPointerException npe){
-            request.setAttribute("erroLogin", "É necessário fazer login novamente");
-            request.getRequestDispatcher("/pages/error/erroLogin.jsp").forward(request, response);
+            request.setAttribute("erro", "É necessário fazer login novamente");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
 
@@ -91,6 +93,9 @@ public class AdicionarAdminServlet extends HttpServlet {
             email = email.trim().toLowerCase();
             if (!ValidacaoInput.validarEmail(email)) {
                 request.setAttribute("erroEmail", "Formato de email inválido");
+                continuar = false;
+            } else if (empresaDAO.buscarPorEmail(email) != null || administradorDAO.buscarPorEmail(email) != null){
+                request.setAttribute("erroEmail", "Email já cadastrado");
                 continuar = false;
             }
         }
@@ -139,8 +144,8 @@ public class AdicionarAdminServlet extends HttpServlet {
         if (administradorDAO.inserir(administrador)){
             response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
         }else {
-            request.setAttribute("mensagem", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("")
+            request.setAttribute("erro", "Não foi possível inserir um plano no momento. Tente novamente mais tarde...");
+            request.getRequestDispatcher("/WEB-INF/pages/administradores/adicionarAdministrador.jsp")
                     .forward(request, response);
         }
     }

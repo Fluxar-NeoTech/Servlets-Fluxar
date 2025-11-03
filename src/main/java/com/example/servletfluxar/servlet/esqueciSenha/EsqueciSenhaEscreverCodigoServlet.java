@@ -30,7 +30,7 @@ public class EsqueciSenhaEscreverCodigoServlet extends HttpServlet {
             // Obtém a sessão atual (sem criar nova)
             session = request.getSession(false);
 
-            // +Montando o código com os 6 campos (codigo1...codigo6)
+            // Montando o código com os 6 campos (codigo1...codigo6)
             for (i = 1; i <= 6; i++) {
                 digito = request.getParameter("codigo" + i);
 
