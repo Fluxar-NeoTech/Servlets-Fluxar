@@ -6,6 +6,8 @@ import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Administrador;
 import com.example.servletfluxar.model.Funcionario;
+import com.example.servletfluxar.util.AlterarSenhaService;
+import com.example.servletfluxar.util.FuncionarioService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -368,7 +370,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
                 funcionario.setEmail(rs.getString("email"));
                 funcionario.setIdSetor(rs.getInt("id_setor"));
 
-                if(BCrypt.checkpw(senha, rs.getString("senha"))){
+                if(FuncionarioService.login(email, senha)){
                     return funcionario;
                 }
             }
@@ -395,7 +397,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
             pstmt.setString(3, funcionario.getEmail());
             pstmt.setString(4, funcionario.getCargo());
             pstmt.setInt(5, funcionario.getIdSetor());
-            pstmt.setString(6, BCrypt.hashpw(funcionario.getSenha(), BCrypt.gensalt()));
+            pstmt.setString(6, FuncionarioService.cadastrar(funcionario.getEmail(), funcionario.getSenha()));
 
 //          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
@@ -416,7 +418,7 @@ public class FuncionarioDAO implements DAO<Funcionario>, LoginDAO<Funcionario>, 
 
             // Preparação do comando SQL para atualizar a senha do admin da empresa
             pstmt = conn.prepareStatement("UPDATE funcionario SET senha = ? WHERE email LIKE ?");
-            pstmt.setString(1,novaSenha);
+            pstmt.setString(1, AlterarSenhaService.alterarSenhaFuncionario(email, novaSenha));
             pstmt.setString(2,email);
 
             return pstmt.executeUpdate()>0;

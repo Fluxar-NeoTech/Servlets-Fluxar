@@ -81,6 +81,7 @@ public class RemoverFuncionarioServlet extends HttpServlet {
                     .forward(request, response);
         } else {
             request.setAttribute("funcionarios", new ArrayList<>());
+            request.setAttribute("erro", "Não existe funcionário com esse id");
             request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
                     .forward(request, response);
         }
@@ -135,7 +136,7 @@ public class RemoverFuncionarioServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("funcionarios", new ArrayList<>());
-            request.setAttribute("erro", "Não existe um funcionário com esse id");
+            request.setAttribute("erro", "Não existe funcionário com esse id");
             request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
                     .forward(request, response);
         }

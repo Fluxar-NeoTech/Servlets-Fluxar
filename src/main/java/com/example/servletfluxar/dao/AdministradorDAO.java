@@ -4,6 +4,8 @@ import com.example.servletfluxar.conexao.Conexao;
 import com.example.servletfluxar.dao.interfaces.LoginDAO;
 import com.example.servletfluxar.dao.interfaces.DAO;
 import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.util.AdminService;
+import com.example.servletfluxar.util.AlterarSenhaService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -313,7 +315,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
                 administrador.setEmail(rs.getString("email"));
 
 //              Verificando se a senha do usuario concede com a do banco de dados.
-                if (BCrypt.checkpw(senha, rs.getString("senha"))){
+                if (AdminService.login(email, senha)){
                     return administrador;
                 }
             }
@@ -337,7 +339,7 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             pstmt.setString(1,administrador.getNome());
             pstmt.setString(2,administrador.getSobrenome());
             pstmt.setString(3,administrador.getEmail());
-            pstmt.setString(4, BCrypt.hashpw(administrador.getSenha(), BCrypt.gensalt()));
+            pstmt.setString(4, AdminService.cadastrar(administrador.getEmail(), administrador.getSenha()));
 
 //          retorna um boolean caso o número de linhas afetadas seja maior que 0, se for, a ação foi feita.
             return pstmt.executeUpdate()>0;
@@ -366,7 +368,6 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
             return pstmt.executeUpdate()>0;
 
         } catch (SQLException sqle) {
-            System.out.println("Erro");
             sqle.printStackTrace();
             return false;
         }finally {
@@ -377,13 +378,18 @@ public class AdministradorDAO implements DAO<Administrador>, LoginDAO<Administra
     @Override
     public boolean alterarSenha(String email, String novaSenha) {
         Connection conn = null;
-        
+        String alterar = AlterarSenhaService.alterarSenhaAdmin(email, novaSenha);
+
+        if (alterar == null){
+            return false;
+        }
+
         try {
             conn = Conexao.conectar();
 
 //          Preparação do comando SQL para atualizar a senha do adminstrador da empresa.
             pstmt = conn.prepareStatement("UPDATE administrador SET senha = ? WHERE email = ?");
-            pstmt.setString(1, BCrypt.hashpw(novaSenha, BCrypt.gensalt()));
+            pstmt.setString(1, alterar);
             pstmt.setString(2,email);
 
             return pstmt.executeUpdate()>0;

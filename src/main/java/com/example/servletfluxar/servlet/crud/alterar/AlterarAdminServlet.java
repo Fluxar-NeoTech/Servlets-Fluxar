@@ -2,6 +2,7 @@ package com.example.servletfluxar.servlet.crud.alterar;
 
 import com.example.servletfluxar.dao.AdministradorDAO;
 import com.example.servletfluxar.model.Administrador;
+import com.example.servletfluxar.util.AdminService;
 import com.example.servletfluxar.util.RegrasBanco;
 import com.example.servletfluxar.util.ValidacaoInput;
 import jakarta.servlet.*;
@@ -60,7 +61,7 @@ public class AlterarAdminServlet extends HttpServlet {
         } else {
             request.setAttribute("administradores", new ArrayList<>());
             request.setAttribute("erro", "Não existe um admin com esse id");
-            request.getRequestDispatcher("/WEB-INF/pages/administradores/verAdministradores.jsp")
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                     .forward(request, response);
         }
     }
@@ -124,11 +125,18 @@ public class AlterarAdminServlet extends HttpServlet {
         }
 
 //        Enviando e vendo se há um retorno:
-        if (administradorDAO.alterar(administrador)) {
-            response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
+        if (administradorDAO.buscarPorId(administrador.getId())!=null) {
+            if (AdminService.alterarEmail(administradorDAO.buscarPorId(administrador.getId()).getEmail(), administrador.getEmail()) && administradorDAO.alterar(administrador)) {
+                response.sendRedirect(request.getContextPath() + "/ListarAdminsServlet");
+            } else {
+                request.setAttribute("erro", "Não foi possível alterar um administrador no momento. Tente novamente mais tarde...");
+                request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
+                        .forward(request, response);
+            }
         } else {
-            request.setAttribute("erro", "Não foi possível alterar um administrador no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("/WEB-INF/pages/administradores/alterarAdministrador.jsp")
+            request.setAttribute("administradores", new ArrayList<>());
+            request.setAttribute("erro", "Não existe um admin com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/administradores/verAdministradores.jsp")
                     .forward(request, response);
         }
     }

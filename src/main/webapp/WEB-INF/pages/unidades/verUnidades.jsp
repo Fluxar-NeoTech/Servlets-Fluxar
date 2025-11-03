@@ -31,7 +31,7 @@
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
         </p>
         <%if (tipoUsuario.equals("administrador")) {%>
-        <a href="#" class="botaoPrimario">Área restrita</a>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
         <%}%>
     </div>
 </header>
@@ -128,21 +128,20 @@
     <p id="title">Unidades</p>
     <section id="topo">
 
-        <form action="${pageContext.request.contextPath}/ListarUnidadesServlet" id="filtro">
-            <%if (tipoUsuario.equals("Administrador")) {%>
+        <form action="ListarUnidadesServlet" id="filtro" method="get">
             <div class="input-select">
                 <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
                 <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
 
                 <div class="options">
                     <span data-value="id">Id</span>
-                    <span data-value="empresa">Empresa</span>
                     <span data-value="nome">Nome</span>
-                    <span data-value="cnpj">CNPJ</span>
                     <span data-value="email">Email</span>
+                    <% if (tipoUsuario.equals("administrador"){%>
+                    <span data-value="empresa">Empresa</span>
+                    <%}%>
                 </div>
             </div>
-            <%}%>
 
             <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
                 <input type="text"
@@ -156,7 +155,7 @@
                 <%}%>
             </div>
 
-            <button type="submit" class="botaoPrimario">Buscar</button>
+            <button type="submit" class="botaoPrimario">Filtrar</button>
         </form>
 
         <a href="${pageContext.request.contextPath}/ListarUnidadesServlet" class="botaoSecundario">Ver todas</a>

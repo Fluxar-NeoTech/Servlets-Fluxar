@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "AlterarFuncionarioUnidadeServlet", value = "/AlterarFuncionarioUnidadeServlet")
@@ -39,15 +40,15 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 //        Setando atributo da request com o tipo do usuário
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
+                response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
                 return;
             } else {
                 empresaLogada = (Empresa) session.getAttribute("empresa");
                 request.setAttribute("empresa", empresaLogada);
             }
 //            Tratando exceção para caso não seja encontrado os dados na session:
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             npe.printStackTrace();
             request.setAttribute("erro", "É necessário fazer login novamente");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -56,7 +57,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         try {
             idFuncionario = Integer.parseInt(request.getParameter("id"));
-        } catch (NullPointerException | NumberFormatException e){
+        } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("erro", "Id deve ser um número postivo");
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
@@ -66,7 +67,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         funcionario = funcionarioDAO.buscarPorId(idFuncionario);
 
-        if(!continuar){
+        if (!continuar) {
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;
@@ -83,7 +84,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             }
         }
 
-        if (!continuar){
+        if (!continuar) {
             request.setAttribute("erro", "Você não tem acesso a esse funcionário");
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
                     .forward(request, response);
@@ -92,20 +93,27 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
-        if (unidades.isEmpty()){
+        if (unidades.isEmpty()) {
             request.setAttribute("erro", "Não há nenhuma unidade cadastrada por sua empresa");
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;
         }
 
-        request.setAttribute("unidades", unidades);
-        request.setAttribute("funcionario", funcionario);
-        request.setAttribute("setor", setorDAO.buscarPorId(funcionario.getIdSetor()));
+        if (funcionario != null) {
+            request.setAttribute("unidades", unidades);
+            request.setAttribute("funcionario", funcionario);
+            request.setAttribute("setor", setorDAO.buscarPorId(funcionario.getIdSetor()));
 
 //        Redireciona para a página de adicionar setor:
-        request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
-                .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("funcionarios", new ArrayList<>());
+            request.setAttribute("erro", "Não existe funcionário com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -127,13 +135,13 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         try {
             request.setAttribute("tipoUsuario", (String) session.getAttribute("tipoUsuario"));
-            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")){
-                response.sendRedirect(request.getContextPath()+"/ListarUnidadesServlet");
+            if (((String) session.getAttribute("tipoUsuario")).equals("administrador")) {
+                response.sendRedirect(request.getContextPath() + "/ListarUnidadesServlet");
                 return;
             } else {
                 request.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
             }
-        } catch (NullPointerException npe){
+        } catch (NullPointerException npe) {
             npe.printStackTrace();
             request.setAttribute("erro", "É necessário fazer login novamente");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -142,7 +150,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 
         try {
             idFuncionario = Integer.parseInt(request.getParameter("id"));
-        } catch (NullPointerException | NumberFormatException e){
+        } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("erro", "Id deve ser um número postivo");
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/alterarFuncionarioUnidade.jsp")
@@ -154,13 +162,13 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         funcionario.setId(idFuncionario);
 
 //        Validando se nome é válido:
-        if (nomeInput == null){
+        if (nomeInput == null) {
             request.setAttribute("erroNome", "Insira um nome para o funcionário");
             continuar = false;
-        } else if (nomeInput.length()>200) {
+        } else if (nomeInput.length() > 200) {
             request.setAttribute("erroNome", "Nome deve ter menos do que 200 caracteres");
             continuar = false;
-        }else if (nomeInput.length()<3) {
+        } else if (nomeInput.length() < 3) {
             request.setAttribute("erroNome", "Nome deve ter mais do que 3 caracteres");
             continuar = false;
         } else {
@@ -171,7 +179,7 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
         funcionario.setSobrenome(nomeCompleto[1]);
 
 //        Validando email do usuário:
-        if (email == null){
+        if (email == null) {
             request.setAttribute("erroEmail", "Insira um email para o administrador");
             continuar = false;
         } else {
@@ -186,20 +194,20 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
 //        Validando id da unidade:
         try {
             idUnidade = Integer.parseInt(request.getParameter("idUnidade"));
-        } catch (NullPointerException | NumberFormatException e){
+        } catch (NullPointerException | NumberFormatException e) {
             request.setAttribute("erroIdUnidade", "Id da unidade deve ser um número");
             continuar = false;
         }
 
-        if (setorDAO.listarNomesPorIdUnidade(idUnidade).isEmpty()){
+        if (setorDAO.listarNomesPorIdUnidade(idUnidade).isEmpty()) {
             request.setAttribute("erroIdUnidade", "Essa unidade não possui setores");
             continuar = false;
         }
 
-        if (!continuar){
+        if (!continuar) {
             unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
-            if (unidades.isEmpty()){
+            if (unidades.isEmpty()) {
                 request.setAttribute("erro", "Não há nenhuma unidade cadastrada para essa empresa");
                 request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                         .forward(request, response);
@@ -207,15 +215,22 @@ public class AlterarFuncionarioUnidadeServlet extends HttpServlet {
             }
 
             request.setAttribute("funcionario", funcionario);
-            request.setAttribute("unidades",unidades);
+            request.setAttribute("unidades", unidades);
             request.getRequestDispatcher("/WEB-INF/pages/funcionarios/adicionarFuncionarioUnidade.jsp")
                     .forward(request, response);
             return;
         }
 
-        session.setAttribute("funcionario", funcionario);
-        session.setAttribute("continuar", continuar);
+        if (funcionario!=null) {
+            session.setAttribute("funcionario", funcionario);
+            session.setAttribute("continuar", continuar);
 
-        response.sendRedirect(request.getContextPath() + "/AlterarFuncionarioSetorServlet?idUnidade="+idUnidade);
+            response.sendRedirect(request.getContextPath() + "/AlterarFuncionarioSetorServlet?idUnidade=" + idUnidade);
+        } else {
+            request.setAttribute("funcionarios", new ArrayList<>());
+            request.setAttribute("erro", "Não existe funcionário com esse id");
+            request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                    .forward(request, response);
+        }
     }
 }

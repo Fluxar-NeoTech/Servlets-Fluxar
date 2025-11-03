@@ -50,7 +50,11 @@ public class ListarFuncionariosServlet extends HttpServlet {
 
         if (session.getAttribute("tipoUsuario").equals("empresa")) {
             if (tipoFiltro != null){
-
+                request.setAttribute("funcionarios", new ArrayList<>());
+                request.setAttribute("erro", "Filtro não disponível");
+                request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                        .forward(request, response);
+                return;
             } else {
                 totalRegitros = funcionarioDAO.contarPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
                 totalPaginas = Math.max(1, (int) Math.ceil(totalRegitros / 6.0));
@@ -69,7 +73,11 @@ public class ListarFuncionariosServlet extends HttpServlet {
             if (tipoFiltro != null) {
 //                     Verificando se há algum valor definido para o filtro:
                 if (valorFiltro != null) {
-
+                    request.setAttribute("funcionarios", new ArrayList<>());
+                    request.setAttribute("erro", "Filtro não disponível");
+                    request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")
+                            .forward(request, response);
+                    return;
                 } else {
                     request.setAttribute("erroFiltro", "Defina um valor para o filtro");
                     request.getRequestDispatcher("WEB-INF/pages/funcionarios/verFuncionarios.jsp")

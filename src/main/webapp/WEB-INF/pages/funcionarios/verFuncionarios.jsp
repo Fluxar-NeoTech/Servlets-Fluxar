@@ -27,8 +27,8 @@
                     ((Administrador) session.getAttribute("administrador")).getNome() + " " +
                             ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
         </p>
-        <%if (tipoUsuario.equals("administrador")){%>
-        <a href="#" class="botaoPrimario">Área restrita</a>
+        <%if (tipoUsuario.equals("administrador")) {%>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
         <%}%>
     </div>
 </header>
@@ -125,7 +125,7 @@
     <p id="title">Funcionários</p>
     <section id="topo">
 
-        <form action="ListarAdminsServlet" id="filtro" method="get">
+        <form action="ListarFuncionariosServlet" id="filtro" method="get">
             <div class="input-select">
                 <input type="text" id="tipoFiltro" placeholder="Filtro" readonly required>
                 <input type="hidden" name="tipoFiltro" id="tipoFiltroValue">
@@ -134,12 +134,17 @@
                     <span data-value="id">Id</span>
                     <span data-value="nome">Nome</span>
                     <span data-value="email">Email</span>
-                    <span data-value="cargo">Cargo</span>
+                    <% if (tipoUsuario.equals("administrador"){%>
+                    <span data-value="empresa">Empresa</span>
+                    <%}%>
+                    <span data-value="unidade">Unidade</span>
+                    <span data-value="setor">Setor</span>
                 </div>
             </div>
 
             <div class="<%=request.getAttribute("erroValorFiltro") != null?"floating-label-erro":"floating-label"%>">
-                <input type="text" class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
+                <input type="text"
+                       class="<%=request.getAttribute("erroValorFiltro") != null ? "inputs-erro": "inputs"%> userEmail"
                        name="valorFiltro" id="valorFiltro" placeholder=" " required>
                 <label id="label" for="valorFiltro">Digite o valor a ser filtrado</label>
                 <% if (request.getAttribute("erroValorFiltro") != null) { %>

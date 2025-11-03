@@ -61,16 +61,23 @@ public class AlterarSetorServlet extends HttpServlet {
 
         unidades = unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId());
 
-        if (unidades.get(0).getIdEmpresa() == empresaLogada.getId() || setor == null){
+        if (unidades.get(0).getIdEmpresa() != empresaLogada.getId()){
             response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
             return;
         }
 
-        request.setAttribute("setor", setor);
-        request.setAttribute("unidades", unidades);
+        if (setor != null) {
+            request.setAttribute("setor", setor);
+            request.setAttribute("unidades", unidades);
 //        Redireciona para a página de adicionar setor:
-        request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
-                .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
+                    .forward(request, response);
+        } else {
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
+                    .forward(request, response);
+        }
     }
 
     @Override
@@ -160,18 +167,25 @@ public class AlterarSetorServlet extends HttpServlet {
 
         unidade = unidadeDAO.buscarPorId(setor.getIdUnidade());
 
-        if (unidade.getIdEmpresa() == empresaLogada.getId()){
+        if (unidade.getIdEmpresa() != empresaLogada.getId()){
             response.sendRedirect(request.getContextPath()+"/ListarSetoresServlet");
             return;
         }
 
 //        Enviando e vendo se há um retorno:
-        if (setorDAO.alterar(setor)) {
-            response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+        if (setorDAO.buscarPorId(setor.getId())!=null) {
+            if (setorDAO.alterar(setor)) {
+                response.sendRedirect(request.getContextPath() + "/ListarSetoresServlet");
+            } else {
+                request.setAttribute("unidades", unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
+                request.setAttribute("error", "Não foi possível alterar esse setor no momento. Tente novamente mais tarde...");
+                request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
+                        .forward(request, response);
+            }
         } else {
-            request.setAttribute("unidades",unidadeDAO.listarNomesPorIdEmpresa(((Empresa) session.getAttribute("empresa")).getId()));
-            request.setAttribute("error", "Não foi possível alterar esse setor no momento. Tente novamente mais tarde...");
-            request.getRequestDispatcher("/WEB-INF/pages/setores/alterarSetor.jsp")
+            request.setAttribute("setores", new ArrayList<>());
+            request.setAttribute("erro", "Esse setor não existe");
+            request.getRequestDispatcher("WEB-INF/pages/setores/verSetores.jsp")
                     .forward(request, response);
         }
     }

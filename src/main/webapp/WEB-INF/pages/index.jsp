@@ -32,7 +32,7 @@
         </p>
 
         <%if (tipoUsuario.equals("administrador")){%>
-            <a href="#" class="botaoPrimario">Área restrita</a>
+            <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
         <%}%>
     </div>
 </header>

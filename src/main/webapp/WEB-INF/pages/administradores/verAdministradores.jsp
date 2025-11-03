@@ -25,7 +25,7 @@
                     ((Administrador) session.getAttribute("administrador")).getSobrenome()%>
         </p>
 
-        <a href="#" class="botaoPrimario">Área restrita</a>
+        <a href="https://dashboard-feira-fluxar.vercel.app" class="botaoPrimario">Área restrita</a>
     </div>
 </header>
 <aside>
